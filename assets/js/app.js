@@ -2,6 +2,7 @@
 const $ = require('jquery');
 require('bootstrap');
 require('@fortawesome/fontawesome-free/js/all');
+require('jquery.mmenu/dist/jquery.mmenu.all');
 
 /* CSS */
 require('../css/app.scss');
@@ -19,5 +20,8 @@ $(document).ready(() => {
         $("#loading").hide();
         $("#loading").removeClass('show');
     });
+
+    /* jQuery.mmenu */
+    $("#my-menu").mmenu({}, {});
 
 });

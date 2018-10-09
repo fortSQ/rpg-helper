@@ -8,10 +8,24 @@ $link-color: #2C3E50;
 @import "~bootswatch/dist/flatly/bootswatch";
 
 @import "~@fortawesome/fontawesome-free/css/all.css";
+@import "~jquery.mmenu/dist/jquery.mmenu.all.css";
+@import "~hamburgers/dist/hamburgers.css";
 
 
 
 /* CUSTOM SCSS */
+
+body {
+  background-color: #fff;
+}
+
+//#my-menu:not(.mm-menu) {
+//  display: none;
+//}
+
+
+
+
 
 /* Full screen modal */
 

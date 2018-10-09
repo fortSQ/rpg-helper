@@ -17,6 +17,12 @@ Encore
     .enableSassLoader() // enables Sass/SCSS support
     .autoProvidejQuery() // uncomment if you're having problems with a jQuery plugin
 
+    .enablePostCssLoader((options) => {
+        options.config = {
+            path: 'config/postcss.config.js'
+        }
+    }) //PostCSS and autoprefixing
+
     .addPlugin(new CopyWebpackPlugin([
         { from: './assets/images', to: 'images' },
         { from: './assets/icons', to: 'icons' }

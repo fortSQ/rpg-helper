@@ -2,6 +2,7 @@
 const $ = require('jquery');
 require('bootstrap');
 require('jquery.mmenu/dist/jquery.mmenu.all');
+require('@fortawesome/fontawesome-free/js/all');
 
 /* CSS */
 require('../css/app.scss');
@@ -37,34 +38,33 @@ $(document).ready(() => {
         "iconbar": {
             "add": true,
             "top": [
-                "<a href='#'><i class='fa fa-home'></i></a>",
-                "<a href='#'><i class='fa fa-user'></i></a>"
+                "<a href='#'><i class='fas fa-home'></i></a>",
+                "<a href='#'><i class='fas fa-user'></i></a>"
             ],
             "bottom": [
-                "<a href='#'><i class='fa fa-twitter'></i></a>",
-                "<a href='#'><i class='fa fa-facebook'></i></a>",
-                "<a href='#'><i class='fa fa-linkedin'></i></a>"
+                "<a href='#'><i class='fab fa-twitter'></i></a>",
+                "<a href='#'><i class='fab fa-facebook'></i></a>",
+                "<a href='#'><i class='fab fa-linkedin'></i></a>"
             ]
         },
         "navbars": [
             {
                 "position": "top",
                 "content": [
-                    "<a class='fa fa-envelope' href='#'></a>",
-                    "<a class='fa fa-twitter' href='#'></a>",
-                    "<a class='fa fa-facebook' href='#'></a>"
+                    "<a href='#'><i class='fas fa-envelope'></i></a>",
+                    "<a href='#'><i class='fab fa-facebook'></i></a>",
+                    "<a href='#'><i class='fab fa-twitter'></i></a>"
                 ]
             },
             {
                 "position": "bottom",
                 "content": [
-                    "<a class='fa fa-envelope' href='#'></a>",
-                    "<a class='fa fa-twitter' href='#'></a>",
-                    "<a class='fa fa-facebook' href='#'></a>"
+                    "<a href='#'><i class='fas fa-envelope'></i></a>",
+                    "<a href='#'><i class='fab fa-facebook'></i></a>",
+                    "<a href='#'><i class='fab fa-linkedin'></i></a>"
                 ]
             }
         ],
-
     }, {});
 
     let $hamburger = $(".hamburger");

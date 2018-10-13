@@ -1,7 +1,6 @@
 /* JS */
 const $ = require('jquery');
 require('bootstrap');
-require('@fortawesome/fontawesome-free/js/all');
 require('jquery.mmenu/dist/jquery.mmenu.all');
 
 /* CSS */
@@ -23,15 +22,17 @@ $(document).ready(() => {
 
     /* Hamburger */
     /* jQuery.mmenu */
-    $("#my-menu").mmenu({
+    $("#menu").mmenu({
         extensions: [
-            "position-front",
-            "position-right",
-            "shadow-page",
+            "border-full",
             "fx-menu-slide",
             "multiline",
             "pagedim-black",
-            "theme-dark"
+            "position-right",
+            "position-back", // position-front
+            "shadow-page",
+            "shadow-panels",
+            //"theme-dark"
         ],
         "iconbar": {
             "add": true,
@@ -47,6 +48,14 @@ $(document).ready(() => {
         },
         "navbars": [
             {
+                "position": "top",
+                "content": [
+                    "<a class='fa fa-envelope' href='#'></a>",
+                    "<a class='fa fa-twitter' href='#'></a>",
+                    "<a class='fa fa-facebook' href='#'></a>"
+                ]
+            },
+            {
                 "position": "bottom",
                 "content": [
                     "<a class='fa fa-envelope' href='#'></a>",
@@ -55,10 +64,7 @@ $(document).ready(() => {
                 ]
             }
         ],
-        "setSelected": {
-            "hover": true,
-            "parent": true
-        }
+
     }, {});
 
     let $hamburger = $(".hamburger");
@@ -69,8 +75,5 @@ $(document).ready(() => {
     }).bind("close:finish", () => {
         $hamburger.removeClass("is-active");
     });
-
-
-
 
 });

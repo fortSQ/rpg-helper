@@ -10,32 +10,48 @@
     </head>
     <body>
 
-        <nav id="my-menu">
+        <div id="page">
+
+            <div class="mh-head Sticky">
+                    <span class="mh-btns-right">
+                        <a href="#menu" class="fa fa-bars"></a>
+                        <a href="#page" class="fa fa-close"></a>
+                    </span>
+                <span class="mh-text">RPG helper</span>
+            </div>
+
+            <div class="content">
+                <p><strong>This is a demo.</strong><br />
+                    Click the menu icon to open a custom styled menu.</p>
+            </div>
+            {% block body %}{% endblock %}
+        </div>
+
+        <div id="loading"></div>
+
+        <nav id="menu">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/about/">About us</a>
+                <li><span>About us</span>
                     <ul>
                         <li><a href="/about/history/">History</a></li>
                         <li><a href="/about/team/">The team</a></li>
-                        <li><a href="/about/address/">Our address</a></li>
+                        <li><span>Very long equipment name</span>
+                            <ul>
+                                <li><a href="/about/history/">History</a></li>
+                                <li><a href="/about/team/">The team</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="/about/">About us</a>
+                    <ul>
+                        <li><a href="/about/history/">History</a></li>
                     </ul>
                 </li>
                 <li><a href="/contact/">Contact</a></li>
             </ul>
         </nav>
-
-        <div id="page" class="container-fluid mt-3">
-            {% block body %}{% endblock %}
-
-            <a href="#my-menu" class="hamburger hamburger--squeeze">
-                <span class="hamburger-box">
-                    <span class="hamburger-inner"></span>
-                </span>
-            </a>
-
-        </div>
-
-        <div id="loading"></div>
 
         <script src="{{ asset('build/manifest.js') }}"></script>
         <script src="{{ asset('build/app.js') }}"></script>

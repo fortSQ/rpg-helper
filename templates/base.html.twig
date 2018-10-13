@@ -12,19 +12,18 @@
 
         <div id="page">
 
-            <div class="mh-head Sticky">
-                    <span class="mh-btns-right">
-                        <a href="#menu"><i class="fas fa-bars"></i></a>
-                        <a href="#page"><i class="fas fa-times"></i></a>
-                    </span>
+            <div class="mh-head">
+                <span class="mh-btns-right">
+                    <a href="#menu"><i class="fas fa-bars"></i></a>
+                    <a href="#page"><i class="fas fa-times"></i></a>
+                </span>
                 <span class="mh-text">RPG helper</span>
             </div>
 
-            <div class="content">
-                <p><strong>This is a demo.</strong><br />
-                    Click the menu icon to open a custom styled menu.</p>
+            <div class="container-fluid mt-3">
+                {% block body %}{% endblock %}
             </div>
-            {% block body %}{% endblock %}
+
         </div>
 
         <div id="loading"></div>

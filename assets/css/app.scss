@@ -15,9 +15,7 @@ $link-color: #2C3E50;
 
 /* CUSTOM SCSS */
 
-#menu:not(.mm-menu) {
-  display: none;
-}
+
 
 /* Full screen modal */
 
@@ -74,23 +72,6 @@ body {
   -webkit-text-size-adjust: none
 }
 
-h1, h2, h3, h4, h5, h6 {
-  line-height: 1;
-  font-weight: 700;
-  margin: 20px 0 10px 0
-}
-
-h1, h2, h3 {
-  font-size: 18px
-}
-
-h4, h5, h6 {
-  font-size: 16px
-}
-
-p {
-  margin: 0 0 10px 0
-}
 
 a {
   color: inherit;
@@ -120,24 +101,13 @@ a.button, span.button {
   text-decoration: none
 }
 
-input[type=text], select {
-  background: #fff;
-  border: 1px solid #ccc
-}
-
 .mm-divider.button {
   text-indent: 0 !important;
   padding: 20px 20px 40px 20px !important
 }
 
-pre {
-  font-size: 12px;
-  width: 100%;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch
-}
-
-nav:not(.mm-menu) {
+nav:not(.mm-menu),
+#menu:not(.mm-menu) {
   display: none
 }
 
@@ -185,30 +155,6 @@ body .mh-text {
   left: 0 !important
 }
 
-.content {
-  //background: url(../demo/img/menu-arrow.png) 30px 25px no-repeat transparent;
-  padding: 150px 50px 0 50px;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  position: relative
-}
-
-.content + .content {
-  background: 0 0
-}
-
-.content + .content:last-child {
-  padding-bottom: 150px
-}
-
-.content.scroll-down, .content.scroll-down ~ .content {
-  padding-top: 100px;
-  min-height: calc(100vh - 50px)
-}
-
-.content.scroll-down:not(:last-child), .content.scroll-down ~ .content:not(:last-child) {
-  //background: url(../demo/img/arrow-down.png) center 70% no-repeat transparent
-}
 
 .mm-menu:not(.mm-menu_offcanvas) {
   z-index: 10
@@ -433,7 +379,7 @@ body .mh-text {
   padding: 0 10px
 }
 
-.mh-head .mh-form .fa {
+.content .mh-form .fa {
   color: #ccc;
   text-align: center;
   line-height: 40px;

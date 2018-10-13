@@ -2,73 +2,64 @@
 
 {% block body %}
 
-    {#<div class="row">#}
-        {#<div class="col-6">111#}
-        {#</div>#}
+    <div class="row">
+        <div class="col-6">
 
-        {#<div class="col-6">222#}
-        {#</div>#}
-    {#</div>#}
-            {#<table class="table table-bordered">#}
-                {#<tr>#}
-                    {#<td>getTotalCp</td>#}
-                    {#<td>{{ money.getTotalCp }}</td>#}
-                {#</tr>#}
-                {#<tr>#}
-                    {#<td>getTotalSp()</td>#}
-                    {#<td>{{ money.getTotalSp }}</td>#}
-                {#</tr>#}
-                {#<tr>#}
-                    {#<td>getTotalGp()</td>#}
-                    {#<td>{{ money.getTotalGp }}</td>#}
-                {#</tr>#}
-                {#<tr>#}
-                    {#<td>getTotalPp()</td>#}
-                    {#<td>{{ money.getTotalPp }}</td>#}
-                {#</tr>#}
-                {#<tr>#}
-                    {#<td></td>#}
-                    {#<td></td>#}
-                {#</tr>#}
-                {#<tr>#}
-                    {#<td></td>#}
-                    {#<td></td>#}
-                {#</tr>#}
-                {#<tr>#}
-                    {#<td></td>#}
-                    {#<td></td>#}
-                {#</tr>#}
-            {#</table>#}
+            <table class="table table-bordered table-sm">
+                <tr>
+                    <td>getTotalCp</td>
+                    <td>{{ money.getTotalCp }}</td>
+                </tr>
+                <tr>
+                    <td>getTotalSp()</td>
+                    <td>{{ money.getTotalSp }}</td>
+                </tr>
+                <tr>
+                    <td>getTotalGp()</td>
+                    <td>{{ money.getTotalGp }}</td>
+                </tr>
+                <tr>
+                    <td>getTotalPp()</td>
+                    <td>{{ money.getTotalPp }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="col-6">
+
+            <a href='#'><i class='fa fa-cube fa-3x'></i></a> <a href='#'><i class='fa fa-cubes'></i></a> <a href='#'><i class='fa fa-dice'></i></a>
+            <a href='#'><i class='fa fa-dice-one'></i></a> <a href='#'><i class='fa fa-dice-two'></i></a> <a href='#'><i class='fa fa-dice-three'></i></a> <a href='#'><i class='fa fa-dice-four fa-3x'></i></a> <a href='#'><i class='fa fa-dice-five'></i></a> <a href='#'><i class='fa fa-dice-six'></i></a>
+            <a href='#'><i class='fa fa-dice-d6'></i></a> <a href='#'><i class='fa fa-dice-d20'></i></a> <a href='#'><i class="fas fa-dungeon"></i></a> <a href='#'><i class='fas fa-dragon'></i></a> <a href='#'><i class='fab fa-d-and-d'></i></a> <a href='#'><i class='fa fa-cogs fa-2x'></i></a> <a href='#'><i class='fa fa-bars'></i></a>
+            <a href='#'><i class='fa fa-times'></i></a>
+
+//        dump('getCp() ' . $money->getCp());
+//        dump('getSp() ' . $money->getSp());
+//        dump('getEp() ' . $money->getEp());
+//        dump('getGp() ' . $money->getGp());
+//        dump('getPp() ' . $money->getPp());
+//        dump('toSpCpString ' . $money->toSpCpString());
+//        dump('toGpSpCpString ' . $money->toGpSpCpString());
 
 
-            {#<a href='#'><i class='fa fa-cube fa-3x'></i></a> <a href='#'><i class='fa fa-cubes'></i></a> <a href='#'><i class='fa fa-dice'></i></a>
-            <a href='#'><i class='fa fa-dice-one'></i></a>
-            <a href='#'><i class='fa fa-dice-two'></i></a>
-            <a href='#'><i class='fa fa-dice-three'></i></a>
-            <a href='#'><i class='fa fa-dice-four fa-3x'></i></a>
-            <a href='#'><i class='fa fa-dice-five'></i></a>
-            <a href='#'><i class='fa fa-dice-six'></i></a>
-            <a href='#'><i class='fa fa-dice-d6'></i></a>
-            <a href='#'><i class='fa fa-dice-d20'></i></a>
-            <a href='#'><i class="fas fa-dungeon"></i></a>
-            <a href='#'><i class='fas fa-dragon'></i></a>
-            <a href='#'><i class='fab fa-d-and-d'></i></a>
-            <a href='#'><i class='fa fa-cogs fa-2x'></i></a>
-            <a href='#'><i class='fa fa-bars'></i></a>
-            <a href='#'><i class='fa fa-close'></i></a>
-            <a href='#'><i class='fa fa-times'></i></a>#}
+        </div>
+    </div>
 
 
 
 
-    {#//        dump('getCp() ' . $money->getCp());#}
-    {#//        dump('getSp() ' . $money->getSp());#}
-    {#//        dump('getEp() ' . $money->getEp());#}
-    {#//        dump('getGp() ' . $money->getGp());#}
-    {#//        dump('getPp() ' . $money->getPp());#}
-    {#//        dump('toSpCpString ' . $money->toSpCpString());#}
-    {#//        dump('toGpSpCpString ' . $money->toGpSpCpString());#}
-    {#//        die('ok');#}
+
 
 
 {% endblock %}

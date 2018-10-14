@@ -35,58 +35,35 @@ class MoneyDecorator
         $this->amount = $amount;
     }
 
-    protected function roundAmount($amount, $precision) {
-        $precision = max($precision, 0);
-        if (!$precision) {
-            return intval($amount);
-        }
-        return $amount = round($amount, $precision + 1); // кол-во цифр после запятой
-        $amount = explode('.', strval(floatval($amount)));
-        if (isset($amount[1]) && strlen($amount[1]) > $precision) {
-            $amount[1] = substr($amount[1], 0, $precision);
-        }
-        return abs(max(floatval(implode('.', $amount)), 0));
-    }
+
+
+
+
+
 
     /**
      * CP-часть суммы
      * @example 4
      */
     public function getCp() {
-        return round($this->getTotalCp() - $this->getSP() * 10, self::PRECISION_CP);
-        //return $this->roundAmount($this->getTotalCp() - $this->getSP() * 10, self::PRECISION_CP);
+        return intval($this->getTotalCp() - $this->getPp() * 1000 - $this->getGp() * 100 - $this->getSp() * 10);
     }
 
     /**
      * SP-часть суммы
-     * @example 123
+     * @example 1234 => 3
      */
     public function getSp() {
-        return intval($this->roundAmount($this->getTotalCp(), self::PRECISION_CP) / 10);
-    }
-
-    /**
-     * EP-часть суммы
-     * @example 24
-     */
-    public function getEp() {
-        return intval($this->roundAmount($this->getTotalCp(), self::PRECISION_CP) / 50);
+        return intval(($this->getTotalCp() - $this->getPp() * 1000 - $this->getGp() * 100) / 10);
     }
 
     /**
      * GP-часть суммы
-     * @example 1234 => 12
+     * @example 1234 => 2
      */
-    public function getGp() {
-
-        return round($this->getTotalCp() - $this->getPp() * 10, self::PRECISION_CP);
-
-        return intval(round($this->getTotalCp(), self::PRECISION_CP) / 100);
-        //return intval(round($this->getTotalCp(), self::PRECISION_CP) / 100);
+    public function getGp(): int {
+        return intval( ($this->getTotalCp() - $this->getPp() * 1000) / 100 );
     }
-
-
-
 
     /**
      * PP-часть суммы
@@ -101,9 +78,8 @@ class MoneyDecorator
      * Полная сумма в Cp
      * @example 1234 => 1234
      */
-    public function getTotalCp() {
-        return round($this->amount, self::PRECISION_CP);
-        //return $this->roundAmount($this->amount, self::PRECISION_CP);
+    public function getTotalCp(): int {
+        return intval($this->amount);
     }
 
     /**
@@ -112,7 +88,6 @@ class MoneyDecorator
      */
     public function getTotalSp() {
         return round($this->amount / 10, self::PRECISION_SP);
-        //return $this->roundAmount($this->getTotalCp() / 10, self::PRECISION_SP);
     }
 
     /**
@@ -121,7 +96,6 @@ class MoneyDecorator
      */
     public function getTotalEp() {
         return round($this->amount / 50, self::PRECISION_EP);
-        //return $this->roundAmount($this->getTotalCp() / 100, self::PRECISION_GP);
     }
 
     /**
@@ -130,7 +104,6 @@ class MoneyDecorator
      */
     public function getTotalGp() {
         return round($this->amount / 100, self::PRECISION_GP);
-        //return $this->roundAmount($this->getTotalCp() / 100, self::PRECISION_GP);
     }
 
     /**
@@ -139,26 +112,23 @@ class MoneyDecorator
      */
     public function getTotalPp() {
         return round($this->amount / 1000, self::PRECISION_PP);
-        //return $this->roundAmount($this->getTotalCp() / 1000, self::PRECISION_PP);
+    }
+
+    public function toPpGpSpCpString(): string
+    {
+        return $this->getPp() . ' pp ' . $this->getGp() . ' gp ' . $this->getSp() . ' sp ' . $this->getCp() . ' cp';
     }
 
 
 
 
 
-
-
-
-
-
-    public function toSpCpString() {
-        return $this->getSp() . ' sp ' . $this->getCp() . ' cp';
+    /**
+     * EP-часть суммы
+     * @example 24
+     */
+    public function getEp() {
+        //return intval($this->roundAmount($this->getTotalCp(), self::PRECISION_CP) / 50);
     }
 
-    public function toGpSpCpString() {
-        return
-
-            ( $this->amount - ($this->amount / 100) ) . ' sp ' .
-            ( $this->amount - ($this->amount / 10) ) . ' cp';
-    }
 }

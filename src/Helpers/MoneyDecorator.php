@@ -21,6 +21,7 @@ class MoneyDecorator
 
     const PRECISION_CP = 0;
     const PRECISION_SP = 1;
+    const PRECISION_EP = 2;
     const PRECISION_GP = 2;
     const PRECISION_PP = 3;
 
@@ -39,7 +40,7 @@ class MoneyDecorator
         if (!$precision) {
             return intval($amount);
         }
-        $amount = round($amount, $precision + 1); // кол-во цифр после запятой
+        return $amount = round($amount, $precision + 1); // кол-во цифр после запятой
         $amount = explode('.', strval(floatval($amount)));
         if (isset($amount[1]) && strlen($amount[1]) > $precision) {
             $amount[1] = substr($amount[1], 0, $precision);
@@ -52,7 +53,8 @@ class MoneyDecorator
      * @example 4
      */
     public function getCp() {
-        return $this->roundAmount($this->getTotalCp() - $this->getSP() * 10, self::PRECISION_CP);
+        return round($this->getTotalCp() - $this->getSP() * 10, self::PRECISION_CP);
+        //return $this->roundAmount($this->getTotalCp() - $this->getSP() * 10, self::PRECISION_CP);
     }
 
     /**
@@ -73,51 +75,81 @@ class MoneyDecorator
 
     /**
      * GP-часть суммы
-     * @example 12
+     * @example 1234 => 12
      */
     public function getGp() {
-        return intval($this->roundAmount($this->getTotalCp(), self::PRECISION_CP) / 100);
+
+        return round($this->getTotalCp() - $this->getPp() * 10, self::PRECISION_CP);
+
+        return intval(round($this->getTotalCp(), self::PRECISION_CP) / 100);
+        //return intval(round($this->getTotalCp(), self::PRECISION_CP) / 100);
     }
+
+
+
 
     /**
      * PP-часть суммы
-     * @example 12
+     * @example 1234 => 1
      */
-    public function getPp() {
-        return intval($this->roundAmount($this->getTotalCp(), self::PRECISION_CP) / 1000);
+    public function getPp(): int
+    {
+        return intval($this->getTotalCp() / 1000);
     }
 
     /**
      * Полная сумма в Cp
-     * @example 1234
+     * @example 1234 => 1234
      */
     public function getTotalCp() {
-        return $this->roundAmount($this->amount, self::PRECISION_CP);
+        return round($this->amount, self::PRECISION_CP);
+        //return $this->roundAmount($this->amount, self::PRECISION_CP);
     }
 
     /**
      * Полная сумма в Sp
-     * @example 123.4
+     * @example 1234 => 123.4
      */
     public function getTotalSp() {
-        return $this->roundAmount($this->getTotalCp() / 10, self::PRECISION_SP);
+        return round($this->amount / 10, self::PRECISION_SP);
+        //return $this->roundAmount($this->getTotalCp() / 10, self::PRECISION_SP);
+    }
+
+    /**
+     * Полная сумма в Ep
+     * @example 1234 => 24.68
+     */
+    public function getTotalEp() {
+        return round($this->amount / 50, self::PRECISION_EP);
+        //return $this->roundAmount($this->getTotalCp() / 100, self::PRECISION_GP);
     }
 
     /**
      * Полная сумма в Gp
-     * @example 12.34
+     * @example 1234 => 12.34
      */
     public function getTotalGp() {
-        return $this->roundAmount($this->getTotalCp() / 100, self::PRECISION_GP);
+        return round($this->amount / 100, self::PRECISION_GP);
+        //return $this->roundAmount($this->getTotalCp() / 100, self::PRECISION_GP);
     }
 
     /**
      * Полная сумма в Pp
-     * @example 12.34
+     * @example 1234 => 1.234
      */
     public function getTotalPp() {
-        return $this->roundAmount($this->getTotalCp() / 1000, self::PRECISION_PP);
+        return round($this->amount / 1000, self::PRECISION_PP);
+        //return $this->roundAmount($this->getTotalCp() / 1000, self::PRECISION_PP);
     }
+
+
+
+
+
+
+
+
+
 
     public function toSpCpString() {
         return $this->getSp() . ' sp ' . $this->getCp() . ' cp';

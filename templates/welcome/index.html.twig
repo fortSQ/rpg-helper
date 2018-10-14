@@ -5,34 +5,63 @@
     <div class="row">
         <div class="col-6">
 
+            <h5>$amount = 1234</h5>
+
             <table class="table table-bordered table-sm">
                 <tr>
+                    <th>Описание</th>
+                    <th>Фунуция</th>
+                    <th>Результат</th>
+                </tr>
+                <tr>
+                    <td>Полная сумма в Cp</td>
                     <td>getTotalCp</td>
                     <td>{{ money.getTotalCp }}</td>
                 </tr>
                 <tr>
+                    <td>Полная сумма в Sp</td>
                     <td>getTotalSp()</td>
                     <td>{{ money.getTotalSp }}</td>
                 </tr>
                 <tr>
+                    <td>Полная сумма в Ep</td>
+                    <td>getTotalEp()</td>
+                    <td>{{ money.getTotalEp }}</td>
+                </tr>
+                <tr>
+                    <td>Полная сумма в Gp</td>
                     <td>getTotalGp()</td>
                     <td>{{ money.getTotalGp }}</td>
                 </tr>
                 <tr>
+                    <td>Полная сумма в Pp</td>
                     <td>getTotalPp()</td>
                     <td>{{ money.getTotalPp }}</td>
                 </tr>
                 <tr>
-                    <td></td>
+                    <td>CP-часть суммы</td>
+                    <td>getCp()</td>
+                    <td>{{ money.cp }}</td>
+                </tr>
+                <tr>
+                    <td>SP-часть суммы</td>
+                    <td>getSp()</td>
+                    <td>{{ money.sp }}</td>
+                </tr>
+                <tr>
+                    <td>EP-часть суммы</td>
+                    <td>getEp()</td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td>GP-часть суммы</td>
+                    <td>getGp()</td>
+                    <td>{{ money.gp }}</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td>PP-часть суммы</td>
+                    <td>getPp()</td>
+                    <td>{{ money.pp }}</td>
                 </tr>
             </table>
 
@@ -44,22 +73,7 @@
             <a href='#'><i class='fa fa-dice-d6'></i></a> <a href='#'><i class='fa fa-dice-d20'></i></a> <a href='#'><i class="fas fa-dungeon"></i></a> <a href='#'><i class='fas fa-dragon'></i></a> <a href='#'><i class='fab fa-d-and-d'></i></a> <a href='#'><i class='fa fa-cogs fa-2x'></i></a> <a href='#'><i class='fa fa-bars'></i></a>
             <a href='#'><i class='fa fa-times'></i></a>
 
-//        dump('getCp() ' . $money->getCp());
-//        dump('getSp() ' . $money->getSp());
-//        dump('getEp() ' . $money->getEp());
-//        dump('getGp() ' . $money->getGp());
-//        dump('getPp() ' . $money->getPp());
-//        dump('toSpCpString ' . $money->toSpCpString());
-//        dump('toGpSpCpString ' . $money->toGpSpCpString());
-
-
         </div>
     </div>
-
-
-
-
-
-
 
 {% endblock %}

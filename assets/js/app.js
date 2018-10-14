@@ -39,29 +39,23 @@ $(document).ready(() => {
             "add": true,
             "top": [
                 "<a href='#'><i class='fas fa-home'></i></a>",
-                "<a href='#'><i class='fas fa-user'></i></a>"
-            ],
-            "bottom": [
-                "<a href='#'><i class='fab fa-twitter'></i></a>",
-                "<a href='#'><i class='fab fa-facebook'></i></a>",
-                "<a href='#'><i class='fab fa-linkedin'></i></a>"
+                "<a href='#'><i class='fas fa-user'></i></a>",
+                "<a href='#'><i class='fab fa-d-and-d'></i></a>"
             ]
         },
         "navbars": [
             {
                 "position": "top",
                 "content": [
-                    "<a href='#'><i class='fas fa-envelope'></i></a>",
-                    "<a href='#'><i class='fab fa-facebook'></i></a>",
-                    "<a href='#'><i class='fab fa-twitter'></i></a>"
+                    "<a href='#'><i class='fas fa-dice-d6'></i></a>",
+                    "<a href='#'><i class='fas fa-box'></i></a>",
+                    "<a href='#'><i class='fas fa-cogs'></i></a>"
                 ]
             },
             {
                 "position": "bottom",
                 "content": [
-                    "<a href='#'><i class='fas fa-envelope'></i></a>",
-                    "<a href='#'><i class='fab fa-facebook'></i></a>",
-                    "<a href='#'><i class='fab fa-linkedin'></i></a>"
+
                 ]
             }
         ],

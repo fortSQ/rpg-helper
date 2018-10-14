@@ -4,20 +4,8 @@ namespace App\Helpers;
 
 class MoneyDecorator
 {
-    /** Деньги в виде 1234 cp */
-    const DISPLAY_AS_CP = 'cp';
-
-    /** Деньги в виде 123 sp 4 cp */
-    const DISPLAY_AS_SP_CP = 'sp_cp';
-
-    /** Деньги в виде 12 gp 3 sp 4 cp */
-    const DISPLAY_AS_GP_SP_CP = 'gp_sp_cp';
-
-    protected $allowedDisplays = [
-        self::DISPLAY_AS_CP,
-        self::DISPLAY_AS_SP_CP,
-        self::DISPLAY_AS_GP_SP_CP,
-    ];
+    const FORMAT_START_PP = 'pp_gp_sp_cp';
+    const FORMAT_START_GP = 'gp_sp_cp';
 
     const PRECISION_CP = 0;
     const PRECISION_SP = 1;
@@ -35,17 +23,74 @@ class MoneyDecorator
         $this->amount = $amount;
     }
 
+    /******************************
+     * getTotal() methods
+     */
 
+    /**
+     * Полная сумма в Cp
+     * @example 1234 => 1234
+     */
+    public function getTotalCp(): int
+    {
+        return intval($this->amount);
+    }
 
+    /**
+     * Полная сумма в Sp
+     * @example 1234 => 123.4
+     */
+    public function getTotalSp()
+    {
+        return round($this->amount / 10, self::PRECISION_SP);
+    }
 
+    /**
+     * Полная сумма в Ep
+     * @example 1234 => 24.68
+     */
+    public function getTotalEp()
+    {
+        return round($this->amount / 50, self::PRECISION_EP);
+    }
 
+    /**
+     * Полная сумма в Gp
+     * @example 1234 => 12.34
+     */
+    public function getTotalGp()
+    {
+        return round($this->amount / 100, self::PRECISION_GP);
+    }
 
+    /**
+     * Полная сумма в Pp
+     * @example 1234 => 1.234
+     */
+    public function getTotalPp()
+    {
+        return round($this->amount / 1000, self::PRECISION_PP);
+    }
+
+    /******************************
+     * toPpGpSpCpString() methods
+    */
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    public function toPpGpSpCpString(): string
+    {
+        return $this->getPp() . ' pp ' . $this->getGp() . ' gp ' . $this->getSp() . ' sp ' . $this->getCp() . ' cp';
+    }
 
     /**
      * CP-часть суммы
-     * @example 4
+     * @example 1234 => 4
      */
-    public function getCp() {
+    public function getCp()
+    {
         return intval($this->getTotalCp() - $this->getPp() * 1000 - $this->getGp() * 100 - $this->getSp() * 10);
     }
 
@@ -74,49 +119,21 @@ class MoneyDecorator
         return intval($this->getTotalCp() / 1000);
     }
 
-    /**
-     * Полная сумма в Cp
-     * @example 1234 => 1234
+    /******************************
+     * toGpSpCpString() methods
      */
-    public function getTotalCp(): int {
-        return intval($this->amount);
-    }
 
-    /**
-     * Полная сумма в Sp
-     * @example 1234 => 123.4
-     */
-    public function getTotalSp() {
-        return round($this->amount / 10, self::PRECISION_SP);
-    }
-
-    /**
-     * Полная сумма в Ep
-     * @example 1234 => 24.68
-     */
-    public function getTotalEp() {
-        return round($this->amount / 50, self::PRECISION_EP);
-    }
-
-    /**
-     * Полная сумма в Gp
-     * @example 1234 => 12.34
-     */
-    public function getTotalGp() {
-        return round($this->amount / 100, self::PRECISION_GP);
-    }
-
-    /**
-     * Полная сумма в Pp
-     * @example 1234 => 1.234
-     */
-    public function getTotalPp() {
-        return round($this->amount / 1000, self::PRECISION_PP);
-    }
-
-    public function toPpGpSpCpString(): string
+    public function toGpSpCpString(): string
     {
-        return $this->getPp() . ' pp ' . $this->getGp() . ' gp ' . $this->getSp() . ' sp ' . $this->getCp() . ' cp';
+        return $this->getGpForGp() . ' gp ' . $this->getSp() . ' sp ' . $this->getCp() . ' cp';
+    }
+
+    /**
+     * GP-часть суммы
+     * @example 1234 => 2
+     */
+    public function getGpForGp(): int {
+        return intval( $this->getTotalCp() / 100 );
     }
 
 
@@ -127,7 +144,8 @@ class MoneyDecorator
      * EP-часть суммы
      * @example 24
      */
-    public function getEp() {
+    public function getEp()
+    {
         //return intval($this->roundAmount($this->getTotalCp(), self::PRECISION_CP) / 50);
     }
 

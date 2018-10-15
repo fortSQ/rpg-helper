@@ -54,7 +54,7 @@ class DndEquipment
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $armour_class;
+    private $armor_class;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\DndEquipmentType", inversedBy="dndEquipment")
@@ -151,14 +151,14 @@ class DndEquipment
         return $this;
     }
 
-    public function getArmourClass(): ?string
+    public function getArmorClass(): ?string
     {
-        return $this->armour_class;
+        return $this->armor_class;
     }
 
-    public function setArmourClass(?string $armour_class): self
+    public function setArmorClass(?string $armor_class): self
     {
-        $this->armour_class = $armour_class;
+        $this->armor_class = $armor_class;
 
         return $this;
     }

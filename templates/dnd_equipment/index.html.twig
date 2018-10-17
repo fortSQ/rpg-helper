@@ -21,15 +21,25 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {% for equipment in equipmentList %}
-                        {% if equipment.type.name == 'Armor' %}
+                    {% for equipmentType in equipmentTypeList %}
+                        {# @var equipmentType App\Entity\DndEquipmentType #}
+                        <tr>
+                            <th colspan="9">{{ equipmentType.name }}</th>
+                        </tr>
+                        {# @var equipment App\Entity\DndEquipment #}
+                        {% for equipment in equipmentType.dndequipment %}
                             <tr>
-                                <th colspan="9">{{ equipment.type.name }}</th>
+                                <th></th>
+                                <th>{{ equipment.subtype.name }}</th>
+                                <td>{{ equipment.name }}</td>
+                                <td>{{ equipment.cost }}</td>
+                                <td>{{ equipment.weight }}</td>
+                                <td>{{ equipment.info }}</td>
+                                <td>{{ equipment.damage }}</td>
+                                <td>{{ equipment.damageType }}</td>
+                                <td>{{ equipment.armorClass }}</td>
                             </tr>
-                            {% include 'dnd_equipment/_table.twig' %}
-                        {% endif %}
-
-
+                        {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>

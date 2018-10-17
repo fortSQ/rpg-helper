@@ -17,9 +17,17 @@ class WelcomeController extends AbstractController
         $money = new MoneyDecorator(1234);
 
         $repository = $this->getDoctrine()->getRepository(DndEquipmentType::class);
-        $item = $repository->findAll();
+        $types = $repository->findAllJoinedToDndEquipment();
 
-        dump($item); die('ok');
+//        foreach ($types as $type) {
+//            dump($type);
+//            die('ok');
+//        }
+
+        dump($types); die('ok');
+
+        $repository = $this->getDoctrine()->getRepository(DndEquipmentType::class);
+        $item = $repository->findAll();
 
         return $this->render('welcome/index.html.twig', [
             'money' => $money,

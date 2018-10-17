@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\DndEquipment;
+use App\Entity\DndEquipmentSubtype;
 use App\Entity\DndEquipmentType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -11,33 +12,60 @@ class DndFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        foreach ($this->equipmentTypes as $item) {
+
+        /* EQUIPMENT TYPES */
+
+        $equipmentTypes = ['Armor', 'Weapons', 'Adventuring Gear', 'Tools', 'Mount and Vehicles', 'Trade Goods', 'Food, Drink, and Lodging', 'Services'];
+
+        foreach ($equipmentTypes as $name) {
             $type = new DndEquipmentType();
-            $type->setName($item);
+            $type->setName($name);
             $manager->persist($type);
         }
+        $manager->flush();
 
-        //$equipmentType = $this->getDoctrine()->getRepository(DndEquipment::class);
+        /* EQUIPMENT SUBTYPES */
 
-        foreach ($this->armor as $item) {
+        $equipmentSubtypes = [
+            'Light Armor', 'Medium Armor', 'Heavy Armor', 'Shield',
+            'Simple Melee Weapon'
+        ];
+
+        foreach ($equipmentSubtypes as $name) {
+            $subtype = new DndEquipmentSubtype();
+            $subtype->setName($name);
+            $manager->persist($subtype);
+        }
+        $manager->flush();
+
+        /* EQUIPMENT */
+
+        $data = [
+            ['Armor', 'Light Armor', 'Padded', 500, 8, 'Stealth: disadvantage', '', '', '11 + Dex modifier'],
+            ['Armor', 'Light Armor', 'Leather', 1000, 10, '', '', '', '11 + Dex modifier'],
+            ['Armor', 'Light Armor', 'Studded leather', 4500, 13, '', '', '', '12 + Dex modifier'],
+
+
+
+            ['Weapons', 'Simple Melee Weapon', 'Club', 10, 2, 'Light', '1d4', 'bludgeoning', '']
+
+        ];
+
+        foreach ($data as [$type, $subtype, $name, $cost, $weight, $info, $damage, $damageType, $armorClass]) {
             $equipment = new DndEquipment();
-            $equipment->setName($item['name']);
-            $equipment->setCost($item['cost']);
-            $equipment->setArmorClass($item['armor_class']);
-            $equipment->setWeight($item['weight']);
-            $equipment->setInfo($item['info']);
-            $equipment->setType($equipmentType);
+            $equipment->setType($manager->getRepository(DndEquipmentType::class)->findOneBy(['name' => $type]));
+            $equipment->setSubtype($manager->getRepository(DndEquipmentSubtype::class)->findOneBy(['name' => $subtype]));
+            $equipment->setName($name);
+            $equipment->setCost($cost);
+            $equipment->setWeight($weight);
+            $equipment->setInfo($info);
+            $equipment->setDamage($damage);
+            $equipment->setDamageType($damageType);
+            $equipment->setArmorClass($armorClass);
             $manager->persist($equipment);
         }
-
         $manager->flush();
+
+
     }
-
-    public $equipmentTypes = [
-        'Armor', 'Weapons', 'Adventuring Gear', 'Tools', 'Mount and Vehicles', 'Trade Goods', 'Food, Drink, and Lodging', 'Services'
-    ];
-
-    public $armor = [
-        ['name' => 'Padded', 'subtype' => 'Light Armor', 'cost' => 500, 'armor_class' => '', 'weight' => 8, 'info' => 'Stealth: disadvantage']
-    ];
 }

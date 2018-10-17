@@ -17,17 +17,33 @@ class DndEquipment
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\DndEquipmentType", inversedBy="dndEquipment")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\DndEquipmentSubtype", inversedBy="dndEquipment")
+     */
+    private $subtype;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $cost;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $weight;
 
@@ -38,11 +54,6 @@ class DndEquipment
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
      */
     private $damage;
 
@@ -55,12 +66,6 @@ class DndEquipment
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $armor_class;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\DndEquipmentType", inversedBy="dndEquipment")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $type;
 
     public function getId(): ?int
     {
@@ -84,7 +89,7 @@ class DndEquipment
         return $this->cost;
     }
 
-    public function setCost(int $cost): self
+    public function setCost(?int $cost): self
     {
         $this->cost = $cost;
 
@@ -96,7 +101,7 @@ class DndEquipment
         return $this->weight;
     }
 
-    public function setWeight(int $weight): self
+    public function setWeight(?int $weight): self
     {
         $this->weight = $weight;
 
@@ -127,12 +132,12 @@ class DndEquipment
         return $this;
     }
 
-    public function getDamage(): ?int
+    public function getDamage(): ?string
     {
         return $this->damage;
     }
 
-    public function setDamage(?int $damage): self
+    public function setDamage(?string $damage): self
     {
         $this->damage = $damage;
 
@@ -171,6 +176,18 @@ class DndEquipment
     public function setType(?DndEquipmentType $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getSubtype(): ?DndEquipmentSubtype
+    {
+        return $this->subtype;
+    }
+
+    public function setSubtype(?DndEquipmentSubtype $subtype): self
+    {
+        $this->subtype = $subtype;
 
         return $this;
     }

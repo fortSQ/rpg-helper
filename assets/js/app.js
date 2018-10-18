@@ -46,6 +46,7 @@ $(document).ready(() => {
             {
                 "position": "top",
                 "content": [
+                    "<a href='#'><i class='fa fa-dice'></i></a>",
                     "<a href='#'><i class='fas fa-dice-d6'></i></a>",
                     "<a href='#'><i class='fas fa-box'></i></a>",
                     "<a href='#'><i class='fas fa-cogs'></i></a>"

@@ -9,8 +9,8 @@
             <table class="table table-sm">
                 <thead>
                 <tr class="table-primary">
-                    <th>Subtype</th>
                     <th>Name</th>
+                    <th>Subtype</th>
                     <th>Cost</th>
                     <th>Weight</th>
                     <th>Info</th>
@@ -28,8 +28,8 @@
                         </tr>
                         {% for equipment in equipmentType.dndEquipment %}
                             <tr>
-                                <th>{{ equipment.subtype.name }}</th>
-                                <td>{{ equipment.name }}</td>
+                                <th>{{ equipment.name }}</th>
+                                <td>{{ equipment.subtype.name }}</td>
                                 <td>{{ equipment.cost|money }}</td>
                                 <td>{{ equipment.weight }}</td>
                                 <td>{{ equipment.info }}</td>

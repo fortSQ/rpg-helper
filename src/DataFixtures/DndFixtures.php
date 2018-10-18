@@ -61,6 +61,8 @@ class DndFixtures extends Fixture
             ['Armor', 'Heavy Armor', 'Plate', 150000, 65, 'Strength: Str 15, Stealth: disadvantage', '', '', '18'],
             ['Armor', 'Shield', 'Shield', 1000, 6, 'Strength: Str 15, Stealth: disadvantage', '', '', '+2'],
             ['Weapons', 'Simple Melee Weapons', 'Club', 10, 2, 'Light', '1d4', 'bludgeoning', ''],
+            ['Weapons', 'Simple Melee Weapons', 'Dagger', 200, 1, 'Finesse, light, thrown (range 20/60)', '1d4', 'piercing', ''],
+            ['Weapons', 'Simple Melee Weapons', 'Greatclub', 20, 10, 'Two-handed', '1d8', 'bludgeoning', ''],
 
         ];
 

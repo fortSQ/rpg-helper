@@ -21,7 +21,6 @@ $(document).ready(() => {
         $("#loading").removeClass('show');
     });
 
-    /* Hamburger */
     /* jQuery.mmenu */
     $("#menu").mmenu({
         extensions: [
@@ -60,14 +59,5 @@ $(document).ready(() => {
             }
         ],
     }, {});
-
-    let $hamburger = $(".hamburger");
-    let api = $("#my-menu").data( "mmenu" );
-
-    api.bind("open:finish", () => {
-        $hamburger.addClass("is-active");
-    }).bind("close:finish", () => {
-        $hamburger.removeClass("is-active");
-    });
 
 });

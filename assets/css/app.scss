@@ -1,15 +1,12 @@
 // customize some Bootstrap variables
-// $primary: darken(#428bca, 20%);
-$link-color: #2C3E50;
 
 /* Order of the next three lines is important! */
-@import "~bootswatch/dist/flatly/variables";
+@import "~bootswatch/dist/spacelab/variables";
 @import "~bootstrap/scss/bootstrap";
-@import "~bootswatch/dist/flatly/bootswatch";
+@import "~bootswatch/dist/spacelab/bootswatch";
 
 @import "~@fortawesome/fontawesome-free/css/all.css";
 @import "~jquery.mmenu/dist/jquery.mmenu.all.css";
-@import "~hamburgers/_sass/hamburgers/hamburgers";
 
 
 

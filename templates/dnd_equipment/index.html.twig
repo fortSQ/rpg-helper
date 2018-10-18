@@ -8,31 +8,29 @@
 
             <table class="table table-sm">
                 <thead>
-                <tr>
-                    <th scope="col">Type</th>
-                    <th scope="col">Subtype</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Cost</th>
-                    <th scope="col">Weight</th>
-                    <th scope="col">Info</th>
-                    <th scope="col">Damage</th>
-                    <th scope="col">Damage Type</th>
-                    <th scope="col">Armor Class</th>
+                <tr class="table-primary">
+                    <th>Subtype</th>
+                    <th>Name</th>
+                    <th>Cost</th>
+                    <th>Weight</th>
+                    <th>Info</th>
+                    <th>Damage</th>
+                    <th>Damage Type</th>
+                    <th>Armor Class</th>
                 </tr>
                 </thead>
                 <tbody>
+                    {# @var equipmentType \App\Entity\DndEquipmentType #}
+                    {# @var equipment \App\Entity\DndEquipment #}
                     {% for equipmentType in equipmentTypeList %}
-                        {# @var equipmentType App\Entity\DndEquipmentType #}
-                        <tr>
-                            <th colspan="9">{{ equipmentType.name }}</th>
+                        <tr class="table-secondary">
+                            <th colspan="8">{{ equipmentType.name }}</th>
                         </tr>
-                        {# @var equipment App\Entity\DndEquipment #}
-                        {% for equipment in equipmentType.dndequipment %}
+                        {% for equipment in equipmentType.dndEquipment %}
                             <tr>
-                                <th></th>
                                 <th>{{ equipment.subtype.name }}</th>
                                 <td>{{ equipment.name }}</td>
-                                <td>{{ equipment.cost }}</td>
+                                <td>{{ equipment.cost|money }}</td>
                                 <td>{{ equipment.weight }}</td>
                                 <td>{{ equipment.info }}</td>
                                 <td>{{ equipment.damage }}</td>

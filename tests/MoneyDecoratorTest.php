@@ -11,39 +11,33 @@ class MoneyDecoratorTest extends TestCase
     {
         $money = new MoneyDecorator(1234);
 
-        $this->assertEquals(1234, $money->getTotalInCp());
-        $this->assertEquals(123.4, $money->getTotalInSp());
-        $this->assertEquals(24.68, $money->getTotalInEp());
-        $this->assertEquals(12.34, $money->getTotalInGp());
-        $this->assertEquals(1.234, $money->getTotalInPp());
+        $this->assertEquals('12 gp 3 sp 4 cp', $money->__toString());
+        $this->assertEquals('12 gp 3 sp 4 cp', $money->toString());
 
-        $this->assertEquals(4, $money->getCp());
-        $this->assertEquals(3, $money->getSp());
-        $this->assertEquals(2, $money->getGp());
-        $this->assertEquals(12, $money->getGpForGp());
-        $this->assertEquals(1, $money->getPp());
-
-        $this->assertEquals('1 pp 2 gp 3 sp 4 cp', $money->toPpGpSpCpString());
-        $this->assertEquals('12 gp 3 sp 4 cp', $money->toGpSpCpString());
+        $this->assertEquals('12 gp 3 sp 4 cp', $money->toString(false));
+        $this->assertEquals('1 pp 2 gp 3 sp 4 cp', $money->toString(false, MoneyDecorator::TYPE_PLATINUM));
+        $this->assertEquals('12 gp 3 sp 4 cp', $money->toString(false, MoneyDecorator::TYPE_GOLD));
+        $this->assertEquals('123 sp 4 cp', $money->toString(false, MoneyDecorator::TYPE_SILVER));
+        $this->assertEquals('1234 cp', $money->toString(false, MoneyDecorator::TYPE_COPPER));
     }
 
     public function testMoney2()
     {
-        $money = new MoneyDecorator(5678);
+        $money = new MoneyDecorator(5060);
 
-        $this->assertEquals(5678, $money->getTotalInCp());
-        $this->assertEquals(567.8, $money->getTotalInSp());
-        $this->assertEquals(113.56, $money->getTotalInEp());
-        $this->assertEquals(56.78, $money->getTotalInGp());
-        $this->assertEquals(5.678, $money->getTotalInPp());
+        $this->assertEquals('50 gp 6 sp', $money->__toString());
+        $this->assertEquals('50 gp 6 sp', $money->toString());
 
-        $this->assertEquals(8, $money->getCp());
-        $this->assertEquals(7, $money->getSp());
-        $this->assertEquals(6, $money->getGp());
-        $this->assertEquals(56, $money->getGpForGp());
-        $this->assertEquals(5, $money->getPp());
+        $this->assertEquals('50 gp 6 sp', $money->toString(false));
+        $this->assertEquals('5 pp 6 sp', $money->toString(false, MoneyDecorator::TYPE_PLATINUM));
+        $this->assertEquals('50 gp 6 sp', $money->toString(false, MoneyDecorator::TYPE_GOLD));
+        $this->assertEquals('506 sp', $money->toString(false, MoneyDecorator::TYPE_SILVER));
+        $this->assertEquals('5060 cp', $money->toString(false, MoneyDecorator::TYPE_COPPER));
 
-        $this->assertEquals('5 pp 6 gp 7 sp 8 cp', $money->toPpGpSpCpString());
-        $this->assertEquals('56 gp 7 sp 8 cp', $money->toGpSpCpString());
+        $this->assertEquals('50 gp 6 sp 0 cp', $money->toString(true));
+        $this->assertEquals('5 pp 0 gp 6 sp 0 cp', $money->toString(true, MoneyDecorator::TYPE_PLATINUM));
+        $this->assertEquals('50 gp 6 sp 0 cp', $money->toString(true, MoneyDecorator::TYPE_GOLD));
+        $this->assertEquals('506 sp 0 cp', $money->toString(true, MoneyDecorator::TYPE_SILVER));
+        $this->assertEquals('5060 cp', $money->toString(true, MoneyDecorator::TYPE_COPPER));
     }
 }

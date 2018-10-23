@@ -11,11 +11,11 @@ class DndEquipmentController extends AbstractController
     /**
      * @Route("/dnd/equipment", name="dnd_equipment")
      */
-    public function index(DndEquipmentTypeRepository $dndEquipmentTypeRepository)
+    public function index(DndEquipmentTypeRepository $repository)
     {
         return $this->render('dnd_equipment/index.html.twig', [
             'title'     => 'All DnD equipment',
-            'equipmentTypeList' => $dndEquipmentTypeRepository->findAllJoinedToDndEquipment()
+            'equipmentTypeList' => $repository->findAllJoinedToDndEquipment()
         ]);
     }
 }

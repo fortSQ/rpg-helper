@@ -22,7 +22,6 @@ class DndEquipmentTypeRepository extends ServiceEntityRepository
     public function findAllJoinedToDndEquipment()
     {
         return $this->createQueryBuilder('et')
-            // p.category refers to the "category" property on product
             ->innerJoin('et.dndEquipment', 'e')
             // selects all the category data to avoid the query
             ->addSelect('e')

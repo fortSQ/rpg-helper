@@ -13,10 +13,14 @@
                     <th>Subtype</th>
                     <th>Cost</th>
                     <th>Weight</th>
-                    <th>Info</th>
+                    <th>Properties</th>
                     <th>Damage</th>
                     <th>Damage Type</th>
                     <th>Armor Class</th>
+                    <th>Min strength</th>
+                    <th>Stealth</th>
+                    <th>Carrying capacity</th>
+                    <th>Speed</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,7 +28,7 @@
                     {# @var equipment \App\Entity\DndEquipment #}
                     {% for equipmentType in equipmentTypeList %}
                         <tr class="table-secondary">
-                            <th colspan="8">{{ equipmentType.name }}</th>
+                            <th colspan="12">{{ equipmentType.name }}</th>
                         </tr>
                         {% for equipment in equipmentType.dndEquipment %}
                             <tr>
@@ -32,10 +36,14 @@
                                 <td>{{ equipment.subtype.name }}</td>
                                 <td>{{ equipment.cost|money }}</td>
                                 <td>{{ equipment.weight }}</td>
-                                <td>{{ equipment.info }}</td>
+                                <td>{{ equipment.properties }}</td>
                                 <td>{{ equipment.damage }}</td>
                                 <td>{{ equipment.damageType }}</td>
                                 <td>{{ equipment.armorClass }}</td>
+                                <td>{{ equipment.strength }}</td>
+                                <td>{{ equipment.stealth }}</td>
+                                <td>{{ equipment.capacity }}</td>
+                                <td>{{ equipment.speed }}</td>
                             </tr>
                         {% endfor %}
                     {% endfor %}

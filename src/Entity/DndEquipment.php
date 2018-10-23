@@ -50,7 +50,7 @@ class DndEquipment
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $info;
+    private $properties;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -66,6 +66,26 @@ class DndEquipment
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $armor_class;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $strength;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $stealth;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $capacity;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $speed;
 
     public function getId(): ?int
     {
@@ -188,6 +208,66 @@ class DndEquipment
     public function setSubtype(?DndEquipmentSubtype $subtype): self
     {
         $this->subtype = $subtype;
+
+        return $this;
+    }
+
+    public function getProperties(): ?string
+    {
+        return $this->properties;
+    }
+
+    public function setProperties(?string $properties): self
+    {
+        $this->properties = $properties;
+
+        return $this;
+    }
+
+    public function getStrength(): ?int
+    {
+        return $this->strength;
+    }
+
+    public function setStrength(?int $strength): self
+    {
+        $this->strength = $strength;
+
+        return $this;
+    }
+
+    public function getStealth(): ?string
+    {
+        return $this->stealth;
+    }
+
+    public function setStealth(?string $stealth): self
+    {
+        $this->stealth = $stealth;
+
+        return $this;
+    }
+
+    public function getCapacity(): ?int
+    {
+        return $this->capacity;
+    }
+
+    public function setCapacity(?int $capacity): self
+    {
+        $this->capacity = $capacity;
+
+        return $this;
+    }
+
+    public function getSpeed(): ?int
+    {
+        return $this->speed;
+    }
+
+    public function setSpeed(?int $speed): self
+    {
+        $this->speed = $speed;
 
         return $this;
     }

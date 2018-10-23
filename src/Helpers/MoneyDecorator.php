@@ -54,7 +54,7 @@ class MoneyDecorator
 
             list($count, $amount) = $this->test($amount, $type);
             if ($count or $showEmptyValues) {
-                $string .= ' ' . $count . self::TYPE_TO_STRING[$type];
+                $string .= ' ' . $count . ' ' . self::TYPE_TO_STRING[$type];
             }
         }
 

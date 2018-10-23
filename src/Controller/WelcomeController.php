@@ -14,11 +14,11 @@ class WelcomeController extends AbstractController
      */
     public function index()
     {
-        $money = new MoneyDecorator(5060);
+        //$money = new MoneyDecorator(5060);
 
 
         return $this->render('welcome/index.html.twig', [
-            'money' => $money,
+            //'money' => $money,
         ]);
     }
 }

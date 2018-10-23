@@ -62,7 +62,7 @@ class DndRace
     {
         if (!$this->characters->contains($character)) {
             $this->characters[] = $character;
-            $character->setClass($this);
+            $character->setRace($this);
         }
 
         return $this;
@@ -73,8 +73,8 @@ class DndRace
         if ($this->characters->contains($character)) {
             $this->characters->removeElement($character);
             // set the owning side to null (unless already changed)
-            if ($character->getClass() === $this) {
-                $character->setClass(null);
+            if ($character->getRace() === $this) {
+                $character->setRace(null);
             }
         }
 

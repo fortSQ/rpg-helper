@@ -43,7 +43,7 @@ class DndEquipment
     private $cost;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $weight;
 
@@ -116,12 +116,12 @@ class DndEquipment
         return $this;
     }
 
-    public function getWeight(): ?int
+    public function getWeight(): ?float
     {
         return $this->weight;
     }
 
-    public function setWeight(?int $weight): self
+    public function setWeight(?float $weight): self
     {
         $this->weight = $weight;
 

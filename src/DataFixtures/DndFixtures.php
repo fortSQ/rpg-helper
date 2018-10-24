@@ -63,10 +63,25 @@ class DndFixtures extends Fixture
             ['Weapons', 'Simple melee weapons', 'Club', 10, 2, 'Light', '1d4', 'bludgeoning', '', null, '', null, null],
             ['Weapons', 'Simple melee weapons', 'Dagger', 200, 1, 'Finesse, light, thrown (range 20/60)', '1d4', 'piercing', '', null, '', null, null],
             ['Weapons', 'Simple melee weapons', 'Greatclub', 20, 10, 'Two-handed', '1d8', 'bludgeoning', '', null, '', null, null],
-
+            ['Weapons', 'Simple melee weapons', 'Handaxe', 500, 2, 'Light, thrown (range 20/60)', '1d6', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Simple melee weapons', 'Javelin', 50, 2, 'Thrown (range 20/60)', '1d6', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Simple melee weapons', 'Light hammer', 200, 2, 'Light, thrown (range 20/60)', '1d4', 'bludgeoning', '', null, '', null, null],
+            ['Weapons', 'Simple melee weapons', 'Mace', 500, 4, '', '1d6', 'bludgeoning', '', null, '', null, null],
+            ['Weapons', 'Simple melee weapons', 'Quarterstaff', 20, 4, 'Versatile (1d8)', '1d6', 'bludgeoning', '', null, '', null, null],
+            ['Weapons', 'Simple melee weapons', 'Sickle', 100, 2, 'Light', '1d4', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Simple melee weapons', 'Spear', 100, 3, 'Thrown (range 20/60), versatile (1d8)', '1d6', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Simple melee weapons', 'Unarmed strike', 0, 0, '', '1', 'bludgeoning', '', null, '', null, null],
             ['Weapons', 'Simple ranged weapons', 'Crossbow, light', 2500, 5, 'Ammunition (range 80/320), loading, two-handed', '1d8', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Simple ranged weapons', 'Dart', 5, 0.25, 'Finesse, thrown (range 20/60)', '1d4', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Simple ranged weapons', 'Shortbow', 2500, 2, 'Ammunition (range 80/320), two-handed', '1d6', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Simple ranged weapons', 'Sling', 100, 0, 'Ammunition (range 30/120)', '1d4', 'bludgeoning', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Battleaxe', 1000, 4, 'Versatile (1d10)', '1d8', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Flail', 1000, 2, '', '1d8', 'bludgeoning', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Glaive', 2000, 6, 'Heavy, reach, two-handed', '1d10', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Greataxe', 3000, 7, 'Heavy, two-handed', '1d12', 'slashing', '', null, '', null, null],
 
 
+            ['Weapons', 'Martial melee weapons', '', 0, 0, '', '1d', '', '', null, '', null, null],
 
         ];
 

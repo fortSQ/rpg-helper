@@ -4,35 +4,23 @@ namespace App\Helpers;
 
 class WeightDecorator
 {
-    const SYSTEM_G      = 'g';
-    const SYSTEM_KG     = 'kg';
-    const SYSTEM_KG_G   = 'kg_g';
+    const TYPE_G    = 'g';
+    const TYPE_KG   = 'kg';
 
-    const SYSTEM_OZ     = 'oz';
-    const SYSTEM_LB     = 'lb';
-    const SYSTEM_LB_OZ  = 'lb_oz';
+    const TYPE_OZ   = 'oz'; //ounces
+    const TYPE_LB   = 'lb'; //pounds
 
-
-
-
-    const RATION_IN_COPPER = [
-        self::TYPE_PLATINUM => 1000,
-        self::TYPE_GOLD     => 100,
-        self::TYPE_SILVER   => 10,
-        self::TYPE_COPPER   => 1,
+    const WEIGHT_IN_GRAMS = [
+        self::TYPE_KG   => 1000,
+        self::TYPE_G    => 1,
     ];
 
     const TYPE_TO_STRING = [
-        self::TYPE_PLATINUM => 'pp',
-        self::TYPE_GOLD     => 'gp',
-        self::TYPE_SILVER   => 'sp',
-        self::TYPE_COPPER   => 'cp',
+        self::TYPE_KG   => 'kg',
+        self::TYPE_G    => 'g',
     ];
 
-
-
-
-    private $weight = 0;
+    private $weight = 0.0;
 
     public function __construct($weightInLb)
     {
@@ -41,33 +29,47 @@ class WeightDecorator
 
     public function __toString()
     {
-        return $this->toString();
+        return $this->toKgGString();
     }
 
-    public function toKgString()
+    /**
+     * @example 123 = 123 lb
+     */
+    public function toLbString()
     {
-        return $this->weight / 2.2046;
+        return $this->weight . ' lb.';
     }
 
-
-
-
-
-
-    public function test($amount, $type)
-    {
-        $ratio = self::RATION_IN_COPPER[$type];
-        $count = floor($amount / $ratio);
-
-        return [$count, $amount - $count * $ratio];
-    }
-
-    public function toString()
+    /**
+     * @example 123 lb = 55 kg 791 g
+     */
+    public function toKgGString()
     {
         $string = '';
+        $weight = $this->toGrams();
 
-        return $string;
+        foreach (self::WEIGHT_IN_GRAMS as $type => $ratio) {
+            list($count, $weight) = $this->test($weight, $ratio);
+            if ($count) {
+                $string .= ' ' . $count . ' ' . self::TYPE_TO_STRING[$type];
+            }
+        }
+
+        return ltrim($string);
     }
 
+    /**
+     * @example 123 => 55791.86151
+     */
+    private function toGrams()
+    {
+        return $this->weight * 453.59237;
+    }
 
+    private function test($weight, $ratio)
+    {
+        $count = floor($weight / $ratio);
+
+        return [$count, $weight - $count * $ratio];
+    }
 }

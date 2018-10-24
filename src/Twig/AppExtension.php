@@ -3,13 +3,14 @@
 namespace App\Twig;
 
 use App\Helpers\MoneyDecorator;
+use App\Helpers\WeightDecorator;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-class MoneyExtension extends AbstractExtension implements ServiceSubscriberInterface
+class AppExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     private $container;
 
@@ -24,7 +25,9 @@ class MoneyExtension extends AbstractExtension implements ServiceSubscriberInter
             // If your filter generates SAFE HTML, you should add a third
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
-            new TwigFilter('money', [$this, 'moneyDecorator']),
+            new TwigFilter('money', [$this, 'money']),
+            new TwigFilter('lb', [$this, 'lb']),
+            new TwigFilter('kg', [$this, 'kg']),
         ];
     }
 
@@ -35,9 +38,19 @@ class MoneyExtension extends AbstractExtension implements ServiceSubscriberInter
         ];
     }
 
-    public function moneyDecorator($amount)
+    public function money($amount)
     {
         return (new MoneyDecorator($amount))->toString();
+    }
+
+    public function lb($weight)
+    {
+        return (new WeightDecorator($weight))->toLbString();
+    }
+
+    public function kg($weight)
+    {
+        return (new WeightDecorator($weight))->toKgGString();
     }
 
     public static function getSubscribedServices()

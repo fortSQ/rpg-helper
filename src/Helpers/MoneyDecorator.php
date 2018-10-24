@@ -49,7 +49,7 @@ class MoneyDecorator
                 continue;
             }
 
-            list($count, $amount) = $this->test($amount, $type);
+            list($count, $amount) = $this->test($amount, $ratio);
             if ($count or $showEmptyValues) {
                 $string .= ' ' . $count . ' ' . self::TYPE_TO_STRING[$type];
             }
@@ -58,9 +58,8 @@ class MoneyDecorator
         return ltrim($string);
     }
 
-    public function test($amount, $type)
+    private function test($amount, $ratio)
     {
-        $ratio = self::RATION_IN_COPPER[$type];
         $count = floor($amount / $ratio);
 
         return [$count, $amount - $count * $ratio];

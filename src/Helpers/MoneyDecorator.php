@@ -30,12 +30,9 @@ class MoneyDecorator
         $this->amount = $amountInCopper;
     }
 
-    public function test($amount, $type)
+    public function __toString()
     {
-        $ratio = self::RATION_IN_COPPER[$type];
-        $count = floor($amount / $ratio);
-
-        return [$count, $amount - $count * $ratio];
+        return $this->toString();
     }
 
     public function toString($showEmptyValues = false, $startType = self::TYPE_GOLD)
@@ -61,9 +58,11 @@ class MoneyDecorator
         return ltrim($string);
     }
 
-    public function __toString()
+    public function test($amount, $type)
     {
-        // @example 1002 => 10gp 2cp
-        return $this->toString();
+        $ratio = self::RATION_IN_COPPER[$type];
+        $count = floor($amount / $ratio);
+
+        return [$count, $amount - $count * $ratio];
     }
 }

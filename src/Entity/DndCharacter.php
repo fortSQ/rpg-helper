@@ -36,7 +36,7 @@ class DndCharacter
     /**
      * @ORM\Column(type="integer")
      */
-    private $level;
+    private $level = 1;
 
     /**
      * @ORM\Column(type="integer")

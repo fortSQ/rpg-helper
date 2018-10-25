@@ -26,11 +26,17 @@ class DndEquipmentType
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DndEquipment", mappedBy="type")
      */
-    private $dndEquipment;
+    private $equipments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DndEquipmentSubtype", mappedBy="type")
+     */
+    private $subtypes;
 
     public function __construct()
     {
-        $this->dndEquipment = new ArrayCollection();
+        $this->equipments = new ArrayCollection();
+        $this->subtypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,28 +59,59 @@ class DndEquipmentType
     /**
      * @return Collection|DndEquipment[]
      */
-    public function getDndEquipment(): Collection
+    public function getEquipments(): Collection
     {
-        return $this->dndEquipment;
+        return $this->equipments;
     }
 
-    public function addDndEquipment(DndEquipment $dndEquipment): self
+    public function addEquipment(DndEquipment $equipment): self
     {
-        if (!$this->dndEquipment->contains($dndEquipment)) {
-            $this->dndEquipment[] = $dndEquipment;
-            $dndEquipment->setType($this);
+        if (!$this->equipments->contains($equipment)) {
+            $this->equipments[] = $equipment;
+            $equipment->setType($this);
         }
 
         return $this;
     }
 
-    public function removeDndEquipment(DndEquipment $dndEquipment): self
+    public function removeEquipment(DndEquipment $equipment): self
     {
-        if ($this->dndEquipment->contains($dndEquipment)) {
-            $this->dndEquipment->removeElement($dndEquipment);
+        if ($this->equipments->contains($equipment)) {
+            $this->equipments->removeElement($equipment);
             // set the owning side to null (unless already changed)
-            if ($dndEquipment->getType() === $this) {
-                $dndEquipment->setType(null);
+            if ($equipment->getType() === $this) {
+                $equipment->setType(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DndEquipmentSubtype[]
+     */
+    public function getSubtypes(): Collection
+    {
+        return $this->subtypes;
+    }
+
+    public function addSubtype(DndEquipmentSubtype $subtype): self
+    {
+        if (!$this->subtypes->contains($subtype)) {
+            $this->subtypes[] = $subtype;
+            $subtype->setType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubtype(DndEquipmentSubtype $subtype): self
+    {
+        if ($this->subtypes->contains($subtype)) {
+            $this->subtypes->removeElement($subtype);
+            // set the owning side to null (unless already changed)
+            if ($subtype->getType() === $this) {
+                $subtype->setType(null);
             }
         }
 

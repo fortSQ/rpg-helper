@@ -15,7 +15,7 @@ class DndEquipmentController extends AbstractController
     {
         return $this->render('dnd_equipment/index.html.twig', [
             'title'     => 'All DnD equipment',
-            'equipmentTypeList' => $repository->findAllJoinedToDndEquipment()
+            'types' => $repository->findAllWithSubtypesAndEquipments()
         ]);
     }
 }

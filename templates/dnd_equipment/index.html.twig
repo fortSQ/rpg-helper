@@ -9,8 +9,7 @@
             <table class="table table-sm">
                 <thead>
                 <tr class="table-primary">
-                    <th>Name</th>
-                    <th>Subtype</th>
+                    <th colspan="2">Name</th>
                     <th>Cost</th>
                     <th>Weight</th>
                     <th>Properties</th>
@@ -24,16 +23,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {# @var equipmentType \App\Entity\DndEquipmentType #}
-                    {# @var equipment \App\Entity\DndEquipment #}
-                    {% for equipmentType in equipmentTypeList %}
-                        <tr class="table-secondary">
-                            <th colspan="12">{{ equipmentType.name }}</th>
+                {# @var type \App\Entity\DndEquipmentType #}
+                {# @var subtype \App\Entity\DndEquipmentSubtype #}
+                {# @var equipment \App\Entity\DndEquipment #}
+                {% for type in types %}
+                    <tr class="table-secondary">
+                        <th colspan="13">{{ type.name }}</th>
+                    </tr>
+                    {% for subtype in type.subtypes %}
+                        <tr class="">
+                            <th colspan="13">{{ subtype.name }}</th>
                         </tr>
-                        {% for equipment in equipmentType.dndEquipment %}
+                        {% for equipment in subtype.equipments %}
                             <tr>
+                                <th></th>
                                 <th>{{ equipment.name }}</th>
-                                <td>{{ equipment.subtype.name }}</td>
                                 <td>{{ equipment.cost|money }}</td>
                                 <td title="{{ equipment.weight|kg }}">{{ equipment.weight|lb }}</td>
                                 <td>{{ equipment.properties }}</td>
@@ -47,6 +51,7 @@
                             </tr>
                         {% endfor %}
                     {% endfor %}
+                {% endfor %}
                 </tbody>
             </table>
 

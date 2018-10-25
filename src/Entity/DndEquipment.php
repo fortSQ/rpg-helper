@@ -17,13 +17,13 @@ class DndEquipment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\DndEquipmentType", inversedBy="dndEquipment")
+     * @ORM\ManyToOne(targetEntity="App\Entity\DndEquipmentType", inversedBy="equipments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\DndEquipmentSubtype", inversedBy="dndEquipment")
+     * @ORM\ManyToOne(targetEntity="App\Entity\DndEquipmentSubtype", inversedBy="equipments")
      */
     private $subtype;
 

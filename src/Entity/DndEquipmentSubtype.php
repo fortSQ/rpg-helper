@@ -26,11 +26,17 @@ class DndEquipmentSubtype
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DndEquipment", mappedBy="subtype")
      */
-    private $dndEquipment;
+    private $equipments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\DndEquipmentType", inversedBy="subtypes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
 
     public function __construct()
     {
-        $this->dndEquipment = new ArrayCollection();
+        $this->equipments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,30 +59,42 @@ class DndEquipmentSubtype
     /**
      * @return Collection|DndEquipment[]
      */
-    public function getDndEquipment(): Collection
+    public function getEquipments(): Collection
     {
-        return $this->dndEquipment;
+        return $this->equipments;
     }
 
-    public function addDndEquipment(DndEquipment $dndEquipment): self
+    public function addEquipment(DndEquipment $equipment): self
     {
-        if (!$this->dndEquipment->contains($dndEquipment)) {
-            $this->dndEquipment[] = $dndEquipment;
-            $dndEquipment->setSubtype($this);
+        if (!$this->equipments->contains($equipment)) {
+            $this->equipments[] = $equipment;
+            $equipment->setSubtype($this);
         }
 
         return $this;
     }
 
-    public function removeDndEquipment(DndEquipment $dndEquipment): self
+    public function removeEquipment(DndEquipment $equipment): self
     {
-        if ($this->dndEquipment->contains($dndEquipment)) {
-            $this->dndEquipment->removeElement($dndEquipment);
+        if ($this->equipments->contains($equipment)) {
+            $this->equipments->removeElement($equipment);
             // set the owning side to null (unless already changed)
-            if ($dndEquipment->getSubtype() === $this) {
-                $dndEquipment->setSubtype(null);
+            if ($equipment->getSubtype() === $this) {
+                $equipment->setSubtype(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?DndEquipmentType
+    {
+        return $this->type;
+    }
+
+    public function setType(?DndEquipmentType $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

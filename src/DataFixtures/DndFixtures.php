@@ -15,7 +15,7 @@ class DndFixtures extends Fixture
 
         /* EQUIPMENT TYPES */
 
-        $equipmentTypes = ['Armor', 'Weapons', 'Adventuring gear', 'Tools', 'Mount and vehicles', 'Trade goods', 'Food, drink, and lodging', 'Services'];
+        $equipmentTypes = ['Armor', 'Weapons', 'Adventuring gear', 'Tools', 'Mount and vehicles', 'Trade goods', 'Lifestyle Expenses', 'Food, drink, and lodging', 'Services'];
 
         foreach ($equipmentTypes as $name) {
             $type = new DndEquipmentType();
@@ -27,19 +27,19 @@ class DndFixtures extends Fixture
         /* EQUIPMENT SUBTYPES */
 
         $equipmentSubtypes = [
-            'Light armor', 'Medium armor', 'Heavy armor', 'Shield',
-            'Simple melee weapons', 'Simple ranged weapons', 'Martial melee weapons', 'Martial ranged weapons',
-            'Ammunition', 'Arcane focus', 'Druidic focus', 'Holy symbol',
-            'Artisan\'s tools', 'Gaming set', 'Musical instrument',
-            'Mounts and other animals', 'Tack, harness, and drawn vehicles', 'Saddle', 'Waterborne vehicles',
-            'Lifestyle Expenses',
-            'Ale', 'Inn stay (per day)', 'Meals (per day)', 'Wine',
-            'Coach cab', 'Hireling',
+            ['Armor', 'Light armor'], ['Armor', 'Medium armor'], ['Armor', 'Heavy armor'], ['Armor', 'Shield'],
+            ['Weapons', 'Simple melee weapons'], ['Weapons', 'Simple ranged weapons'], ['Weapons', 'Martial melee weapons'], ['Weapons', 'Martial ranged weapons'],
+            ['Adventuring gear', 'Ammunition'], ['Adventuring gear', 'Arcane focus'], ['Adventuring gear', 'Druidic focus'], ['Adventuring gear', 'Holy symbol'],
+            ['Tools', 'Artisan\'s tools'], ['Tools', 'Gaming set'], ['Tools', 'Musical instrument'],
+            ['Mount and vehicles', 'Mounts and other animals'], ['Mount and vehicles', 'Tack, harness, and drawn vehicles'], ['Mount and vehicles', 'Saddle'], ['Mount and vehicles', 'Waterborne vehicles'],
+            ['Food, drink, and lodging', 'Ale'], ['Food, drink, and lodging', 'Inn stay (per day)'], ['Food, drink, and lodging', 'Meals (per day)'], ['Food, drink, and lodging', 'Wine'],
+            ['Services', 'Coach cab'], ['Services', 'Hireling'],
         ];
 
-        foreach ($equipmentSubtypes as $name) {
+        foreach ($equipmentSubtypes as [$type, $name]) {
             $subtype = new DndEquipmentSubtype();
             $subtype->setName($name);
+            $subtype->setType($manager->getRepository(DndEquipmentType::class)->findOneBy(['name' => $type]));
             $manager->persist($subtype);
         }
         $manager->flush();
@@ -78,7 +78,7 @@ class DndFixtures extends Fixture
             ['Weapons', 'Martial melee weapons', 'Battleaxe', 1000, 4, 'Versatile (1d10)', '1d8', 'slashing', '', null, '', null, null],
             ['Weapons', 'Martial melee weapons', 'Flail', 1000, 2, '', '1d8', 'bludgeoning', '', null, '', null, null],
             ['Weapons', 'Martial melee weapons', 'Glaive', 2000, 6, 'Heavy, reach, two-handed', '1d10', 'slashing', '', null, '', null, null],
-            ['Weapons', 'Martial melee weapons', 'Greataxe', 3000, 7, 'Heavy, two-handed', '1d12', 'slashing', '', null, '', null, null],
+            ['Weapons', '', 'Greataxe', 3000, 7, 'Heavy, two-handed', '1d12', 'slashing', '', null, '', null, null],
 
 
             ['Weapons', 'Martial melee weapons', '', 0, 0, '', '1d', '', '', null, '', null, null],

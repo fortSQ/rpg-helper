@@ -19,12 +19,13 @@ class DndEquipmentTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, DndEquipmentType::class);
     }
 
-    public function findAllJoinedToDndEquipment()
+    public function findAllWithSubtypesAndEquipments()
     {
         return $this->createQueryBuilder('et')
-            ->innerJoin('et.dndEquipment', 'e')
-            // selects all the category data to avoid the query
+            ->innerJoin('et.subtypes', 'es')
+            ->innerJoin('es.equipments', 'e')
             ->addSelect('e')
+            ->addSelect('es')
             ->getQuery()
             ->getResult();
     }

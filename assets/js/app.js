@@ -37,18 +37,15 @@ $(document).ready(() => {
         "iconbar": {
             "add": true,
             "top": [
-                "<a href='#'><i class='fas fa-home'></i></a>",
-                "<a href='#'><i class='fas fa-user'></i></a>",
-                "<a href='#'><i class='fab fa-d-and-d'></i></a>"
+
             ]
         },
         "navbars": [
             {
                 "position": "top",
                 "content": [
-                    "<a href='#'><i class='fa fa-dice'></i></a>",
-                    "<a href='#'><i class='fas fa-dice-d6'></i></a>",
-                    "<a href='#'><i class='fas fa-box'></i></a>",
+                    "<a href='#'><i class='fas fa-home'></i></a>",
+                    "<a href='#'><i class='fa fa-user-alt'></i></a>",
                     "<a href='#'><i class='fas fa-cogs'></i></a>"
                 ]
             },

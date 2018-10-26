@@ -22,8 +22,10 @@ class DndEquipmentTypeRepository extends ServiceEntityRepository
     public function findAllWithSubtypesAndEquipments()
     {
         return $this->createQueryBuilder('et')
+            ->innerJoin('et.equipments', 'ete')
             ->innerJoin('et.subtypes', 'es')
             ->innerJoin('es.equipments', 'e')
+            ->addSelect('ete')
             ->addSelect('e')
             ->addSelect('es')
             ->getQuery()

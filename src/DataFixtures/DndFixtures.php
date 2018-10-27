@@ -97,7 +97,7 @@ class DndFixtures extends Fixture
             ['Weapons', 'Martial ranged weapons', 'Crossbow, hand', 7500, 3, 'Ammunition (range 30/120), light, loading', '1d6', 'piercing', '', null, '', null, null],
             ['Weapons', 'Martial ranged weapons', 'Crossbow, heavy', 5000, 18, 'Ammunition (range 100/400), heavy, loading, two-handed', '1d10', 'piercing', '', null, '', null, null],
             ['Weapons', 'Martial ranged weapons', 'Longbow', 5000, 2, 'Ammunition (range 150/600), heavy, two-handed', '1d8', 'piercing', '', null, '', null, null],
-            ['Weapons', 'Martial ranged weapons', 'Net', 100, 3, '', 'Special, thrown (range 5/15)', '', '', null, '', null, null],
+            ['Weapons', 'Martial ranged weapons', 'Net', 100, 3, 'Special, thrown (range 5/15)', '', '', '', null, '', null, null],
             ['Adventuring gear', '', 'Abacus', 200, 2, '', '', '', '', null, '', null, null],
             ['Adventuring gear', '', 'Acid (vial)', 2500, 1, '', '', '', '', null, '', null, null],
             ['Adventuring gear', '', 'Alchemist’s fire (flask)', 5000, 1, '', '', '', '', null, '', null, null],

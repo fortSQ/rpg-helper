@@ -1,0 +1,21 @@
+<td>{% if equipment.cost %}{{ equipment.cost|money }}{% else %}–{% endif %}</td>
+<td title="{{ equipment.weight|kg }}">
+    {% if equipment.weight %}{{ equipment.weight|lb }}{% else %}–{% endif %}
+</td>
+<td>
+    {{ equipment.properties }}
+    {% if equipment.type.name == 'Weapons' and not equipment.properties %}–{% endif %}
+</td>
+<td>{{ equipment.damage }}</td>
+<td>{{ equipment.damageType }}</td>
+<td>{{ equipment.armorClass }}</td>
+<td>
+    {{ equipment.strength }}
+    {% if equipment.type.name == 'Armor' and not equipment.strength %}–{% endif %}
+</td>
+<td>
+    {{ equipment.stealth }}
+    {% if equipment.type.name == 'Armor' and not equipment.stealth %}–{% endif %}
+</td>
+<td>{{ equipment.capacity }}</td>
+<td>{{ equipment.speed }}</td>

@@ -78,7 +78,24 @@ class DndFixtures extends Fixture
             ['Weapons', 'Martial melee weapons', 'Battleaxe', 1000, 4, 'Versatile (1d10)', '1d8', 'slashing', '', null, '', null, null],
             ['Weapons', 'Martial melee weapons', 'Flail', 1000, 2, '', '1d8', 'bludgeoning', '', null, '', null, null],
             ['Weapons', 'Martial melee weapons', 'Glaive', 2000, 6, 'Heavy, reach, two-handed', '1d10', 'slashing', '', null, '', null, null],
-            ['Weapons', '', 'Greataxe', 3000, 7, 'Heavy, two-handed', '1d12', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Greataxe', 3000, 7, 'Heavy, two-handed', '1d12', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Greatsword', 5000, 6, 'Heavy, two-handed', '2d6', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Halberd', 2000, 6, 'Heavy, reach, two-handed', '1d10', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Lance', 1000, 6, 'Reach, special', '1d12', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Longsword', 1500, 3, 'Versatile (1d10)', '1d8', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Maul', 1000, 10, 'Heavy, two-handed', '2d6', 'bludgeoning', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Morningstar', 1500, 4, '', '1d8', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Pike', 500, 18, 'Heavy, reach, two-handed', '1d10', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Rapier', 2500, 2, 'Finesse', '1d8', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Scimitar', 2500, 3, 'Finesse, light', '1d6', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Shortsword', 1000, 2, 'Finesse, light', '1d6', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Trident', 500, 4, 'Thrown (range 20/60), versatile (1d8)', '1d6', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'War pick', 500, 2, '', '1d8', 'piercing', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Warhammer', 1500, 2, '', '1d8', 'bludgeoning', '', null, '', null, null],
+            ['Weapons', 'Martial melee weapons', 'Whip', 200, 3, 'Finesse, reach', '1d4', 'slashing', '', null, '', null, null],
+            ['Weapons', 'Martial ranged weapons', 'Blowgun', 100, 1, 'Ammunition (range 25/100), loading', '1', 'piercing', '', null, '', null, null],
+
+
 
 
             ['Weapons', 'Martial melee weapons', '', 0, 0, '', '1d', '', '', null, '', null, null],

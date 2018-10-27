@@ -1,0 +1,264 @@
+.mh-head a[href="#page"] {
+  display: none !important
+}
+
+nav:not(.mm-menu),
+#menu:not(.mm-menu) {
+  display: none
+}
+
+.mh-head a {
+  color: inherit;
+  text-decoration: none
+}
+
+body .mh-head {
+  background: #4bb5ef;
+  color: #fff
+}
+
+body .mh-text {
+  font-size: 16px;
+  font-weight: 700
+}
+
+.mh-head {
+  text-align: center;
+  padding: 0 10px;
+  margin: 0;
+  position: relative;
+  background: #ccc;
+  color: #333;
+  height: 40px
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body, html {
+  padding: 0;
+  margin: 0
+}
+
+body {
+  background-color: #fff;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  color: #666;
+  min-height: 100vh;
+  position: relative;
+  -webkit-text-size-adjust: none
+}
+
+
+
+
+
+
+
+.footer {
+  background: #777;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 40px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding: 0 50px
+}
+
+
+
+
+
+
+
+
+
+
+.mm-menu:not(.mm-menu_offcanvas) {
+  z-index: 10
+}
+
+.mm-menu:not(.mm-menu_offcanvas) + #page {
+  display: none
+}
+
+.mm-listitem .fa {
+  margin: 0 20px 0 5px;
+  font-size: 16px;
+  width: 12px;
+  text-align: center
+}
+
+.mm-menu_tileview .mm-listitem .fa {
+  margin: 0;
+  line-height: 0
+}
+
+.mm-menu_tileview .mm-listitem .fa + span {
+  display: none
+}
+
+
+
+
+
+
+
+
+.mh-head.mh-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  transition: -webkit-transform .2s ease;
+  transition: transform .2s ease;
+  transition: transform .2s ease, -webkit-transform .2s ease;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0)
+}
+
+.mh-head.mh-sticky.mh-scrolledout {
+  -webkit-transform: translate3d(0, -100%, 0);
+  transform: translate3d(0, -100%, 0)
+}
+
+.mh-head .mh-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 20px;
+  display: block;
+  padding: 10px
+}
+
+.mh-head.mh-align-left .mh-text {
+  text-align: left
+}
+
+.mh-head.mh-align-right .mh-text {
+  text-align: right
+}
+
+.mh-head.mh-btns-left {
+  padding-left: 50px
+}
+
+.mh-head.mh-btns-right {
+  padding-right: 50px
+}
+
+.mh-head .mh-btns-left, .mh-head .mh-btns-right {
+  display: block;
+  width: 40px;
+  position: absolute;
+  top: 0;
+  bottom: 0
+}
+
+.mh-head .mh-btns-left {
+  left: 10px
+}
+
+.mh-head .mh-btns-right {
+  right: 10px
+}
+
+.mh-head.mh-btns-left-2 .mh-btns-left, .mh-head.mh-btns-right-2 .mh-btns-right {
+  width: 80px
+}
+
+.mh-head.mh-btns-left-3 .mh-btns-left, .mh-head.mh-btns-right-3 .mh-btns-right {
+  width: 120px
+}
+
+.mh-head .mh-btns-left > *, .mh-head .mh-btns-right > * {
+  text-align: center;
+  font-size: 18px;
+  line-height: 20px;
+  width: 40px;
+  display: block;
+  padding: 10px 0;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%)
+}
+
+.mh-head .mh-btns-left > :nth-child(1), .mh-head .mh-btns-right > :nth-child(1) {
+  left: 0
+}
+
+.mh-head .mh-btns-left > :nth-child(2), .mh-head .mh-btns-right > :nth-child(2) {
+  left: 40px
+}
+
+.mh-head .mh-btns-left > :nth-child(3), .mh-head .mh-btns-right > :nth-child(3) {
+  left: 80px
+}
+
+.mh-head .mh-list {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  white-space: nowrap;
+  list-style: none;
+  line-height: 20px;
+  display: block;
+  padding: 0;
+  margin: 0
+}
+
+.mh-head .mh-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0
+}
+
+.mh-head .mh-list li a, .mh-head .mh-list li span {
+  display: block;
+  padding: 10px
+}
+
+.mh-head.mh-align-left .mh-list {
+  text-align: left
+}
+
+.mh-head.mh-align-right .mh-list {
+  text-align: right
+}
+
+
+
+
+
+.content .mh-form .fa {
+  color: #ccc;
+  text-align: center;
+  line-height: 40px;
+  display: block;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%)
+}

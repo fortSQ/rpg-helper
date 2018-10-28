@@ -45,7 +45,9 @@
                         {% for equipment in subtype.equipments %}
                             <tr>
                                 <td></td>
-                                <td>{{ equipment.name }}</td>
+                                <td>
+                                    <span class="image-popover" data-toggle="image-popover" data-content="<img src='{{ asset(equipment.imagePath) }}' class='img-fluid' alt='{{ equipment.name }}'>">{{ equipment.name }}</span>
+                                </td>
                                 {% include 'dnd_equipment/_table_part.html.twig' %}
                             </tr>
                         {% endfor %}

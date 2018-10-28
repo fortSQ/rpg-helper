@@ -12,6 +12,18 @@ require('../css/app.scss');
 /* CUSTOM JS */
 $(document).ready(() => {
 
+    /* Вывод изображения при наведении на название-ссылку */
+    $(function () {
+        $('[data-toggle="image-popover"]').popover({
+            trigger: 'hover',
+            placement: 'right',
+            html: true,
+            boundary: 'window',
+            fallbackPlacement: 'clockwise',
+            container: 'body',
+        })
+    });
+
     /* Ajax full screen loading */
     $(document).ajaxStart(function () {
         $("#loading").show();

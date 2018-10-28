@@ -271,4 +271,9 @@ class DndEquipment
 
         return $this;
     }
+
+    public function getImagePath(): ?string
+    {
+        return 'build/images/dnd/' . $this->getImage();
+    }
 }

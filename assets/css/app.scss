@@ -49,3 +49,19 @@
   right: 0;
   top: 0;
 }
+
+/* Bootstrap popover */
+
+.popover {
+  max-width: 300px;
+}
+.popover-body {
+  padding: 0.2rem;
+}
+.image-popover {
+  cursor: pointer;
+  color: #0c73cd;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: #0c73cd;
+}

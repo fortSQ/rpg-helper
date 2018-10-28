@@ -33,7 +33,13 @@
                     {% for equipment in type.equipments %}
                         {% if equipment.subtype is null %}
                             <tr>
-                                <td colspan="2">{{ equipment.name }}</td>
+                                <td colspan="2">
+                                    {% if equipment.image %}
+                                        <span class="image-popover" data-toggle="image-popover" data-content="<img src='{{ asset(equipment.imagePath) }}' class='img-fluid' alt='{{ equipment.name }}'>">{{ equipment.name }}</span>
+                                    {% else %}
+                                        equipment.name
+                                    {% endif %}
+                                </td>
                                 {% include 'dnd_equipment/_table_part.html.twig' %}
                             </tr>
                         {% endif %}
@@ -46,7 +52,11 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <span class="image-popover" data-toggle="image-popover" data-content="<img src='{{ asset(equipment.imagePath) }}' class='img-fluid' alt='{{ equipment.name }}'>">{{ equipment.name }}</span>
+                                    {% if equipment.image %}
+                                        <span class="image-popover" data-toggle="image-popover" data-content="<img src='{{ asset(equipment.imagePath) }}' class='img-fluid' alt='{{ equipment.name }}'>">{{ equipment.name }}</span>
+                                    {% else %}
+                                        equipment.name
+                                    {% endif %}
                                 </td>
                                 {% include 'dnd_equipment/_table_part.html.twig' %}
                             </tr>

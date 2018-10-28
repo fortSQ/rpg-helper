@@ -28,7 +28,7 @@
                 {# @var equipment \App\Entity\DndEquipment #}
                 {% for type in types %}
                     <tr class="table-secondary">
-                        <th colspan="13">{{ type.name }}</th>
+                        <th colspan="13">{{ type.name|trans }}</th>
                     </tr>
                     {% for equipment in type.equipments %}
                         {% if equipment.subtype is null %}

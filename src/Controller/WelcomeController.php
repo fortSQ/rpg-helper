@@ -11,7 +11,7 @@ use App\Helpers\WeightDecorator;
 class WelcomeController extends AbstractController
 {
     /**
-     * @Route("/", name="welcome")
+     * @Route("/", name="homepage")
      */
     public function index()
     {

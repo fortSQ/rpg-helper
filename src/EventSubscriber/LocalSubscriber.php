@@ -2,25 +2,18 @@
 
 namespace App\EventSubscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * When visiting the homepage, this listener redirects the user to the most
- * appropriate localized version according to the browser settings.
- *
- * See https://symfony.com/doc/current/components/http_kernel/introduction.html#the-kernel-request-event
- *
- * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
- */
-class RedirectToPreferredLocaleSubscriber implements EventSubscriberInterface
+class LocalSubscriber implements EventSubscriberInterface
 {
     private $urlGenerator;
-    private $locales;
     private $defaultLocale;
+    private $locales;
+
     public function __construct(UrlGeneratorInterface $urlGenerator, string $locales, string $defaultLocale = null)
     {
         $this->urlGenerator = $urlGenerator;
@@ -38,15 +31,13 @@ class RedirectToPreferredLocaleSubscriber implements EventSubscriberInterface
         array_unshift($this->locales, $this->defaultLocale);
         $this->locales = array_unique($this->locales);
     }
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::REQUEST => 'onKernelRequest',
-        ];
-    }
+
     public function onKernelRequest(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
+
+         //dump($request->headers->get('referer')); die('ok');
+
         // Ignore sub-requests and all URLs but the homepage
         if (!$event->isMasterRequest() || '/' !== $request->getPathInfo()) {
             return;
@@ -57,9 +48,19 @@ class RedirectToPreferredLocaleSubscriber implements EventSubscriberInterface
             return;
         }
         $preferredLanguage = $request->getPreferredLanguage($this->locales);
+
+        dump($preferredLanguage); die('ok');
         if ($preferredLanguage !== $this->defaultLocale) {
             $response = new RedirectResponse($this->urlGenerator->generate('homepage', ['_locale' => $preferredLanguage]));
             $event->setResponse($response);
         }
+    }
+
+    public static function getSubscribedEvents(): array
+    {
+        return array(
+            // must be registered before (i.e. with a higher priority than) the default Locale listener
+            KernelEvents::REQUEST => [['onKernelRequest', 20]],
+        );
     }
 }

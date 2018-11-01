@@ -28,16 +28,16 @@
                 {# @var equipment \App\Entity\DndEquipment #}
                 {% for type in types %}
                     <tr class="table-secondary">
-                        <th colspan="13">{{ type.name|trans }}</th>
+                        <th colspan="13">{{ type.name|trans({}, 'dnd') }}</th>
                     </tr>
                     {% for equipment in type.equipments %}
                         {% if equipment.subtype is null %}
                             <tr>
                                 <td colspan="2">
                                     {% if equipment.image %}
-                                        <span class="image-popover" data-toggle="image-popover" data-content="<img src='{{ asset(equipment.imagePath) }}' class='img-fluid' alt='{{ equipment.name }}'>">{{ equipment.name }}</span>
+                                        <span class="image-popover" data-toggle="image-popover" data-content="<img src='{{ asset(equipment.imagePath) }}' class='img-fluid' alt='{{ equipment.name }}'>">{{ equipment.name|trans({}, 'dnd') }}</span>
                                     {% else %}
-                                        equipment.name
+                                        {{ equipment.name }}
                                     {% endif %}
                                 </td>
                                 {% include 'dnd_equipment/_table_part.html.twig' %}
@@ -55,7 +55,7 @@
                                     {% if equipment.image %}
                                         <span class="image-popover" data-toggle="image-popover" data-content="<img src='{{ asset(equipment.imagePath) }}' class='img-fluid' alt='{{ equipment.name }}'>">{{ equipment.name }}</span>
                                     {% else %}
-                                        equipment.name
+                                        {{ equipment.name }}
                                     {% endif %}
                                 </td>
                                 {% include 'dnd_equipment/_table_part.html.twig' %}

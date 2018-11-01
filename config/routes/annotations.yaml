@@ -2,7 +2,9 @@ controllers:
     resource: ../../src/Controller/
     type: annotation
     prefix: /{_locale}
+    # Route requirements
     requirements:
         _locale: '%app_locales%'
+    # And defaults for them
     defaults:
         _locale: '%locale%'

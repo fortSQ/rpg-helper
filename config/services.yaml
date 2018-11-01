@@ -16,7 +16,7 @@ services:
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
         bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
-            #$locales: '%app_locales%'
+            $locales: '%app_locales%'
             $defaultLocale: '%locale%'
 
     # makes classes in src/ available to be used as services

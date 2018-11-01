@@ -49,11 +49,11 @@ class LocalSubscriber implements EventSubscriberInterface
         }
         $preferredLanguage = $request->getPreferredLanguage($this->locales);
 
-        dump($preferredLanguage); die('ok');
-        if ($preferredLanguage !== $this->defaultLocale) {
+        //dump($preferredLanguage); die('ok');
+        //if ($preferredLanguage !== $this->defaultLocale) {
             $response = new RedirectResponse($this->urlGenerator->generate('homepage', ['_locale' => $preferredLanguage]));
             $event->setResponse($response);
-        }
+        //}
     }
 
     public static function getSubscribedEvents(): array

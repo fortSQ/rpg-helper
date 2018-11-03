@@ -41,21 +41,26 @@ class LocalSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        $res = $this->checkLocale($request->getPathInfo(), $request->headers->get('referer'));
-
+        //$res = ;
         //dump($res); die('ok');
 
-
-        // Если в $request->getPathInfo() есть локаль, поддерживаемая приложением, ничего дальше не делаем
-        if ($this->checkLocale($request->getPathInfo())) {
+        // Ignore sub-requests and requests with appropriate locale
+        if (!$event->isMasterRequest() || $this->checkLocale($request->getPathInfo())) {
             return;
+        }
+
+        // Если реферер содержит поддерживаемый приложением язык,
+        // добавляем его в начало resource path из URL и редиректим
+        if ($oldLocale = $this->getRefererLocale($request->headers->get('referer'))) {
+            //TODO
         }
 
 
 
 
-        // Ignore sub-requests and all URLs but the homepage
-        if (!$event->isMasterRequest() || '/' !== $request->getPathInfo()) {
+
+        //  all URLs but the homepage
+        if ('/' !== $request->getPathInfo()) {
             return;
         }
 
@@ -82,38 +87,33 @@ class LocalSubscriber implements EventSubscriberInterface
         //}
     }
 
+
+
+
+
     /*
-     * Проверяем текущий адрес, на который идет запрос. Если в нем есть язык из поддерживаемых языков приложения, возвращаем false. Если нет:
-     * проверяем реферер. Если в нем есть язык из поддерживаемых языков приложения, возвращаем этот язык. Если нет:
-     * возвращаем язык приложения по-умолчанию.
+     * Проверяем реферер.
+     * Если в нем есть поддерживаемый приложением язык, возвращаем этот язык, иначе false
      */
-    private function checkLocale2($route, $referer)
-    {
-        foreach($this->locales as $locale){
-            if(preg_match_all("/\/$locale\//", $route))
-                return false;
-            if(preg_match_all("/\/$locale\//", $referer))
-                return $locale;
-        }
-        return $this->defaultLocale;
-    }
-
-
-    public function checkLocale($path)
+    public function getRefererLocale($referer)
     {
         foreach ($this->locales as $locale) {
-            if (preg_match_all("/\/$locale\//", $path))
-                return true;
+            if (preg_match_all("/\/$locale\//", $referer))
+                return $locale;
         }
 
         return false;
     }
 
-    public function checkReferer($referer)
+    /*
+     * Проверяем resource path из URL, на который идет запрос
+     * Если в нем есть поддерживаемый приложением язык, возвращаем true, иначе false
+     */
+    public function checkLocale($path)
     {
         foreach ($this->locales as $locale) {
-            if (preg_match_all("/\/$locale\//", $referer))
-                return $locale;
+            if (preg_match_all("/\/$locale\//", $path))
+                return true;
         }
 
         return false;

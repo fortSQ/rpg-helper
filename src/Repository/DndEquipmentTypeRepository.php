@@ -19,17 +19,35 @@ class DndEquipmentTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, DndEquipmentType::class);
     }
 
-    public function findAllWithSubtypesAndEquipments()
+    /**
+     * @param null|string $term
+     * @return DndEquipmentType[]
+     */
+    public function findAllWithSubtypesAndEquipments(?string $term)
     {
-        return $this->createQueryBuilder('et')
-            ->innerJoin('et.equipments', 'ete')
-            ->innerJoin('et.subtypes', 'es')
-            ->innerJoin('es.equipments', 'e')
+        $qb = $this->createQueryBuilder('et')
+            ->leftJoin('et.equipments', 'ete')
+            ->leftJoin('et.subtypes', 'es')
+            ->leftJoin('es.equipments', 'e')
             ->addSelect('ete')
             ->addSelect('e')
             ->addSelect('es')
-            ->getQuery()
-            ->getResult();
+        ;
+
+        if ($term) {
+            $qb->andWhere('
+                    e.name LIKE :term OR
+                    e.properties LIKE :term OR
+                    e.damage_type LIKE :term OR
+                    et.name LIKE :term OR
+                    es.name LIKE :term
+                ')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+
+        return $qb->getQuery()
+            ->getResult(2);
     }
 
 //    /**

@@ -47,7 +47,7 @@ class DndEquipmentTypeRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()
-            ->getResult(2);
+            ->getResult();
     }
 
 //    /**

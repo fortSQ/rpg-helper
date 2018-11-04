@@ -1,7 +1,5 @@
 <?php
 
-//https://gist.github.com/kunicmarko20/02a42c76f638322d58b1def7d2e770d7
-
 namespace App\EventSubscriber;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -10,7 +8,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class LocalSubscriber implements EventSubscriberInterface
+/**
+ * When visiting the homepage, this listener redirects the user to the most
+ * appropriate localized version according to the browser settings.
+ */
+class LocaleSubscriber implements EventSubscriberInterface
 {
     private $urlGenerator;
     private $defaultLocale;
@@ -41,36 +43,10 @@ class LocalSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        //$res = ;
-        //dump($res); die('ok');
-
-        // Ignore sub-requests and requests with appropriate locale
-        if (!$event->isMasterRequest() || $this->checkLocale($request->getPathInfo())) {
+        // Ignore sub-requests and all URLs but the homepage
+        if (!$event->isMasterRequest() || '/' !== $request->getPathInfo()) {
             return;
         }
-
-        // Если реферер содержит поддерживаемый приложением язык,
-        // добавляем его в начало resource path из URL и редиректим
-        if ($oldLocale = $this->getRefererLocale($request->headers->get('referer'))) {
-            //TODO
-        }
-
-
-
-
-
-        //  all URLs but the homepage
-        if ('/' !== $request->getPathInfo()) {
-            return;
-        }
-
-        // Ignore requests from referrers with the same HTTP host in order to prevent
-        // changing language for users who possibly already selected it for this application.
-        if (0 === mb_stripos($request->headers->get('referer'), $request->getSchemeAndHttpHost())) {
-            return;
-        }
-
-
 
         /* 1. Функция Request::getLanguages получает языки браузера Accept-Language, трансформирует ru-RU в ru_RU, возвращаем массив с языками
          * 2. Функция Request::getPreferredLanguage
@@ -81,42 +57,10 @@ class LocalSubscriber implements EventSubscriberInterface
         */
         $preferredLanguage = $request->getPreferredLanguage($this->locales);
 
-        //if ($preferredLanguage !== $this->defaultLocale) {
+        if ($preferredLanguage !== $this->defaultLocale) {
             $response = new RedirectResponse($this->urlGenerator->generate('homepage', ['_locale' => $preferredLanguage]));
             $event->setResponse($response);
-        //}
-    }
-
-
-
-
-
-    /*
-     * Проверяем реферер.
-     * Если в нем есть поддерживаемый приложением язык, возвращаем этот язык, иначе false
-     */
-    public function getRefererLocale($referer)
-    {
-        foreach ($this->locales as $locale) {
-            if (preg_match_all("/\/$locale\//", $referer))
-                return $locale;
         }
-
-        return false;
-    }
-
-    /*
-     * Проверяем resource path из URL, на который идет запрос
-     * Если в нем есть поддерживаемый приложением язык, возвращаем true, иначе false
-     */
-    public function checkLocale($path)
-    {
-        foreach ($this->locales as $locale) {
-            if (preg_match_all("/\/$locale\//", $path))
-                return true;
-        }
-
-        return false;
     }
 
     public static function getSubscribedEvents(): array

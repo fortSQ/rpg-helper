@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\DndEquipmentTypeRepository;
+use App\Repository\DndEquipmentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,14 +12,14 @@ class DndEquipmentController extends AbstractController
     /**
      * @Route("/dnd/equipment", name="dnd_equipment")
      */
-    public function index(DndEquipmentTypeRepository $repository, Request $request)
+    public function index(DndEquipmentRepository $repository, Request $request)
     {
         $q = $request->query->get('q');
-        $types = $repository->findAllWithSubtypesAndEquipments($q);
+        $equipments = $repository->findAllWithSearch($q);
 
-        return $this->render('dnd_equipment/index.html.twig', [
+        return $this->render('dnd_equipment/index3.html.twig', [
             'title'      => 'All DnD equipment',
-            'types'      => $types,
+            'equipments'      => $equipments,
         ]);
     }
 }

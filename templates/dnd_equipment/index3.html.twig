@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+{# @var type \App\Entity\DndEquipmentType #}
+{# @var subtype \App\Entity\DndEquipmentSubtype #}
+{# @var equipment \App\Entity\DndEquipment #}
+    <div class="row">
+        <div class="col-2">
+
+            <form>
+                <div class="input-group input-group-sm mb-3">
+                    <input  type="text"
+                            name="q"
+                            class="form-control"
+                            placeholder="Search..."
+                            value="{{ app.request.query.get('q') }}"
+                    >
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+            <table class="table table-sm">
+                <thead>
+                <tr class="table-primary">
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Subtype</th>
+                    <th>Cost</th>
+                    <th>Weight</th>
+                    <th>Properties</th>
+                    <th>Damage</th>
+                    <th>Damage Type</th>
+                    <th>Armor Class</th>
+                    <th>Min strength</th>
+                    <th>Stealth</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for equipment in equipments %}
+                    <tr>
+                        <td>
+                            {% if equipment.image %}
+                                <span class="image-popover" data-toggle="image-popover" data-content="<img src='{{ asset(equipment.imagePath) }}' class='img-fluid' alt='{{ equipment.name }}'>">{{ equipment.name|trans({}, 'dnd') }}</span>
+                            {% else %}
+                                {{ equipment.name }}
+                            {% endif %}
+                        </td>
+                        <td>{{ equipment.type.name }}</td>
+                        <td>{% if (equipment.subtype) %}{{ equipment.subtype.name }}{% else %}–{% endif %}</td>
+                        <td>{% if equipment.cost %}{{ equipment.cost|money }}{% else %}–{% endif %}</td>
+                        <td title="{{ equipment.weight|kg }}">
+                            {% if equipment.weight %}{{ equipment.weight|lb }}{% else %}–{% endif %}
+                        </td>
+                        <td>
+                            {{ equipment.properties }}
+                            {% if equipment.type.name == 'Weapons' and not equipment.properties %}–{% endif %}
+                        </td>
+                        <td>{{ equipment.damage }}</td>
+                        <td>{{ equipment.damageType }}</td>
+                        <td>{{ equipment.armorClass }}</td>
+                        <td>
+                            {{ equipment.strength }}
+                            {% if equipment.type.name == 'Armor' and not equipment.strength %}–{% endif %}
+                        </td>
+                        <td>
+                            {{ equipment.stealth }}
+                            {% if equipment.type.name == 'Armor' and not equipment.stealth %}–{% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="11" class="text-center">{{ 'No equipment found'|trans }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}

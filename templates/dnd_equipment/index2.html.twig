@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-2">
+
+            <form>
+                <div class="input-group input-group-sm mb-3">
+                    <input  type="text"
+                            name="q"
+                            class="form-control"
+                            placeholder="Search..."
+                            value="{{ app.request.query.get('q') }}"
+                    >
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+            <table class="table table-sm">
+                <thead>
+                <tr class="table-primary">
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Subtype</th>
+                    <th>Cost</th>
+                    <th>Weight</th>
+                    <th>Properties</th>
+                    <th>Damage</th>
+                    <th>Damage Type</th>
+                    <th>Armor Class</th>
+                    <th>Min strength</th>
+                    <th>Stealth</th>
+                </tr>
+                </thead>
+                <tbody>
+                {# @var type \App\Entity\DndEquipmentType #}
+                {# @var subtype \App\Entity\DndEquipmentSubtype #}
+                {# @var equipment \App\Entity\DndEquipment #}
+                {% for equipment in equipments %}
+                    <tr>
+                        <td>
+                            {% if equipment.image %}
+                                <span class="image-popover" data-toggle="image-popover" data-content="<img src='{{ asset(equipment.imagePath) }}' class='img-fluid' alt='{{ equipment.name }}'>">{{ equipment.name|trans({}, 'dnd') }}</span>
+                            {% else %}
+                                {{ equipment.name }}
+                            {% endif %}
+                        </td>
+                        <td>{{ equipment.type.name }}</td>
+                        <td>{% if (equipment.subtype) %}{{ equipment.subtype.name }}{% else %}–{% endif %}</td>
+                        {% include 'dnd_equipment/_table_part.html.twig' %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}

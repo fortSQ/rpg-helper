@@ -77,16 +77,6 @@ class DndEquipment
      */
     private $stealth;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $capacity;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $speed;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -244,30 +234,6 @@ class DndEquipment
     public function setStealth(?string $stealth): self
     {
         $this->stealth = $stealth;
-
-        return $this;
-    }
-
-    public function getCapacity(): ?int
-    {
-        return $this->capacity;
-    }
-
-    public function setCapacity(?int $capacity): self
-    {
-        $this->capacity = $capacity;
-
-        return $this;
-    }
-
-    public function getSpeed(): ?int
-    {
-        return $this->speed;
-    }
-
-    public function setSpeed(?int $speed): self
-    {
-        $this->speed = $speed;
 
         return $this;
     }

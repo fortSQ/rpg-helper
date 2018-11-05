@@ -36,11 +36,9 @@ class DndEquipmentTypeRepository extends ServiceEntityRepository
 
         if ($term) {
             $qb->andWhere('
-                    e.name LIKE :term OR
-                    e.properties LIKE :term OR
-                    e.damage_type LIKE :term OR
-                    et.name LIKE :term OR
-                    es.name LIKE :term
+                    e.name LIKE :term
+                    OR e.properties LIKE :term
+                    OR e.damage_type LIKE :term
                 ')
                 ->setParameter('term', '%' . $term . '%')
             ;

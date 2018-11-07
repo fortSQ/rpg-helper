@@ -5,12 +5,11 @@ namespace App\DataFixtures;
 use App\Entity\DndEquipment;
 use App\Entity\DndEquipmentSubtype;
 use App\Entity\DndEquipmentType;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class DndFixtures extends Fixture
+class DndFixtures extends BaseFixtures
 {
-    public function load(ObjectManager $manager)
+    protected function loadData(ObjectManager $manager)
     {
 
         /* EQUIPMENT TYPES */

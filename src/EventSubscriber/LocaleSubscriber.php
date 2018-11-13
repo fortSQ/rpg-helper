@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * When visiting the homepage, this listener redirects the user to the most
+ * When visiting the root URL, this listener redirects the user to the most
  * appropriate localized version according to the browser settings.
  */
 class LocaleSubscriber implements EventSubscriberInterface
@@ -43,7 +43,7 @@ class LocaleSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        // Ignore sub-requests and all URLs but the homepage
+        // Ignore sub-requests and all URLs but the root URL
         if (!$event->isMasterRequest() || '/' !== $request->getPathInfo()) {
             return;
         }
@@ -58,7 +58,7 @@ class LocaleSubscriber implements EventSubscriberInterface
         $preferredLanguage = $request->getPreferredLanguage($this->locales);
 
         if ($preferredLanguage !== $this->defaultLocale) {
-            $response = new RedirectResponse($this->urlGenerator->generate('homepage', ['_locale' => $preferredLanguage]));
+            $response = new RedirectResponse($this->urlGenerator->generate('index', ['_locale' => $preferredLanguage]));
             $event->setResponse($response);
         }
     }

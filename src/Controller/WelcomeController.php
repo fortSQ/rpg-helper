@@ -18,11 +18,11 @@ class WelcomeController extends AbstractController
         $data = [];
 
         for ($i = 0; $i < 1000; $i++) {
-            $data[] = $diceHelper->roll('2d6');
+            $data[] = $diceHelper->roll('d20');
         }
 
         $data = array_count_values($data);
-        ksort($data);
+        krsort($data);
 
 
         dump($data); die('ok');

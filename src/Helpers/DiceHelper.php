@@ -34,7 +34,7 @@ class DiceHelper
     }
 
     /**
-     * @example xxdxxxox, where x = [0-9], 0 = [+-]
+     * @example xxxdxxxoxx, where x = [0-9], o = [+-]
      * @example '2d6+1' => [ 0 => "2d6+1", "multiplier" => "2", 1 => "2", "max" => "6", 2 => "6", "operator" => "+", 3 => "+", "modifier" => "1", 4 => "1" ]
      * @param string $diceString
      * @return false|int
@@ -42,8 +42,8 @@ class DiceHelper
      */
     public function parseDiceString(string $diceString)
     {
-        if (!preg_match('/(?<multiplier>\d{0,2})d(?<max>\d{1,3})(?:(?<operator>[\+-])(?<modifier>\d?))?/', $diceString, $matches)) {
-            throw new DiceStringParseException('Dice string does not match requirements');
+        if (!preg_match('/^(?<multiplier>\d{0,3})d(?<max>\d{1,3})(?:(?<operator>[\+-])(?<modifier>\d{0,2}))?$/', $diceString, $matches)) {
+            throw new DiceStringParseException('Dice string does not match requirements.');
         }
 
         return $matches;

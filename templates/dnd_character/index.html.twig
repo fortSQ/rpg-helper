@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DndCharacter index{% endblock %}
+
+{% block body %}
+    <h1>DndCharacter index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Experience_points</th>
+                <th>Money</th>
+                <th>Strength</th>
+                <th>Dexterity</th>
+                <th>Constitution</th>
+                <th>Intelligence</th>
+                <th>Wisdom</th>
+                <th>Charisma</th>
+                <th>Armor_class</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dnd_character in dnd_characters %}
+            <tr>
+                <td>{{ dnd_character.id }}</td>
+                <td>{{ dnd_character.name }}</td>
+                <td>{{ dnd_character.level }}</td>
+                <td>{{ dnd_character.experiencePoints }}</td>
+                <td>{{ dnd_character.money }}</td>
+                <td>{{ dnd_character.strength }}</td>
+                <td>{{ dnd_character.dexterity }}</td>
+                <td>{{ dnd_character.constitution }}</td>
+                <td>{{ dnd_character.intelligence }}</td>
+                <td>{{ dnd_character.wisdom }}</td>
+                <td>{{ dnd_character.charisma }}</td>
+                <td>{{ dnd_character.armorClass }}</td>
+                <td>
+                    <a href="{{ path('dnd_character_show', {'id': dnd_character.id}) }}">show</a>
+                    <a href="{{ path('dnd_character_edit', {'id': dnd_character.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('dnd_character_new') }}">Create new</a>
+{% endblock %}

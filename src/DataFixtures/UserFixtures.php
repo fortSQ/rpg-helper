@@ -2,11 +2,12 @@
 
 namespace App\DataFixtures;
 
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class UserFixtures extends BaseFixtures
+class UserFixtures extends Fixture
 {
-    protected function loadData(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
 
     }

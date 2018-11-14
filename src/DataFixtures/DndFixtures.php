@@ -2,16 +2,27 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\DndEquipment;
-use App\Entity\DndEquipmentSubtype;
+use App\Entity\DndRace;
+use App\Entity\DndClass;
+use App\Entity\DndCharacter;
 use App\Entity\DndEquipmentType;
+use App\Entity\DndEquipmentSubtype;
+use App\Entity\DndEquipment;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
 
-class DndFixtures extends BaseFixtures
+class DndFixtures extends Fixture
 {
-    protected function loadData(ObjectManager $manager)
-    {
+    protected $faker;
 
+    public function __construct()
+    {
+        $this->faker = Factory::create();
+    }
+
+    public function load(ObjectManager $manager)
+    {
         /* EQUIPMENT TYPES */
 
         $equipmentTypes = ['Armor', 'Weapons', 'Adventuring gear', 'Tools'];
@@ -248,5 +259,39 @@ class DndFixtures extends BaseFixtures
             $manager->persist($equipment);
         }
         $manager->flush();
+
+        /* CHARACTER RACE */
+
+        $names = ['Dwarf', 'Elf', 'Halfling', 'Human', 'Dragonborn', 'Gnome', 'Half-Elf', 'Half-Orc', 'Tiefling'];
+
+        foreach ($names as $name) {
+            $race = new DndRace();
+            $race->setName($name);
+            $manager->persist($race);
+        }
+        $manager->flush();
+
+        /* CHARACTER CLASS */
+
+        $names = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'];
+
+        foreach ($names as $name) {
+            $class = new DndClass();
+            $class->setName($name);
+            $manager->persist($class);
+        }
+        $manager->flush();
+
+        /* CHARACTER */
+
+/*        $data = [''];
+            //$this->faker->firstNameMale
+
+        foreach ($data as $class, $race, $name, $level, $exp, $money, $str, $dex, $con, $int, $wis, $cha, $ac) {
+            $character = new DndCharacter();
+            $character->setClass($manager->getRepository(DndClass::class)->findOneBy(['name' => $class]));
+            $manager->persist($class);
+        }
+        $manager->flush();*/
     }
 }

@@ -2,26 +2,17 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\DndRace;
-use App\Entity\DndClass;
-use App\Entity\DndCharacter;
 use App\Entity\DndEquipmentType;
 use App\Entity\DndEquipmentSubtype;
 use App\Entity\DndEquipment;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\DndRace;
+use App\Entity\DndClass;
+use App\Entity\DndCharacter;
 use Doctrine\Common\Persistence\ObjectManager;
-use Faker\Factory;
 
-class DndFixtures extends Fixture
+class DndFixtures extends BaseFixture
 {
-    protected $faker;
-
-    public function __construct()
-    {
-        $this->faker = Factory::create();
-    }
-
-    public function load(ObjectManager $manager)
+    public function loadData(ObjectManager $manager)
     {
         /* EQUIPMENT TYPES */
 
@@ -32,6 +23,7 @@ class DndFixtures extends Fixture
             $type->setName($name);
             $manager->persist($type);
         }
+
         $manager->flush();
 
         /* EQUIPMENT SUBTYPES */
@@ -49,11 +41,12 @@ class DndFixtures extends Fixture
             $subtype->setType($manager->getRepository(DndEquipmentType::class)->findOneBy(['name' => $type]));
             $manager->persist($subtype);
         }
+
         $manager->flush();
 
         /* EQUIPMENT */
 
-        $data = [
+        $equipments = [
             ['Armor', 'Light armor', 'Padded', 'padded.png', 500, 8, '', '', '', '11 + Dex modifier', null, 'Disadvantage'],
             ['Armor', 'Light armor', 'Leather', 'leather.png', 1000, 10, '', '', '', '11 + Dex modifier', null, ''],
             ['Armor', 'Light armor', 'Studded leather', 'studded-leather.png', 4500, 13, '', '', '', '12 + Dex modifier', null, ''],
@@ -242,7 +235,7 @@ class DndFixtures extends Fixture
             ['Tools', '', 'Thieves\' tools', 'thieves-tools.png', 2500, 1, '', '', '', '', null, ''],
         ];
 
-        foreach ($data as [$type, $subtype, $name, $image, $cost, $weight, $properties, $damage, $damageType, $armorClass, $strength, $stealth]) {
+        foreach ($equipments as [$type, $subtype, $name, $image, $cost, $weight, $properties, $damage, $damageType, $armorClass, $strength, $stealth]) {
             $equipment = new DndEquipment();
             $equipment->setType($manager->getRepository(DndEquipmentType::class)->findOneBy(['name' => $type]));
             $equipment->setSubtype($manager->getRepository(DndEquipmentSubtype::class)->findOneBy(['name' => $subtype]));
@@ -258,40 +251,54 @@ class DndFixtures extends Fixture
             $equipment->setStealth($stealth);
             $manager->persist($equipment);
         }
+
         $manager->flush();
 
         /* CHARACTER RACE */
 
-        $names = ['Dwarf', 'Elf', 'Halfling', 'Human', 'Dragonborn', 'Gnome', 'Half-Elf', 'Half-Orc', 'Tiefling'];
+        $races = ['Dwarf', 'Elf', 'Halfling', 'Human', 'Dragonborn', 'Gnome', 'Half-Elf', 'Half-Orc', 'Tiefling'];
 
-        foreach ($names as $name) {
+        foreach ($races as $name) {
             $race = new DndRace();
             $race->setName($name);
             $manager->persist($race);
         }
+
         $manager->flush();
 
         /* CHARACTER CLASS */
 
-        $names = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'];
+        $classes = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'];
 
-        foreach ($names as $name) {
+        foreach ($classes as $name) {
             $class = new DndClass();
             $class->setName($name);
             $manager->persist($class);
         }
+
         $manager->flush();
 
         /* CHARACTER */
 
-/*        $data = [''];
-            //$this->faker->firstNameMale
-
-        foreach ($data as $class, $race, $name, $level, $exp, $money, $str, $dex, $con, $int, $wis, $cha, $ac) {
+        $this->createMany(10, 'characters', function () use ($races, $classes) {
             $character = new DndCharacter();
-            $character->setClass($manager->getRepository(DndClass::class)->findOneBy(['name' => $class]));
-            $manager->persist($class);
-        }
-        $manager->flush();*/
+            $character->setRace($this->manager->getRepository(DndRace::class)->findOneBy([ 'name' => $races[array_rand($races)] ]));
+            $character->setClass($this->manager->getRepository(DndClass::class)->findOneBy(['name' => $classes[array_rand($classes)]]));
+            $character->setName($this->faker->firstName);
+            $character->setLevel($this->faker->numberBetween(1, 10));
+            $character->setExperiencePoints($this->faker->numberBetween(0, 10000));
+            $character->setMoney($this->faker->numberBetween(100, 500));
+            $character->setStrength($this->faker->numberBetween(3, 18));
+            $character->setDexterity($this->faker->numberBetween(3, 18));
+            $character->setConstitution($this->faker->numberBetween(3, 18));
+            $character->setIntelligence($this->faker->numberBetween(3, 18));
+            $character->setWisdom($this->faker->numberBetween(3, 18));
+            $character->setCharisma($this->faker->numberBetween(3, 18));
+            $character->setArmorClass($this->faker->numberBetween(3, 18));
+
+            return $character;
+        });
+
+        $manager->flush();
     }
 }

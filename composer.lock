@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "babd4228a7e09177678eb86690e08dea",
+    "content-hash": "fa19096c1d9527ef77ea212bd1101cc7",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1169,56 +1169,6 @@
                 "reflection"
             ],
             "time": "2018-06-14T14:45:07+00:00"
-        },
-        {
-            "name": "fzaninotto/faker",
-            "version": "v1.8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/f72816b43e74063c8b10357394b6bba8cb1c10de",
-                "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.3.3 || ^7.0"
-            },
-            "require-dev": {
-                "ext-intl": "*",
-                "phpunit/phpunit": "^4.8.35 || ^5.7",
-                "squizlabs/php_codesniffer": "^1.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Faker\\": "src/Faker/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Zaninotto"
-                }
-            ],
-            "description": "Faker is a PHP library that generates fake data for you.",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "time": "2018-07-12T10:23:15+00:00"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -4107,6 +4057,56 @@
             "time": "2018-07-27T15:41:37+00:00"
         },
         {
+            "name": "fzaninotto/faker",
+            "version": "v1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/f72816b43e74063c8b10357394b6bba8cb1c10de",
+                "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7",
+                "squizlabs/php_codesniffer": "^1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2018-07-12T10:23:15+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.23.0",
             "source": {
@@ -4435,16 +4435,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.7.0",
+            "version": "v1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "22a9bf33868f0fed6cab013fe5231e8485d15e20"
+                "reference": "e873047b6022a0343c9354f65d5d47b9e351dd53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/22a9bf33868f0fed6cab013fe5231e8485d15e20",
-                "reference": "22a9bf33868f0fed6cab013fe5231e8485d15e20",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/e873047b6022a0343c9354f65d5d47b9e351dd53",
+                "reference": "e873047b6022a0343c9354f65d5d47b9e351dd53",
                 "shasum": ""
             },
             "require": {
@@ -4497,7 +4497,7 @@
                 "scaffold",
                 "scaffolding"
             ],
-            "time": "2018-08-30T01:08:06+00:00"
+            "time": "2018-11-03T18:25:11+00:00"
         },
         {
             "name": "symfony/monolog-bridge",

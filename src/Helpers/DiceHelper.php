@@ -10,14 +10,14 @@ class DiceHelper
     {
         $data = $this->parseDiceString($diceString);
 
-        $multiplier = $data['multiplier'] ? (int) $data['multiplier'] : 1;
-        $max        = (int) $data['max'];
-        $operator   = $data['operator'] ?? false;
-        $modifier   = $data['modifier'] ?? false;
+        $multiplier  = $data['multiplier'] ? (int) $data['multiplier'] : 1;
+        $diceMaxSide = (int) $data['max'];
+        $operator    = $data['operator'] ?? false;
+        $modifier    = $data['modifier'] ?? false;
 
         $result = 0;
         for ($i = 0; $i < $multiplier; $i++) {
-            $result += random_int(1, $max);
+            $result += random_int(1, $diceMaxSide);
         }
 
         switch ($operator) {

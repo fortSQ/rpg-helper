@@ -34,19 +34,19 @@ class DndCharacter
     private $race;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" = 1})
      */
     private $level = 1;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" = 0})
      */
     private $experience_points = 0;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", options={"default" = 0})
      */
-    private $money;
+    private $money = 0;
 
     /**
      * @ORM\Column(type="integer")

@@ -6,14 +6,19 @@ use App\Exception\DiceStringParseException;
 
 class DiceHelper
 {
-    public function roll(string $diceString)
-    {
-        $data = $this->parseDiceString($diceString);
+    private $dice;
 
-        $multiplier  = $data['multiplier'] ? (int) $data['multiplier'] : 1;
-        $diceMaxSide = (int) $data['max'];
-        $operator    = $data['operator'] ?? false;
-        $modifier    = $data['modifier'] ?? false;
+    public function __construct($diceString)
+    {
+        $this->dice = $this->parseDiceString($diceString);
+    }
+
+    public function roll()
+    {
+        $multiplier  = $this->dice['multiplier'] ? (int) $this->dice['multiplier'] : 1;
+        $diceMaxSide = (int) $this->dice['max'];
+        $operator    = $this->dice['operator'] ?? false;
+        $modifier    = $this->dice['modifier'] ?? false;
 
         $result = 0;
         for ($i = 0; $i < $multiplier; $i++) {
@@ -40,7 +45,7 @@ class DiceHelper
      * @return false|int
      * @throws DiceStringParseException Строка с представлением кубов не соответствует требованиям
      */
-    public function parseDiceString(string $diceString)
+    private function parseDiceString(string $diceString)
     {
         if (!preg_match('/^(?<multiplier>\d{0,3})d(?<max>\d{1,3})(?:(?<operator>[\+-])(?<modifier>\d{0,2}))?$/', $diceString, $matches)) {
             throw new DiceStringParseException('Dice string does not match requirements.');

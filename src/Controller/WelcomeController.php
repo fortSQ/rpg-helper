@@ -12,15 +12,16 @@ class WelcomeController extends AbstractController
 {
     /**
      * @Route("/", name="index")
-     * @param DiceHelper $diceHelper
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(DiceHelper $diceHelper)
+    public function index()
     {
         $data = [];
 
+        $dice = new DiceHelper('2d6+1');
+
         for ($i = 0; $i < 1000; $i++) {
-            $data[] = $diceHelper->roll('2d6+1');
+            $data[] = $dice->roll();
         }
 
         $data = array_count_values($data);

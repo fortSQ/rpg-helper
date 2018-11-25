@@ -27,8 +27,7 @@ class WelcomeController extends AbstractController
         $data = array_count_values($data);
         krsort($data);
 
-
-        dump($data); die('ok');
+        //dump($data); die('ok');
 
         return $this->render('welcome/index.html.twig', [
             'data' => $data,

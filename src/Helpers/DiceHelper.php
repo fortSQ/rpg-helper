@@ -27,10 +27,10 @@ class DiceHelper
 
         switch ($operator) {
             case '+':
-                $result = $result + $modifier;
+                $result += $modifier;
                 break;
             case '-':
-                $result = $result - $modifier;
+                $result -= $modifier;
                 $result = $result < 0 ? 0 : $result;
                 break;
         }

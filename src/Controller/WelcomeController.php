@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Helpers\DiceHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Helpers\MoneyDecorator;
 use App\Helpers\WeightDecorator;
@@ -12,9 +13,9 @@ class WelcomeController extends AbstractController
 {
     /**
      * @Route("/", name="index")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function index()
+    public function index() : Response
     {
         $data = [];
 

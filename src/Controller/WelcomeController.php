@@ -13,6 +13,7 @@ class WelcomeController extends AbstractController
 {
     /**
      * @Route("/", name="index")
+     *
      * @return Response
      */
     public function index() : Response

@@ -11,6 +11,10 @@ use App\Helpers\WeightDecorator;
 
 class WelcomeController extends AbstractController
 {
+    //TODO
+    // add to character status (active, deleted)
+
+
     /**
      * @Route("/", name="index")
      *

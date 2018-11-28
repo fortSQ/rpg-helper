@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @Route("/dnd/character")
@@ -20,7 +21,9 @@ class DndCharacterController extends AbstractController
      */
     public function index(DndCharacterRepository $dndCharacterRepository): Response
     {
-        return $this->render('dnd_character/index.html.twig', ['dnd_characters' => $dndCharacterRepository->findAll()]);
+        return $this->render('dnd_character/index.html.twig', [
+            'dnd_characters' => $dndCharacterRepository->findAll()
+        ]);
     }
 
     /**
@@ -51,7 +54,9 @@ class DndCharacterController extends AbstractController
      */
     public function show(DndCharacter $dndCharacter): Response
     {
-        return $this->render('dnd_character/show.html.twig', ['dnd_character' => $dndCharacter]);
+        return $this->render('dnd_character/show.html.twig', [
+            'dnd_character' => $dndCharacter
+        ]);
     }
 
     /**
@@ -65,7 +70,9 @@ class DndCharacterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('dnd_character_edit', ['id' => $dndCharacter->getId()]);
+            return $this->redirectToRoute('dnd_character_edit', [
+                'id' => $dndCharacter->getId()
+            ]);
         }
 
         return $this->render('dnd_character/edit.html.twig', [
@@ -77,12 +84,17 @@ class DndCharacterController extends AbstractController
     /**
      * @Route("/{id}", name="dnd_character_delete", methods="DELETE")
      */
-    public function delete(Request $request, DndCharacter $dndCharacter): Response
+    public function delete(Request $request, DndCharacter $dndCharacter, TranslatorInterface $translator): Response
     {
         if ($this->isCsrfTokenValid('delete'.$dndCharacter->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($dndCharacter);
             $em->flush();
+
+            $this->addFlash(
+                'info',
+                $translator->trans('Weapons', [], 'dnd')
+            );
         }
 
         return $this->redirectToRoute('dnd_character_index');

@@ -9,8 +9,9 @@ use App\Entity\DndRace;
 use App\Entity\DndClass;
 use App\Entity\DndCharacter;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class DndFixtures extends BaseFixture
+class DndFixtures extends BaseFixture implements DependentFixtureInterface
 {
     public function loadData(ObjectManager $manager)
     {
@@ -280,7 +281,7 @@ class DndFixtures extends BaseFixture
 
         /* CHARACTER */
 
-        $this->createMany(10, 'characters', function () use ($races, $classes) {
+        $this->createMany(50, 'characters', function () use ($races, $classes) {
             $character = new DndCharacter();
             $character->setRace($this->manager->getRepository(DndRace::class)->findOneBy([ 'name' => $races[array_rand($races)] ]));
             $character->setClass($this->manager->getRepository(DndClass::class)->findOneBy(['name' => $classes[array_rand($classes)]]));
@@ -295,10 +296,19 @@ class DndFixtures extends BaseFixture
             $character->setWisdom($this->faker->numberBetween(3, 18));
             $character->setCharisma($this->faker->numberBetween(3, 18));
             $character->setArmorClass($this->faker->numberBetween(3, 18));
+            $character->setStatus($this->faker->randomElement([DndCharacter::STATUS_ACTIVE, DndCharacter::STATUS_INACTIVE]));
+            $character->setUser($this->getRandomReference('role_user'));
 
             return $character;
         });
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+        ];
     }
 }

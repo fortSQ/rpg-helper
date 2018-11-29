@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -36,6 +38,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DndCharacter", mappedBy="user", orphanRemoval=true)
+     */
+    private $dndCharacters;
+
+    public function __construct()
+    {
+        $this->dndCharacters = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -123,6 +135,37 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DndCharacter[]
+     */
+    public function getDndCharacters(): Collection
+    {
+        return $this->dndCharacters;
+    }
+
+    public function addDndCharacter(DndCharacter $dndCharacter): self
+    {
+        if (!$this->dndCharacters->contains($dndCharacter)) {
+            $this->dndCharacters[] = $dndCharacter;
+            $dndCharacter->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDndCharacter(DndCharacter $dndCharacter): self
+    {
+        if ($this->dndCharacters->contains($dndCharacter)) {
+            $this->dndCharacters->removeElement($dndCharacter);
+            // set the owning side to null (unless already changed)
+            if ($dndCharacter->getUser() === $this) {
+                $dndCharacter->setUser(null);
+            }
+        }
 
         return $this;
     }

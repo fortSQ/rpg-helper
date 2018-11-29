@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DndCharacter
 {
+    const STATUS_ACTIVE   = 'active';
+    const STATUS_INACTIVE = 'inactive';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -82,6 +85,17 @@ class DndCharacter
      * @ORM\Column(type="integer")
      */
     private $armor_class;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="dndCharacters")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -247,6 +261,34 @@ class DndCharacter
     public function setExperiencePoints(int $experience_points): self
     {
         $this->experience_points = $experience_points;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        if (!in_array($status, [self::STATUS_ACTIVE, self::STATUS_INACTIVE])) {
+            throw new \InvalidArgumentException("Invalid status");
+        }
+
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

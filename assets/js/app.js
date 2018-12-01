@@ -1,5 +1,6 @@
 /* JS */
-const $ = require('jquery');
+const $  = require('jquery');
+require('datatables.net-bs4');
 require('bootstrap');
 require('jquery.mmenu/dist/jquery.mmenu.all');
 require('@fortawesome/fontawesome-free/js/all');
@@ -12,6 +13,9 @@ require('../css/app.scss');
 /* CUSTOM JS */
 $(document).ready(() => {
 
+    /* DataTables */
+    $('#data-table').DataTable();
+
     /* Вывод изображения при наведении на название-ссылку */
     $(function () {
         $('[data-toggle="image-popover"]').popover({
@@ -22,15 +26,6 @@ $(document).ready(() => {
             fallbackPlacement: 'clockwise',
             container: 'body',
         })
-    });
-
-    /* Ajax full screen loading */
-    $(document).ajaxStart(function () {
-        $("#loading").show();
-        $("#loading").addClass('show');
-    }).ajaxStop(function () {
-        $("#loading").hide();
-        $("#loading").removeClass('show');
     });
 
     /* jQuery.mmenu */

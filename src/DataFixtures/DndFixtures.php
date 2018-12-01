@@ -288,7 +288,7 @@ class DndFixtures extends BaseFixture implements DependentFixtureInterface
             $character->setName($this->faker->firstName);
             $character->setLevel($this->faker->numberBetween(1, 10));
             $character->setExperiencePoints($this->faker->numberBetween(0, 10000));
-            $character->setMoney($this->faker->numberBetween(100, 500));
+            $character->setMoney($this->faker->numberBetween(1, 50000));
             $character->setStrength($this->faker->numberBetween(3, 18));
             $character->setDexterity($this->faker->numberBetween(3, 18));
             $character->setConstitution($this->faker->numberBetween(3, 18));

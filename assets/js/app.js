@@ -32,20 +32,15 @@ $(document).ready(() => {
 
     /* jQuery.mmenu */
     $(".navbar-collapse").mmenu({
-        wrappers: ["bootstrap4"]
-    });
-
-    $("#menu").mmenu({
+        wrappers: ["bootstrap4"],
         extensions: [
             "border-full",
-            "fx-menu-slide",
             "multiline",
             "pagedim-black",
-            "position-right",
-            "position-back", // position-front
+            "position-left",
+            "position-back",
             "shadow-page",
             "shadow-panels",
-            //"theme-dark"
         ],
         "iconbar": {
             "add": true,

@@ -40,6 +40,8 @@ class DndCharacterController extends AbstractController
             $em->persist($dndCharacter);
             $em->flush();
 
+            $this->addFlash('success', 'Character created');
+
             return $this->redirectToRoute('dnd_character_index');
         }
 

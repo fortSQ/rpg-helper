@@ -24,7 +24,7 @@ class DndRace
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DndCharacter", mappedBy="DndRace")
+     * @ORM\OneToMany(targetEntity="App\Entity\DndCharacter", mappedBy="race")
      */
     private $characters;
 
@@ -79,5 +79,10 @@ class DndRace
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

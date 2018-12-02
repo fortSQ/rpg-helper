@@ -25,13 +25,13 @@ class DndCharacter
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\DndClass", inversedBy="dndCharacters")
+     * @ORM\ManyToOne(targetEntity="App\Entity\DndClass", inversedBy="characters")
      * @ORM\JoinColumn(nullable=false)
      */
     private $class;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\DndRace", inversedBy="dndCharacters")
+     * @ORM\ManyToOne(targetEntity="App\Entity\DndRace", inversedBy="characters")
      * @ORM\JoinColumn(nullable=false)
      */
     private $race;

@@ -1,16 +1,18 @@
-/* JS */
+/* JS LIBRARIES */
+
 const $  = require('jquery');
 require('datatables.net-bs4');
 require('bootstrap');
 require('jquery.mmenu/dist/jquery.mmenu.all');
+require('jquery.mmenu/dist/wrappers/bootstrap/jquery.mmenu.bootstrap4');
 require('@fortawesome/fontawesome-free/js/all');
 
 /* CSS */
+
 require('../css/app.scss');
 
-
-
 /* CUSTOM JS */
+
 $(document).ready(() => {
 
     /* DataTables */
@@ -29,6 +31,10 @@ $(document).ready(() => {
     });
 
     /* jQuery.mmenu */
+    $(".navbar-collapse").mmenu({
+        wrappers: ["bootstrap4"]
+    });
+
     $("#menu").mmenu({
         extensions: [
             "border-full",

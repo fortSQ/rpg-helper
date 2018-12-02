@@ -1,4 +1,8 @@
-// customize some Bootstrap variables here
+/* CUSTOM BOOTSTRAP VARIABLES */
+
+// customize Bootstrap variables here
+
+/* CSS LIBRARIES */
 
 /* Order of the next three lines is important! */
 @import "~bootswatch/dist/spacelab/variables";
@@ -7,10 +11,10 @@
 
 @import "~@fortawesome/fontawesome-free/css/all.css";
 @import "~jquery.mmenu/dist/jquery.mmenu.all.css";
+@import "~jquery.mmenu/dist/wrappers/bootstrap/jquery.mmenu.bootstrap4.css";
 
 /* CUSTOM SCSS */
 
-@import "mmenu";
 @import url('https://fonts.googleapis.com/css?family=Raleway|Ubuntu');
 
 /* Full screen modal */

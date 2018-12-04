@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\DndCharacter;
 use App\Form\DndCharacterType;
 use App\Repository\DndCharacterRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,8 +14,9 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @Route("/dnd/character")
+ * @IsGranted("ROLE_USER")
  */
-class DndCharacterController extends AbstractController
+class DndCharacterController extends BaseController
 {
     /**
      * @Route("/", name="dnd_character_index", methods="GET")
@@ -36,6 +38,7 @@ class DndCharacterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $dndCharacter->setUser($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($dndCharacter);
             $em->flush();

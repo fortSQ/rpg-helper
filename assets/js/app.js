@@ -46,6 +46,9 @@ $(document).ready(() => {
             "add": true,
             "top": [
 
+            ],
+            "bottom": [
+
             ]
         },
         "navbars": [

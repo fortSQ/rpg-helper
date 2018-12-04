@@ -40,12 +40,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    // If we return false from supports(), nothing else happens
+    // If we return true, Symfony will immediately call getCredentials()
     public function supports(Request $request)
     {
         return $request->attributes->get('_route') === 'app_login'
             && $request->isMethod('POST');
     }
 
+    // Our job in getCredentials() is simple: to read our authentication credentials off of the request and return them
     public function getCredentials(Request $request)
     {
         $credentials =  [
@@ -62,6 +65,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $credentials;
     }
 
+    // Our job in getUser() is to use these $credentials to return a User object, or null if the user isn't found
+    // If this returns null, the whole authentication process will stop, and the user will see an error
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
@@ -72,6 +77,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $this->userRepository->findOneBy(['email' => $credentials['email']]);
     }
 
+    // This is your opportunity to check to see if the user's password is correct, or any other last, security checks
     public function checkCredentials($credentials, UserInterface $user)
     {
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
@@ -79,6 +85,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        // send the user back to the previous page
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }

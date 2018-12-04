@@ -17,6 +17,11 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand m-auto" href="#">RPG-Helper</a>
+                {% if is_granted('ROLE_USER') %}
+                    <span class="navbar-text"><a class="nav-link" href="{{ path('app_logout') }}"><i class='fa fa-sign-out-alt'></i> {{ app.user.email }}</a></span>
+                {% else %}
+                    <span class="navbar-text"><a class="nav-link" href="{{ path('app_login') }}"><i class='fa fa-sign-in-alt'></i> Login</a></span>
+                {% endif %}
                 <div class="collapse navbar-collapse" id="navbars">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">

@@ -89,7 +89,7 @@ class DndCharacter
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status;
+    private $status = self::STATUS_ACTIVE;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="dndCharacters")

@@ -297,7 +297,11 @@ class DndFixtures extends BaseFixture implements DependentFixtureInterface
             $character->setCharisma($this->faker->numberBetween(3, 18));
             $character->setArmorClass($this->faker->numberBetween(3, 18));
             $character->setStatus($this->faker->randomElement([DndCharacter::STATUS_ACTIVE, DndCharacter::STATUS_INACTIVE]));
-            $character->setUser($this->getRandomReference('role_user'));
+            $character->setUser(
+                $user = $this->faker->boolean(95)
+                    ? $this->getRandomReference(UserFixtures::ROLE_USER_REFERENCE)
+                    : $this->getRandomReference(UserFixtures::ROLE_ADMIN_REFERENCE)
+            );
 
             return $character;
         });

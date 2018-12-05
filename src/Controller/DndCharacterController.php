@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\DndCharacter;
 use App\Form\DndCharacterType;
 use App\Repository\DndCharacterRepository;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +31,7 @@ class DndCharacterController extends BaseController
     /**
      * @Route("/new", name="dnd_character_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, LoggerInterface $logger): Response
     {
         $dndCharacter = new DndCharacter();
         $form = $this->createForm(DndCharacterType::class, $dndCharacter);
@@ -42,6 +42,13 @@ class DndCharacterController extends BaseController
             $em = $this->getDoctrine()->getManager();
             $em->persist($dndCharacter);
             $em->flush();
+
+            $logger-> info('New DnD charachter created', [
+                'user_id'      => $this->getUser()->getId(),
+                'user_email' => $this->getUser()->getEmail(),
+                'user_name' => $this->getUser()->getUsername(),
+                'character_id' => $dndCharacter->getId()
+            ]);
 
             $this->addFlash('success', 'Character created');
 
@@ -91,7 +98,7 @@ class DndCharacterController extends BaseController
      */
     public function delete(Request $request, DndCharacter $dndCharacter, TranslatorInterface $translator): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$dndCharacter->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $dndCharacter->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($dndCharacter);
             $em->flush();

@@ -23,7 +23,7 @@ class UserFixtures extends BaseFixture
         $this->createMany(1, self::ROLE_ADMIN_REFERENCE, function($i) {
             $user = new User();
             $user->setEmail('akim_now@mail.ru');
-            $user->setFirstName('Akim');
+            $user->setName('Akim');
             $user->setRoles([User::ROLE_ADMIN]);
 
             $user->setPassword($this->passwordEncoder->encodePassword(
@@ -37,7 +37,7 @@ class UserFixtures extends BaseFixture
         $this->createMany(10, self::ROLE_USER_REFERENCE, function($i) {
             $user = new User();
             $user->setEmail(sprintf('user%d@example.com', $i));
-            $user->setFirstName($this->faker->firstName);
+            $user->setName($this->faker->unique()->firstName);
 
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,

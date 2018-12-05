@@ -31,7 +31,7 @@ class DndCharacterController extends BaseController
     /**
      * @Route("/new", name="dnd_character_new", methods="GET|POST")
      */
-    public function new(Request $request, LoggerInterface $logger): Response
+    public function new(Request $request, LoggerInterface $logger, TranslatorInterface $translator): Response
     {
         $dndCharacter = new DndCharacter();
         $form = $this->createForm(DndCharacterType::class, $dndCharacter);
@@ -43,14 +43,15 @@ class DndCharacterController extends BaseController
             $em->persist($dndCharacter);
             $em->flush();
 
-            $logger-> info('New DnD charachter created', [
+            $logger->info('DnD character created', [
                 'user_id'      => $this->getUser()->getId(),
-                'user_email' => $this->getUser()->getEmail(),
-                'user_name' => $this->getUser()->getUsername(),
-                'character_id' => $dndCharacter->getId()
+                'character_id' => $dndCharacter->getId(),
             ]);
 
-            $this->addFlash('success', 'Character created');
+            $this->addFlash(
+                'success',
+                $translator->trans('Character created')
+            );
 
             return $this->redirectToRoute('dnd_character_index');
         }
@@ -74,13 +75,28 @@ class DndCharacterController extends BaseController
     /**
      * @Route("/{id}/edit", name="dnd_character_edit", methods="GET|POST")
      */
-    public function edit(Request $request, DndCharacter $dndCharacter): Response
+    public function edit(
+        Request $request,
+        DndCharacter $dndCharacter,
+        LoggerInterface $logger,
+        TranslatorInterface $translator
+    ): Response
     {
         $form = $this->createForm(DndCharacterType::class, $dndCharacter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $logger->info('DnD character edited', [
+                'user_id'      => $this->getUser()->getId(),
+                'character_id' => $dndCharacter->getId(),
+            ]);
+
+            $this->addFlash(
+                'success',
+                $translator->trans('Character edited')
+            );
 
             return $this->redirectToRoute('dnd_character_edit', [
                 'id' => $dndCharacter->getId()
@@ -96,16 +112,26 @@ class DndCharacterController extends BaseController
     /**
      * @Route("/{id}", name="dnd_character_delete", methods="DELETE")
      */
-    public function delete(Request $request, DndCharacter $dndCharacter, TranslatorInterface $translator): Response
+    public function delete(
+        Request $request,
+        DndCharacter $dndCharacter,
+        LoggerInterface $logger,
+        TranslatorInterface $translator
+    ): Response
     {
         if ($this->isCsrfTokenValid('delete' . $dndCharacter->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($dndCharacter);
             $em->flush();
 
+            $logger->info('DnD character deleted', [
+                'user_id'      => $this->getUser()->getId(),
+                'character_id' => $dndCharacter->getId(),
+            ]);
+
             $this->addFlash(
-                'info',
-                $translator->trans('Weapons', [], 'dnd')
+                'success',
+                $translator->trans('Character deleted')
             );
         }
 

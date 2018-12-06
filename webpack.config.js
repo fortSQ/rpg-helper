@@ -25,6 +25,7 @@ Encore
     }) //PostCSS and autoprefixing
 
     .addPlugin(new CopyWebpackPlugin([
+        { from: './assets/favicon.ico', to: '' },
         { from: './assets/images', to: 'images' },
         { from: './assets/icons', to: 'icons' }
     ]))

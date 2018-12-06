@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="/favicon.ico">
+        <link rel="icon" href="{{ asset('build/favicon.ico') }}">
         <link rel="stylesheet" href="{{ asset('build/app.css') }}">
         {% block stylesheets %}{% endblock %}
         <title>{% block title %}{% endblock %}</title>
@@ -16,7 +16,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand m-auto" href="#">RPG-Helper</a>
+                <a class="navbar-brand m-auto" href="{{ path('app_mainpage') }}">RPG-Helper</a>
                 {% if is_granted('ROLE_USER') %}
                     <span class="navbar-text"><a class="nav-link" href="{{ path('app_logout') }}"><i class='fa fa-sign-out-alt'></i> {{ app.user.email }}</a></span>
                 {% else %}

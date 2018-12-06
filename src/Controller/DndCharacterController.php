@@ -43,7 +43,7 @@ class DndCharacterController extends BaseController
             $em->persist($dndCharacter);
             $em->flush();
 
-            $logger->info('DnD character created', [
+            $logger->info('D&D character created', [
                 'user_id'      => $this->getUser()->getId(),
                 'character_id' => $dndCharacter->getId(),
             ]);
@@ -88,7 +88,7 @@ class DndCharacterController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $logger->info('DnD character edited', [
+            $logger->info('D&D character edited', [
                 'user_id'      => $this->getUser()->getId(),
                 'character_id' => $dndCharacter->getId(),
             ]);
@@ -120,13 +120,14 @@ class DndCharacterController extends BaseController
     ): Response
     {
         if ($this->isCsrfTokenValid('delete' . $dndCharacter->getId(), $request->request->get('_token'))) {
+            $id = $dndCharacter->getId();
             $em = $this->getDoctrine()->getManager();
             $em->remove($dndCharacter);
             $em->flush();
-
-            $logger->info('DnD character deleted', [
+            
+            $logger->info('D&D character deleted', [
                 'user_id'      => $this->getUser()->getId(),
-                'character_id' => $dndCharacter->getId(),
+                'character_id' => $id,
             ]);
 
             $this->addFlash(

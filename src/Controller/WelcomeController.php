@@ -16,7 +16,7 @@ class WelcomeController extends AbstractController
 
 
     /**
-     * @Route("/", name="index")
+     * @Route("/", name="app_mainpage")
      *
      */
     public function index() : Response

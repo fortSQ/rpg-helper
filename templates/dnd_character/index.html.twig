@@ -43,8 +43,8 @@
                 <td>{{ dnd_character.charisma }}</td>
                 <td>{{ dnd_character.armorClass }}</td>
                 <td>
-                    <a href="{{ path('dnd_character_show', {'id': dnd_character.id}) }}">show</a>
-                    <a href="{{ path('dnd_character_edit', {'id': dnd_character.id}) }}">edit</a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_show', {'id': dnd_character.id}) }}"><i class="fas fa-eye"></i> Show</a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_edit', {'id': dnd_character.id}) }}"><i class="fas fa-edit"></i> Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -55,5 +55,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('dnd_character_new') }}">Create new</a>
+    <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_new') }}"><i class="fas fa-plus-square"></i>  Create new</a>
 {% endblock %}

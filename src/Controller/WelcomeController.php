@@ -13,6 +13,8 @@ class WelcomeController extends AbstractController
 {
     //TODO
     // add to character status (active, deleted)
+    // and description
+
 
 
     /**

@@ -12,6 +12,13 @@
 
         <div id="page">
 
+            {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                <div class="alert alert-danger text-center mb-0" style="border-color: #F04124; font-size: 1rem">
+                    You are currently switched to user <strong>{{ app.user.name }} ({{ app.user.email }})</strong>.
+                    <a class="alert-link" href="{{ path('app_mainpage', {'_switch_user' : '_exit'}) }}"> <i class="fas fa-sign-out-alt ml-2"></i> Exit</a>
+                </div>
+            {% endif %}
+
             <nav class="navbar navbar-dark bg-primary">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars">
                     <span class="navbar-toggler-icon"></span>

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DndCharacterRepository")
@@ -21,68 +22,94 @@ class DndCharacter
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\DndClass", inversedBy="characters")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\NotBlank
      */
     private $class;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\DndRace", inversedBy="characters")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\NotBlank
      */
     private $race;
 
     /**
      * @ORM\Column(type="integer", options={"default" = 1})
+     *
+     * @Assert\NotBlank
      */
     private $level = 1;
 
     /**
      * @ORM\Column(type="integer", options={"default" = 0})
+     *
+     * @Assert\NotBlank
      */
     private $experience_points = 0;
 
     /**
      * @ORM\Column(type="integer", options={"default" = 0})
+     *
+     * @Assert\NotBlank
      */
     private $money = 0;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
      */
     private $strength;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
      */
     private $dexterity;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
      */
     private $constitution;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
      */
     private $intelligence;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
      */
     private $wisdom;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
      */
     private $charisma;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
      */
     private $armor_class;
 

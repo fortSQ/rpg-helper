@@ -21,16 +21,15 @@ class DndCharacter
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
+     * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank
+     * @Assert\Regex("/^\w+$/")
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\DndClass", inversedBy="characters")
      * @ORM\JoinColumn(nullable=false)
-     *
      * @Assert\NotBlank
      */
     private $class;
@@ -38,22 +37,28 @@ class DndCharacter
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\DndRace", inversedBy="characters")
      * @ORM\JoinColumn(nullable=false)
-     *
      * @Assert\NotBlank
      */
     private $race;
 
     /**
      * @ORM\Column(type="integer", options={"default" = 1})
-     *
      * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 20,
+     *      minMessage = "{{ limit }} is the minimum level",
+     *      maxMessage = "{{ limit }} is the maximum level"
+     * )
      */
     private $level = 1;
 
     /**
      * @ORM\Column(type="integer", options={"default" = 0})
-     *
      * @Assert\NotBlank
+     * @Assert\GreaterThanOrEqual(
+     *     value = 0
+     * )
      */
     private $experience_points = 0;
 
@@ -134,7 +139,7 @@ class DndCharacter
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -170,7 +175,7 @@ class DndCharacter
         return $this->strength;
     }
 
-    public function setStrength(int $strength): self
+    public function setStrength(?int $strength): self
     {
         $this->strength = $strength;
 
@@ -182,7 +187,7 @@ class DndCharacter
         return $this->dexterity;
     }
 
-    public function setDexterity(int $dexterity): self
+    public function setDexterity(?int $dexterity): self
     {
         $this->dexterity = $dexterity;
 
@@ -194,7 +199,7 @@ class DndCharacter
         return $this->constitution;
     }
 
-    public function setConstitution(int $constitution): self
+    public function setConstitution(?int $constitution): self
     {
         $this->constitution = $constitution;
 
@@ -206,7 +211,7 @@ class DndCharacter
         return $this->intelligence;
     }
 
-    public function setIntelligence(int $intelligence): self
+    public function setIntelligence(?int $intelligence): self
     {
         $this->intelligence = $intelligence;
 
@@ -218,7 +223,7 @@ class DndCharacter
         return $this->wisdom;
     }
 
-    public function setWisdom(int $wisdom): self
+    public function setWisdom(?int $wisdom): self
     {
         $this->wisdom = $wisdom;
 
@@ -230,7 +235,7 @@ class DndCharacter
         return $this->charisma;
     }
 
-    public function setCharisma(int $charisma): self
+    public function setCharisma(?int $charisma): self
     {
         $this->charisma = $charisma;
 
@@ -254,7 +259,7 @@ class DndCharacter
         return $this->armor_class;
     }
 
-    public function setArmorClass(int $armor_class): self
+    public function setArmorClass(?int $armor_class): self
     {
         $this->armor_class = $armor_class;
 
@@ -266,7 +271,7 @@ class DndCharacter
         return $this->level;
     }
 
-    public function setLevel(int $level): self
+    public function setLevel(?int $level): self
     {
         $this->level = $level;
 
@@ -278,14 +283,7 @@ class DndCharacter
         return $this->experience_points;
     }
 
-    public function setExperiencePoint(?int $experience_points): self
-    {
-        $this->experience_points = $experience_points;
-
-        return $this;
-    }
-
-    public function setExperiencePoints(int $experience_points): self
+    public function setExperiencePoints(?int $experience_points): self
     {
         $this->experience_points = $experience_points;
 
@@ -299,7 +297,10 @@ class DndCharacter
 
     public function setStatus(string $status): self
     {
-        if (!in_array($status, [self::STATUS_ACTIVE, self::STATUS_INACTIVE])) {
+        if (!in_array($status, [
+            self::STATUS_ACTIVE,
+            self::STATUS_INACTIVE
+        ])) {
             throw new \InvalidArgumentException("Invalid status");
         }
 

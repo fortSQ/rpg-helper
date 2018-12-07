@@ -18,7 +18,7 @@ class DndCharacterType extends AbstractType
         $builder
             ->add('name',TextType::class, [
                 'label'  => 'Name',
-                'help' => 'Helper text.',
+                'help' => 'Only letters, digits, and underscore.',
                 'attr' => ['autofocus' => true],
             ])
             ->add('level',TextType::class)

@@ -23,7 +23,7 @@ class DndCharacterController extends BaseController
      */
     public function index(DndCharacterRepository $dndCharacterRepository): Response
     {
-        return $this->render('dnd_character/index.html.twig', [
+        return $this->render('dnd_character/index2.html.twig', [
             'dnd_characters' => $dndCharacterRepository->findAll()
         ]);
     }
@@ -53,7 +53,9 @@ class DndCharacterController extends BaseController
                 $translator->trans('Character created')
             );
 
-            return $this->redirectToRoute('dnd_character_index');
+            return $this->redirectToRoute('dnd_character_show', [
+                'id' => $dndCharacter->getId()
+            ]);
         }
 
         return $this->render('dnd_character/new.html.twig', [
@@ -98,7 +100,7 @@ class DndCharacterController extends BaseController
                 $translator->trans('Character edited')
             );
 
-            return $this->redirectToRoute('dnd_character_edit', [
+            return $this->redirectToRoute('dnd_character_show', [
                 'id' => $dndCharacter->getId()
             ]);
         }

@@ -15,6 +15,31 @@ class WelcomeController extends AbstractController
     // add to character status (active, deleted)
     // and description
 
+    // race
+        // racial increases
+    // class
+        // class features
+        // proficiencies
+        // hit point maximum + hit points + type of hit dice
+        // proficiency bonus
+        // расширить таблицу классов, добавить данные со стр. 45
+    // alignment
+    // traits, ideals, bonds + flows
+    // background
+    // inventory? equipment?
+    // переделать money в new/edit
+    // age, size, speed, languages, sex, height, weight
+    // inspiration
+    // skills
+
+    // метод для рассчета AC
+
+
+        // Delete link
+        // https://stackoverflow.com/questions/21747685/best-practices-delete-links-with-symfony-2
+
+    // advantage and disadvantage
+
 
 
     /**

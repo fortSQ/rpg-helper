@@ -44,77 +44,69 @@ class DndCharacter
     /**
      * @ORM\Column(type="integer", options={"default" = 1})
      * @Assert\NotBlank
-     * @Assert\Range(
-     *      min = 0,
-     *      max = 20,
-     *      minMessage = "{{ limit }} is the minimum level",
-     *      maxMessage = "{{ limit }} is the maximum level"
-     * )
+     * @Assert\Range(min = 0, max = 20)
      */
     private $level = 1;
 
     /**
      * @ORM\Column(type="integer", options={"default" = 0})
      * @Assert\NotBlank
-     * @Assert\GreaterThanOrEqual(
-     *     value = 0
-     * )
+     * @Assert\GreaterThanOrEqual(value = 0)
      */
     private $experience_points = 0;
 
     /**
      * @ORM\Column(type="integer", options={"default" = 0})
-     *
      * @Assert\NotBlank
      */
     private $money = 0;
 
     /**
      * @ORM\Column(type="integer")
-     *
      * @Assert\NotBlank
+     * @Assert\Range(min = 1, max = 30)
      */
     private $strength;
 
     /**
      * @ORM\Column(type="integer")
-     *
      * @Assert\NotBlank
+     * @Assert\Range(min = 1, max = 30)
      */
     private $dexterity;
 
     /**
      * @ORM\Column(type="integer")
-     *
      * @Assert\NotBlank
+     * @Assert\Range(min = 1, max = 30)
      */
     private $constitution;
 
     /**
      * @ORM\Column(type="integer")
-     *
      * @Assert\NotBlank
+     * @Assert\Range(min = 1, max = 30)
      */
     private $intelligence;
 
     /**
      * @ORM\Column(type="integer")
-     *
      * @Assert\NotBlank
+     * @Assert\Range(min = 1, max = 30)
      */
     private $wisdom;
 
     /**
      * @ORM\Column(type="integer")
-     *
      * @Assert\NotBlank
+     * @Assert\Range(min = 1, max = 30)
      */
     private $charisma;
 
     /**
      * @ORM\Column(type="integer")
-     *
      * @Assert\NotBlank
+     * @Assert\Range(min = 1)
      */
     private $armor_class;
 
@@ -319,5 +311,10 @@ class DndCharacter
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getModifier($abilityScore): int
+    {
+        return floor(($abilityScore - 10) / 2);
     }
 }

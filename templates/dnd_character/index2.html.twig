@@ -1,0 +1,90 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}D&D character list{% endblock %}
+
+{% block body %}
+
+    <style>
+        .badge {
+            padding: 0.3rem 0.5rem;
+        }
+        .badge-ability {
+            display: inline-block;
+            width: 50px;
+        }
+        .badge-modifier {
+            display: inline-block;
+            width: 25px;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_new') }}"><i class="fas fa-plus-square"></i>  Create new</a>
+            <h1>Your D&D characters</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for character in dnd_characters %}
+        <div class="col-xs-12 col-sm-6 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <div class="card border-primary mb-3">
+                <div class="card-header">
+                    <span class="h5" title="{{ character.id }}">{{ character.name }}</span>
+                    <span class="badge badge-dark float-right">{{ character.level }} lvl</span>
+                    <span class="badge badge-primary float-right">{{ character.experiencePoints }} XP</span>
+                    <br>
+                    <span class="h6">{{ character.race.name }} {{ character.class.name }}</span>
+                    <span class="h6">{{ character.money|money }}</span>
+                    <span class="float-right"><i class="fa fa-shield-alt"></i> {{ character.armorClass }}</span>
+                </div>
+                <div class="card-body">
+                    {% macro abilities(ability, name, modifier) %}
+                        <span class="badge badge-primary badge-ability">{{ ability }} {{ name }}</span>
+                        <span class="badge badge-primary badge-modifier">{{ modifier }}</span>
+                    {% endmacro %}
+
+                    {% import _self as this %}
+
+                    {{ this.abilities(character.strength, 'str', character.modifier(character.strength)) }}
+                    <br>
+                    {{ this.abilities(character.dexterity, 'dex', character.modifier(character.dexterity)) }}
+                    <br>
+                    {{ this.abilities(character.constitution, 'con', character.modifier(character.constitution)) }}
+                    <br>
+                    {{ this.abilities(character.intelligence, 'int', character.modifier(character.intelligence)) }}
+                    <br>
+                    {{ this.abilities(character.wisdom, 'wis', character.modifier(character.wisdom)) }}
+                    <br>
+                    {{ this.abilities(character.charisma, 'cha', character.modifier(character.charisma)) }}
+                    <br>
+
+
+
+
+
+
+                    <h4 class="card-title">Card title</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                </div>
+                <div class="card-footer text-muted">
+                    <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_show', {'id': character.id}) }}">
+                        <i class="fas fa-eye"></i> <span class="hidden-xs">Show</span>
+                    </a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_edit', {'id': character.id}) }}">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <tr>
+                <td colspan="13">No characters found</td>
+            </tr>
+        {% endfor %}
+    </div>
+
+{% endblock %}

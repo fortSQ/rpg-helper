@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Your D&D characters</h1>
 
-    <table id="data-table" class="table">
+    <table id="data-table" class="table table-sm table-responsive">
         <thead>
             <tr>
                 <th>Id</th>
@@ -13,16 +13,16 @@
                 <th>Class</th>
                 <th>Race</th>
                 <th>Level</th>
-                <th>Experience_points</th>
+                <th title="Experience points">XP</th>
                 <th>Money</th>
-                <th>Strength</th>
-                <th>Dexterity</th>
-                <th>Constitution</th>
-                <th>Intelligence</th>
-                <th>Wisdom</th>
-                <th>Charisma</th>
-                <th>Armor_class</th>
-                <th>actions</th>
+                <th title="Strength">Str</th>
+                <th title="Dexterity">Dex</th>
+                <th title="Constitution">Con</th>
+                <th title="Intelligence">Int</th>
+                <th title="Wisdom">Wis</th>
+                <th title="Charisma">Cha</th>
+                <th title="Armor Class">AC</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -43,8 +43,12 @@
                 <td>{{ dnd_character.charisma }}</td>
                 <td>{{ dnd_character.armorClass }}</td>
                 <td>
-                    <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_show', {'id': dnd_character.id}) }}"><i class="fas fa-eye"></i> Show</a>
-                    <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_edit', {'id': dnd_character.id}) }}"><i class="fas fa-edit"></i> Edit</a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_show', {'id': dnd_character.id}) }}">
+                        <i class="fas fa-eye"></i> <span class="hidden-xs">Show</span>
+                    </a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('dnd_character_edit', {'id': dnd_character.id}) }}">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
                 </td>
             </tr>
         {% else %}

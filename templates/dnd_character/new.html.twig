@@ -3,9 +3,12 @@
 {% block title %}Create D&D character{% endblock %}
 
 {% block body %}
-    <h1>Create D&D character</h1>
+    <div class="row">
+        <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <h1>Create D&D character</h1>
+            <hr>
 
-    {{ include('dnd_character/_form.html.twig') }}
-
-    <a href="{{ path('dnd_character_index') }}">back to list</a>
+            {{ include('dnd_character/_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}

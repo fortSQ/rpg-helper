@@ -38,9 +38,11 @@
                             <a class="nav-link" href="#">My characters</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01" data-toggle="dropdown">Add character</a>
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">
+                                <i class="fas fa-plus-square"></i> Add character
+                            </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">D&D</a>
+                                <a class="dropdown-item" href="{{ path('dnd_character_new') }}">D&D</a>
                                 <a class="dropdown-item" href="#">Pathfinder</a>
                                 <a class="dropdown-item" href="#">Savage Worlds: Deadlands</a>
                             </div>

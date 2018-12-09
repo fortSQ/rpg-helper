@@ -1,23 +1,22 @@
+{% form_theme form 'form/theme.html.twig' %}
+
 {{ form_start(form) }}
     {{ form_errors(form) }}
 
     <div class="form-row">
         <div class="form-group col-xs-12 col-sm-4">
             {{ form_label(form.name) }}
-            {{ form_errors(form.name) }}
-            {{ form_widget(form.name, {'attr': {'class': ''}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control-sm'}}) }}
             {{ form_help(form.name) }}
         </div>
         <div class="form-group col-xs-12 col-sm-4">
             {{ form_label(form.class) }}
-            {{ form_errors(form.class) }}
-            {{ form_widget(form.class) }}
+            {{ form_widget(form.class, {'attr': {'class': 'form-control-sm'}}) }}
             {{ form_help(form.class) }}
         </div>
         <div class="form-group col-xs-12 col-sm-4">
             {{ form_label(form.race) }}
-            {{ form_errors(form.race) }}
-            {{ form_widget(form.race) }}
+            {{ form_widget(form.race, {'attr': {'class': 'form-control-sm'}}) }}
             {{ form_help(form.race) }}
         </div>
     </div>
@@ -25,20 +24,17 @@
 <div class="form-row">
     <div class="form-group col-xs-12 col-sm-4">
         {{ form_label(form.level) }}
-        {{ form_errors(form.level) }}
-        {{ form_widget(form.level) }}
+        {{ form_widget(form.level, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.level) }}
     </div>
     <div class="form-group col-xs-12 col-sm-4">
         {{ form_label(form.experience_points) }}
-        {{ form_errors(form.experience_points) }}
-        {{ form_widget(form.experience_points) }}
+        {{ form_widget(form.experience_points, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.experience_points) }}
     </div>
     <div class="form-group col-xs-12 col-sm-4">
         {{ form_label(form.money) }}
-        {{ form_errors(form.money) }}
-        {{ form_widget(form.money) }}
+        {{ form_widget(form.money, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.money) }}
     </div>
 </div>
@@ -46,49 +42,42 @@
 <div class="form-row">
     <div class="form-group col-xs-6 col-sm-4 col-md-2">
         {{ form_label(form.strength) }}
-        {{ form_errors(form.strength) }}
-        {{ form_widget(form.strength) }}
+        {{ form_widget(form.strength, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.strength) }}
     </div>
     <div class="form-group col-xs-12 col-sm-4 col-md-2">
         {{ form_label(form.dexterity) }}
-        {{ form_errors(form.dexterity) }}
-        {{ form_widget(form.dexterity) }}
+        {{ form_widget(form.dexterity, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.dexterity) }}
     </div>
     <div class="form-group col-xs-12 col-sm-4 col-md-2">
         {{ form_label(form.constitution) }}
-        {{ form_errors(form.constitution) }}
-        {{ form_widget(form.constitution) }}
+        {{ form_widget(form.constitution, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.constitution) }}
     </div>
     <div class="form-group col-xs-12 col-sm-4 col-md-2">
         {{ form_label(form.intelligence) }}
-        {{ form_errors(form.intelligence) }}
-        {{ form_widget(form.intelligence) }}
+        {{ form_widget(form.intelligence, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.intelligence) }}
     </div>
     <div class="form-group col-xs-12 col-sm-4 col-md-2">
         {{ form_label(form.wisdom) }}
-        {{ form_errors(form.wisdom) }}
-        {{ form_widget(form.wisdom) }}
+        {{ form_widget(form.wisdom, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.wisdom) }}
     </div>
     <div class="form-group col-xs-12 col-sm-4 col-md-2">
         {{ form_label(form.charisma) }}
-        {{ form_errors(form.charisma) }}
-        {{ form_widget(form.charisma) }}
+        {{ form_widget(form.charisma, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.charisma) }}
     </div>
     <div class="form-group col-xs-12 col-sm-4 col-md-2">
         {{ form_label(form.armor_class) }}
-        {{ form_errors(form.armor_class) }}
-        {{ form_widget(form.armor_class) }}
+        {{ form_widget(form.armor_class, {'attr': {'class': 'form-control-sm'}}) }}
         {{ form_help(form.armor_class) }}
     </div>
 </div>
 
     <div class="form-group text-center">
-        <button type="submit" class="btn btn-sm btn-primary text-center" formnovalidate>{{ button_label|default('Save') }}</button>
+        <button type="submit" class="btn btn-block btn-primary text-center" formnovalidate>{{ button_label|default('Save') }}</button>
     </div>
 {{ form_end(form) }}

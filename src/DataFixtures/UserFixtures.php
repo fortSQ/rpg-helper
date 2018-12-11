@@ -24,7 +24,7 @@ class UserFixtures extends BaseFixture
             $user = new User();
             $user->setEmail('akim_now@mail.ru');
             $user->setName('Akim');
-            $user->setRoles([User::ROLE_ADMIN]);
+            $user->setRoles([User::ROLE_ADMIN, User::ROLE_MODERATOR]);
 
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,

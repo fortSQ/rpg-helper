@@ -269,11 +269,29 @@ class DndFixtures extends BaseFixture implements DependentFixtureInterface
 
         /* CHARACTER CLASS */
 
-        $classes = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'];
+        $classes = [
+            ['Barbarian', '%barbarian_description%', 'd12', 'Strength', 'Strength, Constitution', '%barbarian_armor_weapon_prof%'],
+            ['Bard', '%bard_description%', 'd8', 'Charisma', 'Dexterity, Charisma', '%bard_armor_weapon_prof%'],
+            ['Cleric', '%cleric_description%', 'd8', 'Wisdom', 'Wisdom, Charisma', '%cleric_armor_weapon_prof%'],
+            ['Druid', '%druid_description%', 'd8', 'Wisdom', 'Intelligence, Wisdom', '%druid_armor_weapon_prof%'],
+            ['Fighter', '%fighter_description%', 'd10', 'Strength or Dexterity', 'Strength, Constitution', '%fighter_armor_weapon_prof%'],
+            ['Monk', '%monk_description%', 'd8', 'Dexterity, Wisdom', 'Strength, Dexterity', '%monk_armor_weapon_prof%'],
+            ['Paladin', '%paladin_description%', 'd10', 'Strength, Charisma', 'Wisdom, Charisma', '%paladin_armor_weapon_prof%'],
+            ['Ranger', '%ranger_description%', 'd10', 'Dexterity, Wisdom', 'Strength, Dexterity', '%ranger_armor_weapon_prof%'],
+            ['Rogue', '%rogue_description%', 'd8', 'Dexterity', 'Dexterity, Intelligence', '%rogue_armor_weapon_prof%'],
+            ['Sorcerer', '%sorcerer_description%', 'd6', 'Charisma', 'Constitution, Charisma', '%sorcerer_armor_weapon_prof%'],
+            ['Warlock', '%warlock_description%', 'd8', 'Charisma', 'Wisdom, Charisma', '%warlock_armor_weapon_prof%'],
+            ['Wizard', '%wizard_description%', 'd6', 'Intelligence', 'Intelligence, Wisdom', '%wizard_armor_weapon_prof%']
+        ];
 
-        foreach ($classes as $name) {
+        foreach ($classes as [$nm, $description, $dice, $primary, $saveProf, $armorWeaponProf]) {
             $class = new DndClass();
-            $class->setName($name);
+            $class->setName($nm);
+            $class->setDescription($description);
+            $class->setHitDie($dice);
+            $class->setPrimaryAbility($primary);
+            $class->setSavingProf($saveProf);
+            $class->setArmorWeaponProf($armorWeaponProf);
             $manager->persist($class);
         }
 

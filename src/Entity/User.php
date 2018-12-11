@@ -4,16 +4,27 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("email")
+ * @UniqueEntity("name")
  */
 class User implements UserInterface
 {
-    const ROLE_USER  = 'ROLE_USER';
-    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_USER       = 'ROLE_USER';
+    const ROLE_MODERATOR  = 'ROLE_MODERATOR';
+    const ROLE_ADMIN      = 'ROLE_ADMIN';
+
+    const ALLOWED_ROLES = [
+        self::ROLE_USER,
+        self::ROLE_MODERATOR,
+        self::ROLE_ADMIN,
+    ];
 
     /**
      * @ORM\Id()
@@ -23,17 +34,21 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\Email
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles = [self::ROLE_USER];
 
     /**
-     * @ORM\Column(type="string", length=100, unique=true)
+     * @ORM\Column(type="string", length=30, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Regex("/^\w+$/")
+     * @Assert\Length(min = 2, max = 30)
      */
     private $name;
 
@@ -93,6 +108,12 @@ class User implements UserInterface
 
     public function setRoles(array $roles): self
     {
+        foreach ($roles as $role) {
+            if (!in_array($role, self::ALLOWED_ROLES)) {
+                throw new \InvalidArgumentException("Invalid status");
+            }
+        }
+
         $this->roles = $roles;
 
         return $this;

@@ -22,7 +22,6 @@ class WelcomeController extends AbstractController
         // proficiencies
         // hit point maximum + hit points + type of hit dice
         // proficiency bonus
-        // расширить таблицу классов, добавить данные со стр. 45
     // alignment
     // traits, ideals, bonds + flows
     // background
@@ -33,10 +32,11 @@ class WelcomeController extends AbstractController
     // skills
 
     // метод для рассчета AC
+    // картинки для монет
 
 
-        // Delete link
-        // https://stackoverflow.com/questions/21747685/best-practices-delete-links-with-symfony-2
+    // Delete link
+    // https://stackoverflow.com/questions/21747685/best-practices-delete-links-with-symfony-2
 
     // advantage and disadvantage
 

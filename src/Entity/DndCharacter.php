@@ -13,6 +13,44 @@ class DndCharacter
     const STATUS_ACTIVE   = 'active';
     const STATUS_INACTIVE = 'inactive';
 
+    /* Languages */
+
+    const LANGUAGE_COMMON      = 'common';
+    const LANGUAGE_DWARVISH    = 'dwarvish';
+    const LANGUAGE_ELVISH      = 'elvish';
+    const LANGUAGE_GIANT       = 'giant';
+    const LANGUAGE_GNOMISH     = 'gnomish';
+    const LANGUAGE_GOBLIN      = 'goblin';
+    const LANGUAGE_HALFLING    = 'halfling';
+    const LANGUAGE_ORC         = 'orc';
+    const LANGUAGE_ABYSSAL     = 'abyssal';
+    const LANGUAGE_CELESTIAL   = 'celestial';
+    const LANGUAGE_DRACONIC    = 'draconic';
+    const LANGUAGE_DEEP_SPEECH = 'deep speech';
+    const LANGUAGE_INFERNAL    = 'infernal';
+    const LANGUAGE_PRIMORDIAL  = 'primordial';
+    const LANGUAGE_SYLVAN      = 'sylvan';
+    const LANGUAGE_UNDERCOMMON = 'undercommon';
+
+    const ALLOWED_LANGUAGES = [
+        self::LANGUAGE_COMMON,
+        self::LANGUAGE_DWARVISH,
+        self::LANGUAGE_ELVISH,
+        self::LANGUAGE_GIANT,
+        self::LANGUAGE_GNOMISH,
+        self::LANGUAGE_GOBLIN,
+        self::LANGUAGE_HALFLING,
+        self::LANGUAGE_ORC,
+        self::LANGUAGE_ABYSSAL,
+        self::LANGUAGE_CELESTIAL,
+        self::LANGUAGE_DRACONIC,
+        self::LANGUAGE_DEEP_SPEECH,
+        self::LANGUAGE_INFERNAL,
+        self::LANGUAGE_PRIMORDIAL,
+        self::LANGUAGE_SYLVAN,
+        self::LANGUAGE_UNDERCOMMON,
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -21,9 +59,10 @@ class DndCharacter
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank
      * @Assert\Regex("/^\w+$/")
+     * @Assert\Length(min = 2, max = 30)
      */
     private $name;
 
@@ -120,6 +159,11 @@ class DndCharacter
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $languages = [];
 
     public function getId(): ?int
     {
@@ -316,5 +360,23 @@ class DndCharacter
     public function getModifier($abilityScore): int
     {
         return floor(($abilityScore - 10) / 2);
+    }
+
+    public function getLanguages(): ?array
+    {
+        return $this->languages;
+    }
+
+    public function setLanguages(?array $languages): self
+    {
+        foreach ($languages as $language) {
+            if (!in_array($language, self::ALLOWED_LANGUAGES)) {
+                throw new \InvalidArgumentException("Invalid language");
+            }
+        }
+
+        $this->languages = $languages;
+
+        return $this;
     }
 }

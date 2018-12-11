@@ -28,6 +28,31 @@ class DndClass
      */
     private $characters;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $hit_die;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $primary_ability;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $saving_prof;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $armor_weapon_prof;
+
     public function __construct()
     {
         $this->characters = new ArrayCollection();
@@ -84,5 +109,65 @@ class DndClass
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getHitDie(): ?string
+    {
+        return $this->hit_die;
+    }
+
+    public function setHitDie(string $hit_die): self
+    {
+        $this->hit_die = $hit_die;
+
+        return $this;
+    }
+
+    public function getPrimaryAbility(): ?string
+    {
+        return $this->primary_ability;
+    }
+
+    public function setPrimaryAbility(string $primary_ability): self
+    {
+        $this->primary_ability = $primary_ability;
+
+        return $this;
+    }
+
+    public function getSavingProf(): ?string
+    {
+        return $this->saving_prof;
+    }
+
+    public function setSavingProf(string $saving_prof): self
+    {
+        $this->saving_prof = $saving_prof;
+
+        return $this;
+    }
+
+    public function getArmorWeaponProf(): ?string
+    {
+        return $this->armor_weapon_prof;
+    }
+
+    public function setArmorWeaponProf(string $armor_weapon_prof): self
+    {
+        $this->armor_weapon_prof = $armor_weapon_prof;
+
+        return $this;
     }
 }

@@ -42,8 +42,16 @@ class WelcomeController extends AbstractController
 
 
 
+
+    // ResetPasswordTrait.php
+    // https://github.com/webinarium/symfony-lazysec/blob/master/src/Entity/ResetPasswordTrait.php
+
+    // Symfony 4 change password by username - email can not be null --- LAST ANSWER
+    // https://stackoverflow.com/questions/50530114/symfony-4-change-password-by-username-email-can-not-be-null
+
+
     /**
-     * @Route("/", name="app_mainpage")
+     * @Route("/", name="app_homepage")
      *
      */
     public function index() : Response

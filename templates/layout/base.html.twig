@@ -15,7 +15,7 @@
             {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                 <div class="alert alert-danger text-center mb-0" style="border-color: #F04124; font-size: 1rem">
                     You are currently switched to user <strong>{{ app.user.name }} ({{ app.user.email }})</strong>.
-                    <a class="alert-link" href="{{ path('app_mainpage', {'_switch_user' : '_exit'}) }}"> <i class="fas fa-sign-out-alt ml-2"></i> Exit</a>
+                    <a class="alert-link" href="{{ path('app_homepage', {'_switch_user' : '_exit'}) }}"> <i class="fas fa-sign-out-alt ml-2"></i> Exit</a>
                 </div>
             {% endif %}
 
@@ -23,11 +23,12 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand m-auto" href="{{ path('app_mainpage') }}">RPG-Helper</a>
+                <a class="navbar-brand m-auto" href="{{ path('app_homepage') }}">RPG-Helper</a>
                 {% if is_granted('ROLE_USER') %}
                     <span class="navbar-text"><a class="nav-link" href="{{ path('app_logout') }}"><i class='fa fa-sign-out-alt'></i> {{ app.user.email }}</a></span>
                 {% else %}
-                    <span class="navbar-text"><a class="nav-link" href="{{ path('app_login') }}"><i class='fa fa-sign-in-alt'></i> Login</a></span>
+                    <span class="navbar-text"><a class="nav-link" href="{{ path('app_login') }}"><i class='fa fa-sign-in-alt'></i> Login</a></span> /
+                    <span class="navbar-text"><a class="nav-link" href="{{ path('app_register') }}">Register</a></span>
                 {% endif %}
                 <div class="collapse navbar-collapse" id="navbars">
                     <ul class="navbar-nav mr-auto">

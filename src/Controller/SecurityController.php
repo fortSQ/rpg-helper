@@ -44,6 +44,8 @@ class SecurityController extends AbstractController
      * @Route("/register", name="app_register")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param LoginFormAuthenticator $formAuthenticator
      * @return Response
      */
     public function register(

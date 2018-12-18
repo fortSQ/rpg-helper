@@ -3,32 +3,62 @@
 {% block title %}Register!{% endblock %}
 
 {% block body %}
-    <div class="row justify-content-center align-items-center">
-        <div class="col-3">
-            <form method="post">
-                <h1 class="h3 mb-3 font-weight-normal">Register</h1>
-                <label for="inputName" class="sr-only">Name</label>
-                <input type="text" name="name" id="inputName" class="form-control" placeholder="Name" required autofocus>
-                <label for="inputEmail" class="sr-only">Email</label>
-                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <div class="row justify-content-md-center h-100">
+        <div class="card-wrapper">
+            <div class="card fat">
+                <div class="card-body">
+                    <h4 class="card-title">Register</h4>
+                    <form method="post" class="my-login-validation" novalidate="">
+                        {#<input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >#}
 
-                {#<input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >#}
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input id="name" type="text" class="form-control" name="name" required autofocus>
+                            <div class="invalid-feedback">
+                                What's your name?
+                            </div>
+                        </div>
 
-                <div class="checkbox mt-3">
-                    <label>
-                        <input type="checkbox" name="_turms"> I agree with terms
-                    </label>
+                        <div class="form-group">
+                            <label for="email">E-Mail Address</label>
+                            <input id="email" type="email" class="form-control" name="email" required>
+                            <div class="invalid-feedback">
+                                Your email is invalid
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input id="password" type="password" class="form-control" name="password" required data-eye>
+                            <div class="invalid-feedback">
+                                Password is required
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-checkbox custom-control">
+                                <input type="checkbox" name="_turms" id="_turms" class="custom-control-input" required="">
+                                <label for="_turms" class="custom-control-label">I agree to the <a href="#">Terms and Conditions</a></label>
+                                <div class="invalid-feedback">
+                                    You must agree with our Terms and Conditions
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-0">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                Register
+                            </button>
+                        </div>
+                        <div class="mt-4 text-center">
+                            Already have an account? <a href="index.html">Login</a>
+                        </div>
+                    </form>
                 </div>
-
-
-                <button class="btn btn-lg btn-primary my-3" type="submit">
-                    Register
-                </button>
-            </form>
+            </div>
         </div>
     </div>
+
 {% endblock %}

@@ -13,7 +13,10 @@ class DndCharacter
     const STATUS_ACTIVE   = 'active';
     const STATUS_INACTIVE = 'inactive';
 
-    /* Languages */
+    const ALLOWED_STATUSES = [
+        self::STATUS_ACTIVE,
+        self::STATUS_INACTIVE,
+    ];
 
     const LANGUAGE_COMMON      = 'common';
     const LANGUAGE_DWARVISH    = 'dwarvish';
@@ -333,11 +336,8 @@ class DndCharacter
 
     public function setStatus(string $status): self
     {
-        if (!in_array($status, [
-            self::STATUS_ACTIVE,
-            self::STATUS_INACTIVE
-        ])) {
-            throw new \InvalidArgumentException("Invalid status");
+        if (!in_array($status,self::ALLOWED_STATUSES)) {
+            throw new \InvalidArgumentException("Invalid Dnd Character status");
         }
 
         $this->status = $status;

@@ -26,6 +26,22 @@ class User implements UserInterface
         self::ROLE_ADMIN,
     ];
 
+    const STATUS_ACTIVE   = 'active';
+    const STATUS_INACTIVE = 'inactive';
+
+    const ALLOWED_STATUSES = [
+        self::STATUS_ACTIVE,
+        self::STATUS_INACTIVE,
+    ];
+
+    const INACTIVE_REASON_BANNED        = 'banned';
+    const INACTIVE_REASON_NOT_ACTIVATED = 'not_activated';
+
+    const ALLOWED_INACTIVE_REASONS = [
+        self::INACTIVE_REASON_BANNED,
+        self::INACTIVE_REASON_NOT_ACTIVATED,
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -71,6 +87,16 @@ class User implements UserInterface
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $lastLoginAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, options={"default" = User::STATUS_INACTIVE})
+     */
+    private $status = self::STATUS_INACTIVE;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, options={"default" = User::INACTIVE_REASON_NOT_ACTIVATED})
+     */
+    private $inactive_reason = self::INACTIVE_REASON_NOT_ACTIVATED;
 
     public function __construct()
     {
@@ -120,7 +146,7 @@ class User implements UserInterface
     {
         foreach ($roles as $role) {
             if (!in_array($role, self::ALLOWED_ROLES)) {
-                throw new \InvalidArgumentException("Invalid status");
+                throw new \InvalidArgumentException("Invalid user roles");
             }
         }
 
@@ -224,6 +250,38 @@ class User implements UserInterface
     public function setLastLoginAt(?\DateTimeInterface $lastLoginAt): self
     {
         $this->lastLoginAt = $lastLoginAt;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        if (!in_array($status, self::ALLOWED_STATUSES)) {
+            throw new \InvalidArgumentException("Invalid user status");
+        }
+
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getInactiveReason(): ?string
+    {
+        return $this->inactive_reason;
+    }
+
+    public function setInactiveReason(?string $inactive_reason): self
+    {
+        if (!in_array($inactive_reason, self::ALLOWED_INACTIVE_REASONS)) {
+            throw new \InvalidArgumentException("Invalid user inactive reason");
+        }
+
+        $this->inactive_reason = $inactive_reason;
 
         return $this;
     }

@@ -8,12 +8,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SecurityController extends AbstractController
 {
+    /* транзакционные email
+        - регистрация - письмо об успешной регистрации
+        - восстановление пароля – письмо со ссылкой на страницу сброса пароля
+        - сброс пароля – письмо о сбросе пароля
+    */
+
+
+
+
     /**
      * @Route("/login", name="app_login")
      * @param AuthenticationUtils $authenticationUtils
@@ -46,25 +56,36 @@ class SecurityController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param GuardAuthenticatorHandler $guardHandler
      * @param LoginFormAuthenticator $formAuthenticator
+     * @param ValidatorInterface $validator
      * @return Response
      */
     public function register(
         Request $request,
         UserPasswordEncoderInterface $passwordEncoder,
         GuardAuthenticatorHandler $guardHandler,
-        LoginFormAuthenticator $formAuthenticator
+        LoginFormAuthenticator $formAuthenticator,
+        ValidatorInterface $validator
     )
     {
-        // TODO add validation
-
         if ($request->isMethod('POST')) {
             $user = new User();
             $user->setName($request->request->get('name'));
             $user->setEmail($request->request->get('email'));
+            $user->setRegisteredAt(new \DateTime());
+            $user->setStatus(User::STATUS_INACTIVE);
+            $user->setInactiveReason(User::INACTIVE_REASON_NOT_ACTIVATED);
             $user->setPassword($passwordEncoder->encodePassword(
                 $user,
                 $request->request->get('password')
             ));
+
+            $errors = $validator->validate($user);
+
+            if (count($errors) > 0) {
+                return $this->render('security/register.html.twig', array(
+                    'errors' => $errors,
+                ));
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -79,5 +100,13 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/register.html.twig');
+    }
+
+    public function forgotPassword() {
+
+    }
+
+    public function resetPassword() {
+
     }
 }

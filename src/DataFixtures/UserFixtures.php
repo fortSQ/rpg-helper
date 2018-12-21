@@ -27,7 +27,7 @@ class UserFixtures extends BaseFixture
             $user->setRoles([User::ROLE_ADMIN, User::ROLE_MODERATOR]);
             $user->setLastLoginAt(new \DateTime('-1 day'));
             $user->setRegisteredAt(new \DateTime('-10 day'));
-
+            $user->setStatus(User::STATUS_ACTIVE);
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 'secret'
@@ -42,7 +42,7 @@ class UserFixtures extends BaseFixture
             $user->setName($this->faker->unique()->firstName);
             $user->setLastLoginAt(new \DateTime('-1 day'));
             $user->setRegisteredAt(new \DateTime('-10 day'));
-
+            $user->setStatus(User::STATUS_ACTIVE);
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 'secret'

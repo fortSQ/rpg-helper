@@ -95,14 +95,14 @@ class User implements UserInterface
     private $lastLoginAt;
 
     /**
-     * @ORM\Column(type="string", length=255, options={"default" = User::STATUS_INACTIVE})
+     * @ORM\Column(type="string", length=255, options={"default" = User::STATUS_ACTIVE})
      */
-    private $status = self::STATUS_INACTIVE;
+    private $status = self::STATUS_ACTIVE;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true, options={"default" = User::INACTIVE_REASON_NOT_ACTIVATED})
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $inactive_reason = self::INACTIVE_REASON_NOT_ACTIVATED;
+    private $inactive_reason;
 
     public function __construct()
     {

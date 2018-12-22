@@ -3,15 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use App\Security\LoginFormAuthenticator;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -56,7 +58,8 @@ class SecurityController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param GuardAuthenticatorHandler $guardHandler
      * @param LoginFormAuthenticator $formAuthenticator
-     * @param ValidatorInterface $validator
+     * @param TranslatorInterface $translator
+     * @param LoggerInterface $logger
      * @return Response
      */
     public function register(
@@ -64,32 +67,36 @@ class SecurityController extends AbstractController
         UserPasswordEncoderInterface $passwordEncoder,
         GuardAuthenticatorHandler $guardHandler,
         LoginFormAuthenticator $formAuthenticator,
-        ValidatorInterface $validator
+        TranslatorInterface $translator,
+        LoggerInterface $logger
     )
     {
-        if ($request->isMethod('POST')) {
-            $user = new User();
-            $user->setName($request->request->get('name'));
-            $user->setEmail($request->request->get('email'));
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $user->setRegisteredAt(new \DateTime());
-            $user->setStatus(User::STATUS_INACTIVE);
+            $user->setStatus(User::STATUS_ACTIVE);
             $user->setInactiveReason(User::INACTIVE_REASON_NOT_ACTIVATED);
-            $user->setPassword($passwordEncoder->encodePassword(
-                $user,
-                $request->request->get('password')
-            ));
 
-            $errors = $validator->validate($user);
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
 
-            if (count($errors) > 0) {
-                return $this->render('security/register.html.twig', array(
-                    'errors' => $errors,
-                ));
-            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $logger->info('User created', [
+                'user_id' => $user->getId(),
+            ]);
+
+            $this->addFlash(
+                'success',
+                $translator->trans('Character created')
+            );
+            // email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
@@ -99,7 +106,15 @@ class SecurityController extends AbstractController
             );
         }
 
-        return $this->render('security/register.html.twig');
+
+ 
+
+
+
+
+        return $this->render('security/register.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     public function forgotPassword() {

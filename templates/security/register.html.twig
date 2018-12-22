@@ -8,54 +8,45 @@
             <div class="card fat">
                 <div class="card-body">
                     <h4 class="card-title">Register</h4>
-                    <form method="post" class="my-login-validation" novalidate="">
-                        {#<input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('authenticate') }}"
-                        >#}
 
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input id="name" type="text" class="form-control" name="name" required autofocus>
-                            <div class="invalid-feedback">
-                                What's your name?
-                            </div>
-                        </div>
+                    {{ form_start(form) }}
 
-                        <div class="form-group">
-                            <label for="email">E-Mail Address</label>
-                            <input id="email" type="email" class="form-control" name="email" required>
-                            <div class="invalid-feedback">
-                                Your email is invalid
-                            </div>
-                        </div>
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name) }}
+                    {{ form_help(form.name) }}
 
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input id="password" type="password" class="form-control" name="password" required data-eye>
-                            <div class="invalid-feedback">
-                                Password is required
-                            </div>
-                        </div>
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email) }}
+                    {{ form_help(form.email) }}
 
-                        <div class="form-group">
-                            <div class="custom-checkbox custom-control">
-                                <input type="checkbox" name="_turms" id="_turms" class="custom-control-input" required="">
-                                <label for="_turms" class="custom-control-label">I agree to the <a href="#">Terms and Conditions</a></label>
-                                <div class="invalid-feedback">
-                                    You must agree with our Terms and Conditions
-                                </div>
-                            </div>
-                        </div>
+                    {{ form_label(form.plainPassword.first) }}
+                    {{ form_widget(form.plainPassword.first) }}
+                    {{ form_help(form.plainPassword.first) }}
 
-                        <div class="form-group m-0">
-                            <button type="submit" class="btn btn-primary btn-block">
-                                Register
-                            </button>
-                        </div>
-                        <div class="mt-4 text-center">
-                            Already have an account? <a href="{{ path('app_login') }}">Login</a>
-                        </div>
-                    </form>
+                    {{ form_label(form.plainPassword.second) }}
+                    {{ form_widget(form.plainPassword.second) }}
+                    {{ form_help(form.plainPassword.second) }}
+
+                    <div class="form-group mt-3">
+                        {{ form_widget(form.termsAccepted, {
+                            'label': 'I agree to the',
+                            'label_attr': {'class': 'checkbox-custom'}
+                        } ) }}
+
+                        <label class="mb-0"><a href="{{ path('app_homepage') }} ">Terms and Conditions</a></label>
+                    </div>
+
+                    <div class="form-group m-0">
+                        <button type="submit" class="btn btn-primary btn-block" formnovalidate>
+                            Register
+                        </button>
+                    </div>
+                    <div class="mt-4 text-center">
+                        Already have an account? <a href="{{ path('app_login') }}">Login</a>
+                    </div>
+
+                    {{ form_end(form) }}
+
                 </div>
             </div>
         </div>

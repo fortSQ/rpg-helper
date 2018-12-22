@@ -79,7 +79,6 @@ class SecurityController extends AbstractController
 
             $user->setRegisteredAt(new \DateTime());
             $user->setStatus(User::STATUS_ACTIVE);
-            $user->setInactiveReason(User::INACTIVE_REASON_NOT_ACTIVATED);
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
@@ -94,9 +93,10 @@ class SecurityController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $translator->trans('Character created')
+                $translator->trans('%_flash_message_user_registered_%')
             );
-            // email
+
+            // send email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
@@ -105,12 +105,6 @@ class SecurityController extends AbstractController
                 'main'
             );
         }
-
-
- 
-
-
-
 
         return $this->render('security/register.html.twig', [
             'form' => $form->createView()

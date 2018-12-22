@@ -28,8 +28,6 @@ class UserType extends AbstractType
             ->add('termsAccepted', CheckboxType::class, array(
                 'mapped' => false,
                 'constraints' => new IsTrue(),
-                //'label' => 'ddddd',
-                //'label_attr' => ['class' => 'checkbox-custom'],
             ))
         ;
     }

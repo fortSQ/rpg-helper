@@ -4,11 +4,11 @@
 
 {% block body %}
 
-    <div class="row justify-content-md-center h-100">
+    <div class="row justify-content-center">
         <div class="card-wrapper">
-            <div class="card fat">
+            <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Login</h4>
+                    <h4 class="card-title">{{ '%_login_%'|trans|capitalize }}</h4>
                     <form method="post" class="my-login-validation" novalidate="">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         {% if error %}
@@ -16,7 +16,7 @@
                         {% endif %}
 
                         <div class="form-group">
-                            <label for="email">E-Mail Address</label>
+                            <label for="email">{{ '%_email_%'|trans|capitalize }}</label>
                             <input id="email" type="email" class="form-control" name="email" value="{{ last_username }}" required autofocus>
                             <div class="invalid-feedback">
                                 Email is invalid
@@ -24,9 +24,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password">Password</label>
-                            <a href="forgot.html" class="float-right">
-                                Forgot Password?
+                            <label for="password">{{ '%_password_%'|trans|capitalize }}</label>
+                            <a href="{{ path('app_forgot_password') }}" class="float-right" style="font-size: 0.8rem">
+                                {{ '%_forgot_password_%'|trans|capitalize }}
                             </a>
                             <input id="password" type="password" class="form-control" name="password" required data-eye>
                             <div class="invalid-feedback">
@@ -37,17 +37,17 @@
                         <div class="form-group">
                             <div class="custom-checkbox custom-control">
                                 <input type="checkbox" name="_remember_me" id="remember" class="custom-control-input">
-                                <label for="remember" class="custom-control-label">Remeber Me</label>
+                                <label for="remember" class="custom-control-label">{{ '%_remember_me_%'|trans|capitalize }}</label>
                             </div>
                         </div>
 
                         <div class="form-group m-0">
                             <button type="submit" class="btn btn-primary btn-block">
-                                Login
+                                {{ '%_login_%'|trans|capitalize }}
                             </button>
                         </div>
                         <div class="mt-4 text-center">
-                            Don't have an account? <a href="{{ path('app_register') }}">Create One</a>
+                            {{ '%_dont_have_account_%'|trans|capitalize }} <a href="{{ path('app_register') }}">{{ '%_create_one_%'|trans|capitalize }}</a>
                         </div>
                     </form>
                 </div>

@@ -96,7 +96,7 @@ class SecurityController extends AbstractController
                 $translator->trans('%_flash_message_user_registered_%')
             );
 
-            // send email
+            // TODO send email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
@@ -111,10 +111,20 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/forgot-password", name="app_forgot_password")
+     */
     public function forgotPassword() {
 
+
+        return $this->render('security/forgot.html.twig', [
+
+        ]);
     }
 
+    /**
+     * @Route("/reset-password", name="app_reset_password")
+     */
     public function resetPassword() {
 
     }

@@ -90,7 +90,7 @@ $(document).ready(() => {
             paddingRight: 60
         });
         $this.after($("<div/>", {
-            html: 'Show',
+            html: '<i class="fas fa-eye"></i>',
             class: 'btn btn-primary btn-sm',
             id: 'passeye-toggle-'+i,
         }).css({

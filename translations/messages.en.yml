@@ -1,1 +1,18 @@
+# login / register
+'%_register_%' : 'register'
+'%_login_%' : 'login'
+'%_name_%' : 'name'
+'%_email_%' : 'email'
+'%_password_%' : 'password'
+'%_repeat_password_%' : 'repeat password'
+'%_already_have_account_%' : 'Already have an account?'
+'%_dont_have_account_%' : "Don't have an account?"
+'%_create_one_%' : 'Create One'
+'%_forgot_password_%' : 'Forgot Password?'
+'%_remember_me_%' : 'Remember me'
+'%_show_%' : 'show'
+'%_i_agree_%' : 'I agree to the'
+'%_terms_and_conditions_%' : 'Terms and Conditions'
 '%_flash_message_user_registered_%' : 'You succesfully registered. Welcome!'
+'%_reset_password_text_%' : 'By clicking "Reset password" we will send a password reset link'
+'%_reset_password_%' : 'reset password'

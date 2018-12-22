@@ -1,2 +1,20 @@
 'No equipment found': 'Снаряжение не найдено'
+
+# login / register
+'%_register_%' : 'регистрация'
+'%_login_%' : 'войти'
+'%_name_%' : 'Имя'
+'%_email_%' : 'емейл'
+'%_password_%' : 'пароль'
+'%_repeat_password_%' : 'повтор пароля'
+'%_already_have_account_%' : 'Уже есть аккаунт?'
+'%_dont_have_account_%' : "Еще нет аккаунта?"
+'%_create_one_%' : 'Создать'
+'%_forgot_password_%' : 'Забыли пароль?'
+'%_remember_me_%' : 'Запомнить меня'
+'%_show_%' : 'показать'
+'%_i_agree_%' : 'Я принимаю'
+'%_terms_and_conditions_%' : 'Условия и положения'
 '%_flash_message_user_registered_%' : 'Вы успешно заергистрировались в системе. Добро пожаловать!'
+'%_reset_password_text_%' : 'После нажатия на "Сбросить пароль" мы отправим вам ссылку для сброса пароля'
+'%_reset_password_%' : 'Сбросить пароль'

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +28,7 @@ class SecurityController extends AbstractController
 
 
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/login", name="app_login", methods="GET|POST")
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
@@ -53,7 +54,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/register", name="app_register", methods="GET|POST")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param GuardAuthenticatorHandler $guardHandler
@@ -112,20 +113,68 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/forgot-password", name="app_forgot_password")
+     * @Route("/forgot-password", name="app_forgot_password", methods="GET|POST")
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param TranslatorInterface $translator
+     * @return Response
      */
-    public function forgotPassword() {
+    public function forgotPassword(Request $request, UserRepository $userRepository, TranslatorInterface $translator)
+    {
+        if ($request->isMethod('POST')) {
+            $user = $userRepository->findOneBy([
+                'email' => $request->request->get('email')
+            ]);
 
+            if (null == $user) {
+                return $this->render('security/forgot.html.twig', [
+                    'last_email' => $request->request->get('email'),
+                ]);
+            }
 
-        return $this->render('security/forgot.html.twig', [
+            $token = $user->generateResetToken(new \DateInterval('PT1H'));
 
-        ]);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $resetLink = $this->generateUrl('app_reset_password', [
+                'token' => $token
+            ]);
+
+            return $this->redirectToRoute('app_reset_password', [
+                'token' => $token
+            ]);
+
+            // отправить ссылку в емейле
+
+            $this->addFlash(
+                'success',
+                $translator->trans('%_flash_message_reset_password_requested_%')
+            );
+        }
+
+        return $this->render('security/forgot.html.twig');
     }
 
     /**
-     * @Route("/reset-password", name="app_reset_password")
+     * @Route("/reset-password/{token}", name="app_reset_password")
+     * @param UserRepository $userRepository
+     * @param string $token
      */
-    public function resetPassword() {
+    public function resetPassword(UserRepository $userRepository, string $token)
+    {
+        $user = $userRepository->findOneBy([
+            'resetToken' => $token
+        ]);
 
+        if ($user->isResetTokenValid($token)) {
+
+            // поменять пароль
+            // clearResetToken()
+        }
+
+
+        return $this->render('security/reset.html.twig');
     }
 }

@@ -9,14 +9,21 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ '%_forgot_password_%'|trans }}</h4>
-                    <form method="POST" class="my-login-validation" novalidate="">
+                    <form method="POST" class="my-login-validation">
                         <div class="form-group">
                             <label for="email">{{ '%_email_%'|trans|capitalize }}</label>
-                            <input id="email" type="email" class="form-control" name="email" value="" required autofocus>
-                            <div class="invalid-feedback">
-                                Email is invalid
-                            </div>
-                            <div class="form-text text-muted">
+                            <input id="email"
+                                   type="email"
+                                   class="form-control {% if last_email is defined -%}is-invalid{%- endif -%}"
+                                   {% if last_email is defined -%}value="{{ last_email }}"{%- endif -%}
+                                   name="email"
+                                   required
+                                   autofocus
+                            >
+                                <div class="invalid-feedback">
+                                    {{ '%_reset_password_email_not_found_%'|trans }}
+                                </div>
+                            <div class="form-text text-muted" style="font-size: 0.8rem">
                                 {{ '%_reset_password_text_%'|trans }}
                             </div>
                         </div>

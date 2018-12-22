@@ -26,7 +26,7 @@ class UserFixtures extends BaseFixture
             $user->setName('Akim');
             $user->setRoles([User::ROLE_ADMIN, User::ROLE_MODERATOR]);
             $user->setLastLoginAt(new \DateTime('-1 day'));
-            $user->setRegisteredAt(new \DateTime('-10 day'));
+            $user->setCreatedAt(new \DateTime('-10 day'));
             $user->setStatus(User::STATUS_ACTIVE);
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
@@ -41,7 +41,7 @@ class UserFixtures extends BaseFixture
             $user->setEmail(sprintf('user%d@example.com', $i));
             $user->setName($this->faker->unique()->firstName);
             $user->setLastLoginAt(new \DateTime('-1 day'));
-            $user->setRegisteredAt(new \DateTime('-10 day'));
+            $user->setCreatedAt(new \DateTime('-10 day'));
             $user->setStatus(User::STATUS_ACTIVE);
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,

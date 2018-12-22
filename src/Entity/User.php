@@ -16,6 +16,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
+    use TimestampableEntityTrait;
+    use ResetPasswordTrait;
+
     const ROLE_USER       = 'ROLE_USER';
     const ROLE_MODERATOR  = 'ROLE_MODERATOR';
     const ROLE_ADMIN      = 'ROLE_ADMIN';
@@ -50,6 +53,14 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=30, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Regex("/^\w+$/")
+     * @Assert\Length(min = 2, max = 30)
+     */
+    private $name;
+
+    /**
      * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\Email
      */
@@ -59,14 +70,6 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [self::ROLE_USER];
-
-    /**
-     * @ORM\Column(type="string", length=30, unique=true)
-     * @Assert\NotBlank
-     * @Assert\Regex("/^\w+$/")
-     * @Assert\Length(min = 2, max = 30)
-     */
-    private $name;
 
     /**
      * @Assert\NotBlank
@@ -83,11 +86,6 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\DndCharacter", mappedBy="user", orphanRemoval=true)
      */
     private $dndCharacters;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $registeredAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -232,18 +230,6 @@ class User implements UserInterface
                 $dndCharacter->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getRegisteredAt(): ?\DateTimeInterface
-    {
-        return $this->registeredAt;
-    }
-
-    public function setRegisteredAt(?\DateTimeInterface $registeredAt): self
-    {
-        $this->registeredAt = $registeredAt;
 
         return $this;
     }

@@ -2,10 +2,6 @@
 
 Hi {{ name }}! You're successfully registered.
 
-{# example, assuming you have a route named "login" #}
-To login, go to: <a href="{{ url('login') }}">...</a>.
+To login, go to: <a href="{{ path('app_login') }}">login page</a>.
 
-Thanks!
-
-{# Makes an absolute URL to the /images/logo.png file #}
-<img src="{{ absolute_url(asset('images/logo.png')) }}">
+Thanks! And have a good day!

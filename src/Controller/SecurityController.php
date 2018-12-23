@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -18,13 +19,18 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController
 {
+    private $parameterBag;
+
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->parameterBag = $parameterBag;
+    }
+
     /* транзакционные email
         - регистрация - письмо об успешной регистрации
         - восстановление пароля – письмо со ссылкой на страницу сброса пароля
         - сброс пароля – письмо о сбросе пароля
     */
-
-
 
 
     /**
@@ -61,6 +67,7 @@ class SecurityController extends AbstractController
      * @param LoginFormAuthenticator $formAuthenticator
      * @param TranslatorInterface $translator
      * @param LoggerInterface $logger
+     * @param \Swift_Mailer $mailer
      * @return Response
      */
     public function register(
@@ -69,7 +76,8 @@ class SecurityController extends AbstractController
         GuardAuthenticatorHandler $guardHandler,
         LoginFormAuthenticator $formAuthenticator,
         TranslatorInterface $translator,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        \Swift_Mailer $mailer
     )
     {
         $user = new User();
@@ -78,9 +86,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user->setRegisteredAt(new \DateTime());
-            $user->setStatus(User::STATUS_ACTIVE);
-
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
@@ -88,16 +93,30 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            /* Send email */
+            $message = (new \Swift_Message('You successfully registered'))
+                ->setFrom($this->parameterBag->get('admin_email'))
+                ->setTo('akim_now@mail.ru')
+                ->setBody(
+                    $this->renderView(
+                        'emails/register.html.twig',
+                        ['name' => $user->getName()]
+                    ),
+                    'text/html'
+                )
+            ;
+            $result = $mailer->send($message);
+
+            /* Write to log */
             $logger->info('User created', [
                 'user_id' => $user->getId(),
             ]);
 
+            /* Add flash message */
             $this->addFlash(
                 'success',
-                $translator->trans('%_flash_message_user_registered_%')
+                $translator->trans('%_flash_message_user_registered_%') . $result
             );
-
-            // TODO send email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
@@ -161,6 +180,7 @@ class SecurityController extends AbstractController
      * @Route("/reset-password/{token}", name="app_reset_password")
      * @param UserRepository $userRepository
      * @param string $token
+     * @return Response
      */
     public function resetPassword(UserRepository $userRepository, string $token)
     {

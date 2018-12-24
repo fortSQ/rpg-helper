@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\ResetPasswordTrait;
+use App\Form\ResetPasswordType;
 use App\Helpers\MailService;
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\RegisterType;
 use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
@@ -75,7 +78,7 @@ class SecurityController extends AbstractController
     )
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -186,21 +189,13 @@ class SecurityController extends AbstractController
             throw new NotFoundHttpException("Reset password token doesn't exist or is not valid");
         }
 
-        if ($request->isMethod('POST')) {
-            // поменять пароль
+        $form = $this->createForm(ResetPasswordType::class, $user);
+        $form->handleRequest($request);
 
-            $newpassword = $passwordEncoder->encodePassword($user, $user->getPassword());
-            if ($newpassword = $oldpassword) {
-                $this->addFlash('danger', "Ce mot de passe est dejà utilisé.");
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            } else {
-                $user->setPassword($newpassword);
-            }
-
-
-
-
-
+            $newEncodedPassword = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($newEncodedPassword);
             $user->clearResetToken();
 
             $em = $this->getDoctrine()->getManager();
@@ -222,8 +217,12 @@ class SecurityController extends AbstractController
                 'success',
                 $this->translator->trans('%_password_changed_%')
             );
+
+            return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('security/reset.html.twig');
+        return $this->render('security/reset.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

@@ -1,15 +1,4 @@
-<h3>You did it! You registered!</h3>
-
 <p>Hi {{ name }}! You're successfully registered.</p>
-
-<p>To login, go to login page:</p>
-
-<p>
-    <a href="{{ absolute_url(path('app_login')) }}">{{ absolute_url(path('app_login')) }}</a>.
-</p>
-
+<p>To login, go to login page: <a href="{{ absolute_url(path('app_login')) }}">{{ absolute_url(path('app_login')) }}</a>.</p>
 <p>Thanks! And have a good day!</p>
-
-<p>Yours,</p>
-
-<p>RPG-helper team</p>
+<p>Yours, <br>RPG-helper team.</p>

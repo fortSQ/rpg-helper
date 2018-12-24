@@ -62,6 +62,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank
      * @Assert\Email
      */
     private $email;
@@ -73,7 +74,7 @@ class User implements UserInterface
 
     /**
      * @Assert\NotBlank
-     * @Assert\Length(max=4096)
+     * @Assert\Length(min = 6, max=4096)
      */
     private $plainPassword;
 
@@ -181,7 +182,7 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getName(): ?string

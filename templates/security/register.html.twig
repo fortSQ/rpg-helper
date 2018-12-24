@@ -1,28 +1,6 @@
 {% extends 'layout/base.html.twig' %}
 
-{% form_theme form _self %}
-
-{% block checkbox_widget -%}
-    {# Этот блок здесь исключительно из-за невозможности вставить в label чекбокса ссылку #}
-    <div class="form-group mt-3">
-        <div class="custom-checkbox custom-control">
-            <input type="checkbox"
-                   name="user[termsAccepted]"
-                   id="user_termsAccepted"
-                   class="custom-control-input {% if errors|length > 0 -%}is-invalid{%- endif -%}"
-                   {% if form.vars.checked -%}checked="checked"{% endif %}
-            >
-            <label for="user_termsAccepted" class="custom-control-label">
-                {{ '%_i_agree_%'|trans }} <a href="{{ path('app_homepage') }}">{{ '%_terms_and_conditions_%'|trans }}</a>
-            </label>
-        </div>
-        {%- if errors|length > 0 -%}
-            <div id="{{ id }}_errors" class="mb-2">
-                {{- form_errors(form) -}}
-            </div>
-        {%- endif -%}
-    </div>
-{%- endblock checkbox_widget %}
+{% form_theme form 'form/errors.html.twig' 'form/checkbox_widget_for_registration.html.twig' %}
 
 {% block title %}Register!{% endblock %}
 
@@ -34,6 +12,8 @@
                     <h4 class="card-title">{{ '%_register_%'|trans|capitalize }}</h4>
 
                     {{ form_start(form) }}
+
+                    {{ form_errors(form) }}
 
                     {{ form_label(form.name, '%_name_%'|trans|capitalize) }}
                     {{ form_widget(form.name) }}

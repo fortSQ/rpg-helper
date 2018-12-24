@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -19,12 +20,16 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController
 {
-    /* транзакционные email
-        - регистрация - письмо об успешной регистрации
-        - восстановление пароля – письмо со ссылкой на страницу сброса пароля
-        - сброс пароля – письмо о сбросе пароля
-    */
+    private $logger;
+    private $translator;
+    private $mailer;
 
+    public function __construct(LoggerInterface $logger, TranslatorInterface $translator, MailService $mailer)
+    {
+        $this->logger = $logger;
+        $this->translator = $translator;
+        $this->mailer = $mailer;
+    }
 
     /**
      * @Route("/login", name="app_login", methods="GET|POST")
@@ -33,12 +38,12 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils) : Response
     {
+        // POST request is handled in \src\Security\LoginFormAuthenticator.php
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        // TODO log
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
@@ -60,19 +65,13 @@ class SecurityController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param GuardAuthenticatorHandler $guardHandler
      * @param LoginFormAuthenticator $formAuthenticator
-     * @param TranslatorInterface $translator
-     * @param LoggerInterface $logger
-     * @param MailService $mailer
      * @return Response
      */
     public function register(
         Request $request,
         UserPasswordEncoderInterface $passwordEncoder,
         GuardAuthenticatorHandler $guardHandler,
-        LoginFormAuthenticator $formAuthenticator,
-        TranslatorInterface $translator,
-        LoggerInterface $logger,
-        MailService $mailer
+        LoginFormAuthenticator $formAuthenticator
     )
     {
         $user = new User();
@@ -89,7 +88,7 @@ class SecurityController extends AbstractController
             $entityManager->flush();
 
             /* Send email */
-            $mailer->sendEmail(
+            $this->mailer->sendEmail(
                 'You successfully registered',
                 $user->getEmail(),
                 'emails/register.html.twig',
@@ -99,14 +98,14 @@ class SecurityController extends AbstractController
             );
 
             /* Write to log */
-            $logger->info('User created', [
+            $this->logger->info('User created', [
                 'user_id' => $user->getId(),
             ]);
 
-            /* Add flash message */
+            /* Flash message */
             $this->addFlash(
                 'success',
-                $translator->trans('%_flash_message_user_registered_%')
+                $this->translator->trans('%_flash_message_user_registered_%')
             );
 
             return $guardHandler->authenticateUserAndHandleSuccess(
@@ -129,7 +128,7 @@ class SecurityController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function forgotPassword(Request $request, UserRepository $userRepository, TranslatorInterface $translator)
+    public function forgotPassword(Request $request, UserRepository $userRepository)
     {
         if ($request->isMethod('POST')) {
             $user = $userRepository->findOneBy([
@@ -148,19 +147,21 @@ class SecurityController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $resetLink = $this->generateUrl('app_reset_password', [
-                'token' => $token
-            ]);
+            /* Send email */
+            $this->mailer->sendEmail(
+                'Reset your password',
+                $user->getEmail(),
+                'emails/reset.html.twig',
+                [
+                    'name'  => $user->getName(),
+                    'token' => $token
+                ]
+            );
 
-            return $this->redirectToRoute('app_reset_password', [
-                'token' => $token
-            ]);
-
-            // отправить ссылку в емейле
-
+            /* Flash message */
             $this->addFlash(
                 'success',
-                $translator->trans('%_flash_message_reset_password_requested_%')
+                $this->translator->trans('%_flash_message_reset_password_requested_%')
             );
         }
 
@@ -169,22 +170,59 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/reset-password/{token}", name="app_reset_password")
+     * @param Request $request
      * @param UserRepository $userRepository
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @param string $token
      * @return Response
      */
-    public function resetPassword(UserRepository $userRepository, string $token)
+    public function resetPassword(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder, string $token)
     {
         $user = $userRepository->findOneBy([
             'resetToken' => $token
         ]);
 
-        if ($user->isResetTokenValid($token)) {
-
-            // поменять пароль
-            // clearResetToken()
+        if (!isset($user) || !$user->isResetTokenValid($token)) {
+            throw new NotFoundHttpException("Reset password token doesn't exist or is not valid");
         }
 
+        if ($request->isMethod('POST')) {
+            // поменять пароль
+
+            $newpassword = $passwordEncoder->encodePassword($user, $user->getPassword());
+            if ($newpassword = $oldpassword) {
+                $this->addFlash('danger', "Ce mot de passe est dejà utilisé.");
+
+            } else {
+                $user->setPassword($newpassword);
+            }
+
+
+
+
+
+            $user->clearResetToken();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            /* Send email */
+            $this->mailer->sendEmail(
+                'Your password successfully changed',
+                $user->getEmail(),
+                'emails/password_changed.html.twig',
+                [
+                    'name'  => $user->getName()
+                ]
+            );
+
+            /* Flash message */
+            $this->addFlash(
+                'success',
+                $this->translator->trans('%_password_changed_%')
+            );
+        }
 
         return $this->render('security/reset.html.twig');
     }

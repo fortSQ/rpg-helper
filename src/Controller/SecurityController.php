@@ -203,7 +203,7 @@ class SecurityController extends AbstractController
             $em->flush();
 
             /* Send email */
-            $this->mailer->sendEmail(
+            $this->mailer->sendResetPasswordEmailMessage(
                 'Your password successfully changed',
                 $user->getEmail(),
                 'emails/password_changed.html.twig',

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Helpers\DiceHelper;
+use App\Helpers\MailService;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,9 +54,8 @@ class WelcomeController extends AbstractController
 
     /**
      * @Route("/", name="app_homepage")
-     *
      */
-    public function index() : Response
+    public function index(MailService $mailer, UserRepository $userRepository) : Response
     {
         $data = [];
 
@@ -68,6 +69,11 @@ class WelcomeController extends AbstractController
         krsort($data);
 
         //dump($data); die('ok');
+
+        $user = $userRepository->findOneBy([
+            'email' => 'akim_now@mail.ru'
+        ]);
+        $mailer->sendResetPasswordEmailMessage($user);
 
         return $this->render('welcome/index.html.twig', [
             'data' => $data,

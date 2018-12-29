@@ -6,7 +6,7 @@
 parameters:
     locale: 'en'
     app_locales: en|ru
-    admin_email: 'no-reply@rpg-helper.com'
+    no_reply_email: 'no-reply@rpg-helper.com'
 
 services:
     # default configuration for services in *this* file
@@ -19,6 +19,7 @@ services:
         bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
             $locales: '%app_locales%'
             $defaultLocale: '%locale%'
+            $noReplyEmail: '%no_reply_email%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

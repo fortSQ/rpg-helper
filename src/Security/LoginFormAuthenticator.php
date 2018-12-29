@@ -89,13 +89,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        /* Write to log */
-        $this->logger->info('User logged in', [
-            'user_id' => $token->getUser()->getId(),
-        ]);
-
-        // TODO last login at
-
         // send the user back to the previous page
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);

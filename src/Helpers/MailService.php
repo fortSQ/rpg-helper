@@ -2,34 +2,80 @@
 
 namespace App\Helpers;
 
+use App\Entity\User;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class MailService
 {
     private $mailer;
-    private $templating;
+    private $router;
+    private $logger;
+    private $twig;
     private $parameterBag;
+    private $noReplyEmail;
 
-    public function __construct(\Swift_Mailer $mailer, \Twig_Environment $templating, ParameterBagInterface $parameterBag)
+    public function __construct(
+        \Swift_Mailer $mailer,
+        RouterInterface $router,
+        LoggerInterface $logger,
+        \Twig_Environment $twig,
+        ParameterBagInterface $parameterBag,
+        string $noReplyEmail
+    )
     {
         $this->mailer = $mailer;
-        $this->templating = $templating;
+        $this->router = $router;
+        $this->logger = $logger;
+        $this->twig = $twig;
         $this->parameterBag = $parameterBag;
+        $this->noReplyEmail = $noReplyEmail;
     }
 
-    public function sendEmail($subject, $to, $template, array $params, $from = null)
+    public function sendMessage($templateName, $context, $fromEmail, $toEmail)
     {
-        $from = $from ?? $this->parameterBag->get('admin_email');
+        $context = $this->twig->mergeGlobals($context);
+        $template = $this->twig->load($templateName);
+        $subject = $template->renderBlock('subject', $context);
+        $textBody = $template->renderBlock('body_text', $context);
+        $htmlBody = $template->renderBlock('body_html', $context);
+        
+        //dump($context); die('ok');
 
-        $message = (new \Swift_Message($subject))
-            ->setFrom($from)
-            ->setTo($to)
-            ->setBody(
-                $this->templating->render($template, $params),
-                'text/html'
-            )
-        ;
+        $message = (new \Swift_Message())
+            ->setSubject($subject)
+            ->setFrom($fromEmail)
+            ->setTo($toEmail);
 
-        return $this->mailer->send($message);
+        if (!empty($htmlBody)) {
+            $message->setBody($htmlBody, 'text/html')->addPart($textBody, 'text/plain');
+        } else {
+            $message->setBody($textBody);
+        }
+
+        $result = $this->mailer->send($message);
+
+        $logContext = ['to' => $toEmail, 'message' => $textBody, 'template' => $templateName];
+        if ($result) {
+            $this->logger->info('SMTP email sent', $logContext);
+        } else {
+            $this->logger->error('SMTP email error', $logContext);
+        }
+
+        return $result;
     }
+
+    public function sendResetPasswordEmailMessage(User $user)
+    {
+        $url = $this->router->generate('user_reset_password', ['token' => $user->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = 'url';
+        $context = [
+            'user' => $user,
+            'resetPasswordUrl' => $url,
+        ];
+        $this->sendMessage('emails/request-password.html.twig', $context, $this->noReplyEmail, $user->getEmail());
+    }
+
+
 }

@@ -1,5 +1,7 @@
 'No equipment found': 'Снаряжение не найдено'
 
+'%_site_name_%' : 'RPG-helper'
+
 # flash messages
 '%_flash_message_reset_password_requested_%' : 'В ближайшее время должно прийти письмо со ссылкой для сброса пароля.'
 

@@ -1,3 +1,5 @@
+'%_site_name_%' : 'RPG-helper'
+
 # flash messages
 '%_flash_message_reset_password_requested_%' : 'An email should arrive shortly with a link to reset your password.'
 

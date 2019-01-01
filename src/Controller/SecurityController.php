@@ -144,7 +144,7 @@ class SecurityController extends AbstractController
                 ]);
             }
 
-            $token = $user->generateResetToken(new \DateInterval('PT1H'));
+            $token = $user->generateResetToken();
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);

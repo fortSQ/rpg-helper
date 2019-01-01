@@ -16,8 +16,12 @@ trait ResetPasswordTrait
      */
     protected $resetTokenExpiresAt;
 
-    public function generateResetToken(\DateInterval $interval): string
+    public function generateResetToken(\DateInterval $interval = null): string
     {
+        if (null == $interval) {
+            $interval = new \DateInterval('PT1H');
+        }
+
         $now = new \DateTime();
 
         $this->resetToken          = bin2hex(\random_bytes(16));

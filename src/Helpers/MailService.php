@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class MailService
@@ -41,12 +42,13 @@ class MailService
         $textBody = $template->renderBlock('body_text', $context);
         $htmlBody = $template->renderBlock('body_html', $context);
         
-        //dump($context); die('ok');
+        //dump($htmlBody); die('ok');
 
         $message = (new \Swift_Message())
             ->setSubject($subject)
             ->setFrom($fromEmail)
-            ->setTo($toEmail);
+            ->setTo($toEmail)
+        ;
 
         if (!empty($htmlBody)) {
             $message->setBody($htmlBody, 'text/html')->addPart($textBody, 'text/plain');
@@ -56,7 +58,12 @@ class MailService
 
         $result = $this->mailer->send($message);
 
-        $logContext = ['to' => $toEmail, 'message' => $textBody, 'template' => $templateName];
+        $logContext = [
+            'to'       => $toEmail,
+            'message'  => $textBody,
+            'template' => $templateName
+        ];
+
         if ($result) {
             $this->logger->info('SMTP email sent', $logContext);
         } else {
@@ -68,14 +75,22 @@ class MailService
 
     public function sendResetPasswordEmailMessage(User $user)
     {
-        $url = $this->router->generate('user_reset_password', ['token' => $user->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $url = 'url';
+        $url = $this->router->generate(
+            'app_reset_password',
+            ['token' => $user->generateResetToken()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
         $context = [
             'user' => $user,
             'resetPasswordUrl' => $url,
         ];
-        $this->sendMessage('emails/request-password.html.twig', $context, $this->noReplyEmail, $user->getEmail());
+
+        $this->sendMessage(
+            'emails/request-password.html.twig',
+            $context,
+            $this->noReplyEmail,
+            $user->getEmail()
+        );
     }
-
-
 }

@@ -24,14 +24,14 @@ use Symfony\Component\Translation\TranslatorInterface;
 class SecurityController extends AbstractController
 {
     private $logger;
-    private $translator;
     private $mailer;
+    private $translator;
 
-    public function __construct(LoggerInterface $logger, TranslatorInterface $translator, MailService $mailer)
+    public function __construct(LoggerInterface $logger, MailService $mailer, TranslatorInterface $translator)
     {
         $this->logger = $logger;
-        $this->translator = $translator;
         $this->mailer = $mailer;
+        $this->translator = $translator;
     }
 
     /**
@@ -151,15 +151,7 @@ class SecurityController extends AbstractController
             $em->flush();
 
             /* Send email */
-            $this->mailer->sendEmail(
-                'Reset your password',
-                $user->getEmail(),
-                'emails/reset.html.twig',
-                [
-                    'name'  => $user->getName(),
-                    'token' => $token
-                ]
-            );
+            $this->mailer->sendResetPasswordEmailMessage($user);
 
             /* Flash message */
             $this->addFlash(

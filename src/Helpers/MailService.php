@@ -4,45 +4,43 @@ namespace App\Helpers;
 
 use App\Entity\User;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class MailService
 {
+    private $twig;
     private $mailer;
     private $router;
     private $logger;
-    private $twig;
     private $parameterBag;
     private $noReplyEmail;
 
     public function __construct(
+        \Twig_Environment $twig,
         \Swift_Mailer $mailer,
         RouterInterface $router,
         LoggerInterface $logger,
-        \Twig_Environment $twig,
         ParameterBagInterface $parameterBag,
         string $noReplyEmail
     )
     {
+        $this->twig = $twig;
         $this->mailer = $mailer;
         $this->router = $router;
         $this->logger = $logger;
-        $this->twig = $twig;
         $this->parameterBag = $parameterBag;
         $this->noReplyEmail = $noReplyEmail;
     }
 
     public function sendMessage($templateName, $context, $fromEmail, $toEmail)
     {
-        $context = $this->twig->mergeGlobals($context);
+        $context  = $this->twig->mergeGlobals($context);
         $template = $this->twig->load($templateName);
-        $subject = $template->renderBlock('subject', $context);
+        $subject  = $template->renderBlock('subject', $context);
         $textBody = $template->renderBlock('body_text', $context);
         $htmlBody = $template->renderBlock('body_html', $context);
-        
-        //dump($htmlBody); die('ok');
 
         $message = (new \Swift_Message())
             ->setSubject($subject)
@@ -87,7 +85,7 @@ class MailService
         ];
 
         $this->sendMessage(
-            'emails/request-password.html.twig',
+            'emails/reset_password.html.twig',
             $context,
             $this->noReplyEmail,
             $user->getEmail()

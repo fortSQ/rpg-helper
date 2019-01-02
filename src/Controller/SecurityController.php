@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\ResetPasswordTrait;
+use App\Form\ForgotPasswordType;
 use App\Form\ResetPasswordType;
 use App\Helpers\MailService;
 use App\Entity\User;
 use App\Form\RegisterType;
 use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
+use App\Helpers\CaptchaValidator;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -20,9 +21,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
 class SecurityController extends AbstractController
 {
+    const DOUBLE_OPT_IN = false;
+
     private $logger;
     private $mailer;
     private $translator;
@@ -131,34 +135,58 @@ class SecurityController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function forgotPassword(Request $request, UserRepository $userRepository)
+    public function forgotPassword(Request $request, UserRepository $userRepository, CaptchaValidator $captchaValidator)
     {
-        if ($request->isMethod('POST')) {
-            $user = $userRepository->findOneBy([
-                'email' => $request->request->get('email')
-            ]);
+        $form = $this->createForm(ForgotPasswordType::class);
+        $form->handleRequest($request);
 
-            if (null == $user) {
-                return $this->render('security/forgot.html.twig', [
-                    'last_email' => $request->request->get('email'),
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            try {
+                if (!$captchaValidator->validateCaptcha($request->get('g-recaptcha-response'))) {
+                    $form->addError(new FormError($this->translator->trans('captcha.wrong')));
+                    throw new ValidatorException('captcha.wrong');
+                }
+
+                /** @var User $user */
+                $user = $userRepository->findOneBy([
+                    'email' => $form->get('email'),
+                    'status' => User::STATUS_ACTIVE
                 ]);
+
+                if (!$user) {
+                    $this->addFlash('warning', 'user.not-found');
+                    return $this->render('security/forgot.html.twig', [
+                        'form' => $form->createView(),
+                        'captchakey' => $captchaValidator->getKey()
+                    ]);
+                }
+
+                $user->generateResetToken();
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+
+                /* Send email */
+                $this->mailer->sendResetPasswordEmailMessage($user);
+
+                /* Flash message */
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('%_flash_message_reset_password_requested_%')
+                );
+
+                return $this->redirect($this->generateUrl('homepage'));
+            } catch (ValidatorException $exception) {
+
             }
-
-            $token = $user->generateResetToken();
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            /* Send email */
-            $this->mailer->sendResetPasswordEmailMessage($user);
-
-            /* Flash message */
-            $this->addFlash(
-                'success',
-                $this->translator->trans('%_flash_message_reset_password_requested_%')
-            );
         }
+
+        return $this->render('user/request-password-reset.html.twig', [
+            'form' => $form->createView(),
+            'captchakey' => $captchaValidator->getKey()
+        ]);
 
         return $this->render('security/forgot.html.twig');
     }

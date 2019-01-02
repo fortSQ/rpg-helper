@@ -68,13 +68,6 @@ class WelcomeController extends AbstractController
         $data = array_count_values($data);
         krsort($data);
 
-        //dump($data); die('ok');
-
-        $user = $userRepository->findOneBy([
-            'email' => 'akim_now@mail.ru'
-        ]);
-        $mailer->sendResetPasswordEmailMessage($user);
-
         return $this->render('welcome/index.html.twig', [
             'data' => $data,
         ]);

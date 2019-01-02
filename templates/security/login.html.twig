@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ '%_login_%'|trans|capitalize }}</h4>
-                    <form method="post" class="my-login-validation" novalidate="">
+                    <form method="post" class="my-login-validation">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="form-group m-0">
-                            <button type="submit" class="btn btn-primary btn-block">
+                            <button type="submit" class="btn btn-primary btn-block" formnovalidate>
                                 {{ '%_login_%'|trans|capitalize }}
                             </button>
                         </div>

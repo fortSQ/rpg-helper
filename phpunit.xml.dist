@@ -22,6 +22,13 @@
         <!-- Delivery is disabled by default via "null://localhost" -->
         <env name="MAILER_URL" value="null://localhost"/>
         <!-- ###- symfony/swiftmailer-bundle ### -->
+
+        <!-- ###+ google/recaptcha ### -->
+        <!-- To use Google Recaptcha, you must register a site on Recaptcha's admin panel: -->
+        <!-- https://www.google.com/recaptcha/admin -->
+        <env name="GOOGLE_RECAPTCHA_SITE_KEY" value=""/>
+        <env name="GOOGLE_RECAPTCHA_SECRET" value=""/>
+        <!-- ###- google/recaptcha ### -->
     </php>
 
     <testsuites>

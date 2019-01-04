@@ -85,19 +85,24 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLoginAt;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $activationToken;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $activatedAt;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\DndCharacter", mappedBy="user", orphanRemoval=true)
      */
     private $dndCharacters;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $lastLoginAt;
 
     /**
      * @ORM\Column(type="string", length=255, options={"default" = User::STATUS_INACTIVE})
@@ -259,6 +264,18 @@ class User implements UserInterface
     public function setLastLoginAt(?\DateTimeInterface $lastLoginAt): self
     {
         $this->lastLoginAt = $lastLoginAt;
+
+        return $this;
+    }
+
+    public function getActivatedAt(): ?\DateTimeInterface
+    {
+        return $this->activatedAt;
+    }
+
+    public function setActivatedAt(?\DateTimeInterface $activatedAt): self
+    {
+        $this->activatedAt = $activatedAt;
 
         return $this;
     }

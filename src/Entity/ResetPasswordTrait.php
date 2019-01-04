@@ -24,7 +24,7 @@ trait ResetPasswordTrait
 
         $now = new \DateTime();
 
-        $this->resetToken          = bin2hex(\random_bytes(16));
+        $this->resetToken          = bin2hex(\random_bytes(32));
         $this->resetTokenExpiresAt = $now->add($interval)->getTimestamp();
 
         return $this->resetToken;

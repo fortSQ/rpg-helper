@@ -17,8 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
-    use TimestampableEntityTrait;
     use ResetPasswordTrait;
+    use TimestampableEntityTrait;
 
     const ROLE_USER       = 'ROLE_USER';
     const ROLE_MODERATOR  = 'ROLE_MODERATOR';
@@ -85,6 +85,11 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $activationToken;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\DndCharacter", mappedBy="user", orphanRemoval=true)
      */
     private $dndCharacters;
@@ -95,14 +100,14 @@ class User implements UserInterface
     private $lastLoginAt;
 
     /**
-     * @ORM\Column(type="string", length=255, options={"default" = User::STATUS_ACTIVE})
+     * @ORM\Column(type="string", length=255, options={"default" = User::STATUS_INACTIVE})
      */
-    private $status = self::STATUS_ACTIVE;
+    private $status = self::STATUS_INACTIVE;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true, options={"default" = User::INACTIVE_REASON_NOT_ACTIVATED})
      */
-    private $inactive_reason;
+    private $inactive_reason = self::INACTIVE_REASON_NOT_ACTIVATED;
 
     public function __construct()
     {
@@ -159,6 +164,16 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function getActivationToken()
+    {
+        return $this->activationToken;
+    }
+
+    public function setActivationToken($activationToken): void
+    {
+        $this->activationToken = $activationToken;
     }
 
     /**

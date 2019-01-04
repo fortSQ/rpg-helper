@@ -37,7 +37,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Service\CaptchaValidator:
+    App\Helpers\CaptchaValidator:
         arguments:
             $key: '%app_recaptcha_key%'
             $secret: '%app_recaptcha_secret%'

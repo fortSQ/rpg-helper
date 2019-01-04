@@ -47,8 +47,13 @@ class SecurityController extends AbstractController
     {
         // POST request is handled in \src\Security\LoginFormAuthenticator.php
 
+        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('app_homepage'));
+        }
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
+
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 

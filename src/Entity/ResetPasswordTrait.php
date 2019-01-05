@@ -45,7 +45,7 @@ trait ResetPasswordTrait
         return (new \DateTime())->add($interval)->getTimestamp();
     }
 
-    public function generateResetToken(\DateInterval $interval = null): int
+    public function generateResetToken(\DateInterval $interval = null): string
     {
         $this->resetToken          = $this->generateToken();
         $this->resetTokenExpiresAt = $this->generateExpiresAt($interval);

@@ -16,8 +16,8 @@ class ResetPasswordType extends AbstractType
         $builder
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'first_options'  => array('label' => 'New password'),
-                'second_options' => array('label' => 'Repeat new password'),
+                'first_options'  => [],
+                'second_options' => [],
             ))
         ;
     }

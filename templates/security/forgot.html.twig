@@ -1,42 +1,49 @@
 {% extends 'layout/base.html.twig' %}
 
+{% form_theme form 'form/errors.html.twig' %}
+
 {% block title %}{% endblock %}
 
 {% block body %}
 
     <div class="row justify-content-center">
-        <div class="card-wrapper">
+        <div class="card-wrapper" style="width: 343px">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ '%_forgot_password_%'|trans }}</h4>
-                    <form method="POST" class="my-login-validation">
-                        <div class="form-group">
-                            <label for="email">{{ '%_email_%'|trans|capitalize }}</label>
-                            <input id="email"
-                                   type="email"
-                                   class="form-control {% if last_email is defined -%}is-invalid{%- endif -%}"
-                                   {% if last_email is defined -%}value="{{ last_email }}"{%- endif -%}
-                                   name="email"
-                                   required
-                                   autofocus
-                            >
-                                <div class="invalid-feedback">
-                                    {{ '%_reset_password_email_not_found_%'|trans }}
-                                </div>
-                            <div class="form-text text-muted" style="font-size: 0.8rem">
-                                {{ '%_reset_password_text_%'|trans }}
-                            </div>
-                        </div>
 
-                        <div class="form-group m-0">
-                            <button type="submit" class="btn btn-primary btn-block" formnovalidate>
-                                {{ '%_reset_password_%'|trans|capitalize }}
-                            </button>
+                    {{ form_start(form, {attr : {'class': 'my-login-validation'}}) }}
+                    {{ form_errors(form) }}
+
+                    <div class="form-group">
+                        {{ form_label(form.email, '%_email_%'|trans|capitalize) }}
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'required': true, 'autofocus': true}}) }}
+                    </div>
+
+                    <div class="g-recaptcha" data-sitekey="{{ app_recaptcha_key }}"></div>
+
+                    <div class="form-group mt-2">
+                        <div class="form-text text-muted" style="font-size: 0.8rem">
+                            {{ '%_reset_password_text_%'|trans }}
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block" formnovalidate>
+                            {{ '%_reset_password_%'|trans|capitalize }}
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+
                 </div>
             </div>
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src={{ app_recaptcha_url }}></script>
 {% endblock %}

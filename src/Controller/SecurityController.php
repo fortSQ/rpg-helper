@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 
 class SecurityController extends AbstractController
 {
-    const DOUBLE_OPT_IN = false;
+    const DOUBLE_OPT_IN = true;
 
     private $logger;
     private $mailer;
@@ -75,57 +75,57 @@ class SecurityController extends AbstractController
      * @Route("/register", name="app_register", methods="GET|POST")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param GuardAuthenticatorHandler $guardHandler
-     * @param LoginFormAuthenticator $formAuthenticator
+     * @param CaptchaValidator $captchaValidator
      * @return Response
      */
     public function register(
         Request $request,
         UserPasswordEncoderInterface $passwordEncoder,
-        GuardAuthenticatorHandler $guardHandler,
-        LoginFormAuthenticator $formAuthenticator
+        CaptchaValidator $captchaValidator
     )
     {
-        $user = new User();
-        $form = $this->createForm(RegisterType::class, $user);
-
+        $form = $this->createForm(RegisterType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
+            /** @var User $user */
+            $user = $form->getData();
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            try {
+                if (!$captchaValidator->validateCaptcha($request->get('g-recaptcha-response'))) {
+                    $form->addError(new FormError($this->translator->trans('captcha.wrong')));
+                    throw new ValidatorException('captcha.wrong');
+                }
 
-            /* Send email */
-            $this->mailer->sendEmail(
-                'You successfully registered',
-                $user->getEmail(),
-                'emails/register.html.twig',
-                [
-                    'name' => $user->getName()
-                ]
-            );
+                $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
 
-            /* Write to log */
-            $this->logger->info('User created', [
-                'user_id' => $user->getId(),
-            ]);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
 
-            /* Flash message */
-            $this->addFlash(
-                'success',
-                $this->translator->trans('%_flash_message_user_registered_%')
-            );
+                $log_context = [
+                    'user_id' => $user->getId(),
+                    'DOUBLE_OPT_IN' => self::DOUBLE_OPT_IN
+                ];
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $formAuthenticator,
-                'main'
-            );
+                if (self::DOUBLE_OPT_IN) {
+                    $this->logger->info('User created WITH activation', $log_context);
+                    $this->requestActivation($user);
+
+
+                    $this->addFlash('success', $this->translator->trans('~flash_message.user_registered_with_activation'));
+                    return $this->redirect($this->generateUrl('app_login'));
+                }
+
+                $this->logger->info('User created WITHOUT activation', $log_context);
+                $this->addFlash('success', $this->translator->trans('~flash_message.user_registered_without_activation'));
+
+                return $this->redirect($this->generateUrl('app_user_activate', ['token' => $token]));
+
+            } catch (ValidatorException $exception) {
+
+            }
         }
 
         return $this->render('security/register.html.twig', [
@@ -133,15 +133,76 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    public function requestActivation(User $user)
+    {
+        $token = $user->generateActivationToken();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        $this->mailer->sendActivationEmailMessage($user);
+
+        return $token;
+    }
+
+    /**
+     * @Route("/activate/{token}", name="app_user_activate")
+     * @param $request Request
+     * @param UserRepository $userRepository
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param LoginFormAuthenticator $formAuthenticator
+     * @param string $token
+     * @return Response
+     */
+    public function activate(
+        Request $request,
+        UserRepository $userRepository,
+        GuardAuthenticatorHandler $guardHandler,
+        LoginFormAuthenticator $formAuthenticator,
+        string $token
+    )
+    {
+        $user = $userRepository->findOneBy([
+            'activationToken' => $token
+        ]);
+
+        if (!$user || !$user->isActivationTokenValid($token)) {
+            throw new NotFoundHttpException("Activation token doesn't exist or is not valid");
+        }
+
+        $user->setStatus(User::STATUS_ACTIVE)
+             ->setActivatedAt(new \DateTime())
+             ->clearActivationToken()
+             ->clearInactiveReason();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        $this->addFlash('success', '~flash_message.user_activated');
+
+        return $guardHandler->authenticateUserAndHandleSuccess(
+            $user,
+            $request,
+            $formAuthenticator,
+            'main'
+        );
+    }
+
     /**
      * @Route("/forgot-password", name="app_forgot_password", methods="GET|POST")
      * @param Request $request
      * @param UserRepository $userRepository
-     * @param TranslatorInterface $translator
+     * @param CaptchaValidator $captchaValidator
      * @return Response
      */
     public function forgotPassword(Request $request, UserRepository $userRepository, CaptchaValidator $captchaValidator)
     {
+        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('app_homepage'));
+        }
+
         $form = $this->createForm(ForgotPasswordType::class);
         $form->handleRequest($request);
 
@@ -155,15 +216,13 @@ class SecurityController extends AbstractController
 
                 /** @var User $user */
                 $user = $userRepository->findOneBy([
-                    'email' => $form->get('email'),
-                    'status' => User::STATUS_ACTIVE
+                    'email' => $form->get('email')->getData()
                 ]);
 
                 if (!$user) {
-                    $this->addFlash('warning', 'user.not-found');
+                    $form->addError(new FormError($this->translator->trans('user.not-found')));
                     return $this->render('security/forgot.html.twig', [
-                        'form' => $form->createView(),
-                        'captchakey' => $captchaValidator->getKey()
+                        'form' => $form->createView()
                     ]);
                 }
 
@@ -173,27 +232,18 @@ class SecurityController extends AbstractController
                 $em->persist($user);
                 $em->flush();
 
-                /* Send email */
                 $this->mailer->sendResetPasswordEmailMessage($user);
+                $this->addFlash('success', $this->translator->trans('~flash_message.reset_password_requested_%'));
 
-                /* Flash message */
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('%_flash_message_reset_password_requested_%')
-                );
-
-                return $this->redirect($this->generateUrl('homepage'));
+                return $this->redirect($this->generateUrl('app_homepage'));
             } catch (ValidatorException $exception) {
 
             }
         }
 
-        return $this->render('user/request-password-reset.html.twig', [
-            'form' => $form->createView(),
-            'captchakey' => $captchaValidator->getKey()
+        return $this->render('security/forgot.html.twig', [
+            'form' => $form->createView()
         ]);
-
-        return $this->render('security/forgot.html.twig');
     }
 
     /**
@@ -204,13 +254,24 @@ class SecurityController extends AbstractController
      * @param string $token
      * @return Response
      */
-    public function resetPassword(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder, string $token)
+    public function resetPassword(
+        Request $request,
+        UserRepository $userRepository,
+        UserPasswordEncoderInterface $passwordEncoder,
+        string $token
+    )
     {
+        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('app_homepage'));
+        }
+
+        /** @var User $user */
         $user = $userRepository->findOneBy([
-            'resetToken' => $token
+            'resetToken' => $token,
+            'status' => User::STATUS_ACTIVE
         ]);
 
-        if (!isset($user) || !$user->isResetTokenValid($token)) {
+        if (!$user || !$user->isResetTokenValid($token)) {
             throw new NotFoundHttpException("Reset password token doesn't exist or is not valid");
         }
 
@@ -219,8 +280,7 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $newEncodedPassword = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($newEncodedPassword);
+            $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
             $user->clearResetToken();
 
             $em = $this->getDoctrine()->getManager();
@@ -237,11 +297,7 @@ class SecurityController extends AbstractController
                 ]
             );
 
-            /* Flash message */
-            $this->addFlash(
-                'success',
-                $this->translator->trans('%_password_changed_%')
-            );
+            $this->addFlash('success', $this->translator->trans('%_password_changed_%'));
 
             return $this->redirectToRoute('app_login');
         }

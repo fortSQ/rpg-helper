@@ -84,11 +84,22 @@ class MailService
             'resetPasswordUrl' => $url,
         ];
 
-        $this->sendMessage(
-            'emails/reset_password.html.twig',
-            $context,
-            $this->noReplyEmail,
-            $user->getEmail()
+        $this->sendMessage('emails/reset_password.html.twig', $context, $this->noReplyEmail, $user->getEmail());
+    }
+
+    public function sendActivationEmailMessage(User $user)
+    {
+        $url = $this->router->generate(
+            'app_user_activate',
+            ['token' => $user->getActivationToken()],
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
+
+        $context = [
+            'user' => $user,
+            'activationUrl' => $url
+        ];
+
+        $this->sendMessage('emails/register_done.html.twig', $context, $this->noReplyEmail, $user->getEmail());
     }
 }

@@ -1,0 +1,20 @@
+{% extends 'emails/email_layout.html.twig' %}
+
+{% block subject %}Activate account – {{ '%_site_name_%'|trans }}{% endblock %}
+
+{% block body_text %}
+
+{% endblock %}
+
+{% block body_html_content %}
+    <p>Hi {{ user.name }}!</p>
+
+    <p>Activate your account:</p>
+    <p>
+        <a href="{{ activationUrl }}">
+            {{ activationUrl }}
+        </a>
+    </p>
+    <p>Have a good day!</p>
+    <p>Yours, <br>RPG-helper team.</p>
+{% endblock %}

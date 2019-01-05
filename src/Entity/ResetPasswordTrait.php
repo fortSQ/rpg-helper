@@ -36,7 +36,7 @@ trait ResetPasswordTrait
         return bin2hex(\random_bytes(32));
     }
 
-    private function generateExpiresAt(?\DateInterval $interval): string
+    private function generateExpiresAt(?\DateInterval $interval): int
     {
         if (null == $interval) {
             $interval = new \DateInterval('PT1H');
@@ -45,7 +45,7 @@ trait ResetPasswordTrait
         return (new \DateTime())->add($interval)->getTimestamp();
     }
 
-    public function generateResetToken(\DateInterval $interval = null): string
+    public function generateResetToken(\DateInterval $interval = null): int
     {
         $this->resetToken          = $this->generateToken();
         $this->resetTokenExpiresAt = $this->generateExpiresAt($interval);
@@ -58,6 +58,16 @@ trait ResetPasswordTrait
         $this->activationToken          = $this->generateToken();
         $this->activationTokenExpiresAt = $this->generateExpiresAt($interval);
 
+        return $this->activationToken;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function getActivationToken(): ?string
+    {
         return $this->activationToken;
     }
 
@@ -96,5 +106,12 @@ trait ResetPasswordTrait
     public function getActivatedAt(): ?\DateTimeInterface
     {
         return $this->activatedAt;
+    }
+
+    public function setActivatedAt(?\DateTimeInterface $activatedAt): self
+    {
+        $this->activatedAt = $activatedAt;
+
+        return $this;
     }
 }

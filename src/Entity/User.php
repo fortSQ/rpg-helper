@@ -85,26 +85,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $lastLoginAt;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $activationToken;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $activatedAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DndCharacter", mappedBy="user", orphanRemoval=true)
-     */
-    private $dndCharacters;
-
-    /**
      * @ORM\Column(type="string", length=255, options={"default" = User::STATUS_INACTIVE})
      */
     private $status = self::STATUS_INACTIVE;
@@ -114,14 +94,63 @@ class User implements UserInterface
      */
     private $inactive_reason = self::INACTIVE_REASON_NOT_ACTIVATED;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLoginAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DndCharacter", mappedBy="user", orphanRemoval=true)
+     */
+    private $dndCharacters;
+
     public function __construct()
     {
         $this->dndCharacters = new ArrayCollection();
     }
 
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using bcrypt or argon
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        $this->plainPassword = null;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -134,16 +163,6 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
-    {
-        return (string) $this->email;
     }
 
     /**
@@ -171,14 +190,16 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getActivationToken()
+    public function getPlainPassword(): ?string
     {
-        return $this->activationToken;
+        return $this->plainPassword;
     }
 
-    public function setActivationToken($activationToken): void
+    public function setPlainPassword(string $plainPassword): self
     {
-        $this->activationToken = $activationToken;
+        $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 
     /**
@@ -189,93 +210,9 @@ class User implements UserInterface
         return $this->password;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed when using bcrypt or argon
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        $this->plainPassword = null;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|DndCharacter[]
-     */
-    public function getDndCharacters(): Collection
-    {
-        return $this->dndCharacters;
-    }
-
-    public function addDndCharacter(DndCharacter $dndCharacter): self
-    {
-        if (!$this->dndCharacters->contains($dndCharacter)) {
-            $this->dndCharacters[] = $dndCharacter;
-            $dndCharacter->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDndCharacter(DndCharacter $dndCharacter): self
-    {
-        if ($this->dndCharacters->contains($dndCharacter)) {
-            $this->dndCharacters->removeElement($dndCharacter);
-            // set the owning side to null (unless already changed)
-            if ($dndCharacter->getUser() === $this) {
-                $dndCharacter->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getLastLoginAt(): ?\DateTimeInterface
-    {
-        return $this->lastLoginAt;
-    }
-
-    public function setLastLoginAt(?\DateTimeInterface $lastLoginAt): self
-    {
-        $this->lastLoginAt = $lastLoginAt;
-
-        return $this;
-    }
-
-    public function getActivatedAt(): ?\DateTimeInterface
-    {
-        return $this->activatedAt;
-    }
-
-    public function setActivatedAt(?\DateTimeInterface $activatedAt): self
-    {
-        $this->activatedAt = $activatedAt;
 
         return $this;
     }
@@ -312,14 +249,52 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPlainPassword(): ?string
+    public function clearInactiveReason(): self
     {
-        return $this->plainPassword;
+        $this->inactive_reason = null;
+
+        return $this;
     }
 
-    public function setPlainPassword(string $plainPassword): self
+    public function getLastLoginAt(): ?\DateTimeInterface
     {
-        $this->plainPassword = $plainPassword;
+        return $this->lastLoginAt;
+    }
+
+    public function setLastLoginAt(?\DateTimeInterface $lastLoginAt): self
+    {
+        $this->lastLoginAt = $lastLoginAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DndCharacter[]
+     */
+    public function getDndCharacters(): Collection
+    {
+        return $this->dndCharacters;
+    }
+
+    public function addDndCharacter(DndCharacter $dndCharacter): self
+    {
+        if (!$this->dndCharacters->contains($dndCharacter)) {
+            $this->dndCharacters[] = $dndCharacter;
+            $dndCharacter->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDndCharacter(DndCharacter $dndCharacter): self
+    {
+        if ($this->dndCharacters->contains($dndCharacter)) {
+            $this->dndCharacters->removeElement($dndCharacter);
+            // set the owning side to null (unless already changed)
+            if ($dndCharacter->getUser() === $this) {
+                $dndCharacter->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -2,22 +2,24 @@
 
 namespace App\Security;
 
-use App\Repository\UserRepository;
+use App\Entity\User;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -28,20 +30,23 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     private $csrfTokenManager;
     private $passwordEncoder;
     private $logger;
+    private $translator;
 
     public function __construct(
-        UserRepository $userRepository,
+        LoggerInterface $logger,
         RouterInterface $router,
+        UserRepository $userRepository,
+        TranslatorInterface $translator,
         CsrfTokenManagerInterface $csrfTokenManager,
-        UserPasswordEncoderInterface $passwordEncoder,
-        LoggerInterface $logger
+        UserPasswordEncoderInterface $passwordEncoder
     )
     {
-        $this->userRepository = $userRepository;
+        $this->logger = $logger;
         $this->router = $router;
+        $this->userRepository = $userRepository;
+        $this->translator = $translator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
-        $this->logger = $logger;
     }
 
     // If we return false from supports(), nothing else happens
@@ -84,6 +89,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     // This is your opportunity to check to see if the user's password is correct, or any other last, security checks
     public function checkCredentials($credentials, UserInterface $user)
     {
+        /** @var User $user */
+        if (!$user->isActive()) {
+            $message = isset(User::AUTHENTICATION_ERROR_MESSAGES[$user->getInactiveReason()])
+                ? User::AUTHENTICATION_ERROR_MESSAGES[$user->getInactiveReason()]
+                : User::AUTHENTICATION_ERROR_MESSAGES['unknown_reason'];
+
+            throw new CustomUserMessageAuthenticationException($this->translator->trans($message));
+        }
+
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 

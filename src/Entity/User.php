@@ -40,10 +40,17 @@ class User implements UserInterface
 
     const INACTIVE_REASON_BANNED        = 'banned';
     const INACTIVE_REASON_NOT_ACTIVATED = 'not_activated';
+    const INACTIVE_REASON_UNKNOWN       = 'unknown_reason'; // not used in DB
 
     const ALLOWED_INACTIVE_REASONS = [
         self::INACTIVE_REASON_BANNED,
         self::INACTIVE_REASON_NOT_ACTIVATED,
+    ];
+
+    const AUTHENTICATION_ERROR_MESSAGES = [
+        User::INACTIVE_REASON_BANNED        => 'User is banned.',
+        User::INACTIVE_REASON_NOT_ACTIVATED => 'User is not activated.',
+        User::INACTIVE_REASON_UNKNOWN       => 'User is not active for unknown reason.'
     ];
 
     /**
@@ -134,6 +141,23 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->plainPassword = null;
+    }
+
+    public function isActive()
+    {
+        return $this->getStatus() == self::STATUS_ACTIVE;
+    }
+
+    public function isBanned()
+    {
+        return $this->getStatus()         == self::STATUS_INACTIVE
+            && $this->getInactiveReason() == self::INACTIVE_REASON_BANNED;
+    }
+
+    public function isNotActivated()
+    {
+        return $this->getStatus()         == self::STATUS_INACTIVE
+            && $this->getInactiveReason() == self::INACTIVE_REASON_NOT_ACTIVATED;
     }
 
     public function getId(): ?int

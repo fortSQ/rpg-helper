@@ -28,6 +28,7 @@ class UserFixtures extends BaseFixture
             $user->setLastLoginAt(new \DateTime('-1 day'));
             $user->setCreatedAt(new \DateTime('-10 day'));
             $user->setStatus(User::STATUS_ACTIVE);
+            $user->clearInactiveReason();
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 'secret'
@@ -43,6 +44,7 @@ class UserFixtures extends BaseFixture
             $user->setLastLoginAt(new \DateTime('-1 day'));
             $user->setCreatedAt(new \DateTime('-10 day'));
             $user->setStatus(User::STATUS_ACTIVE);
+            $user->clearInactiveReason();
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 'secret'

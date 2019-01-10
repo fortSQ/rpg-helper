@@ -39,7 +39,7 @@ trait ResetPasswordTrait
     private function generateExpiresAt(?\DateInterval $interval): int
     {
         if (null == $interval) {
-            $interval = new \DateInterval('PT1H');
+            $interval = new \DateInterval('PT1H'); # +1 hour
         }
 
         return (new \DateTime())->add($interval)->getTimestamp();

@@ -1,7 +1,14 @@
-~site_name_%: RPG-helper
+~site_name: RPG-helper
 
 ~flash_message:
+    user_registered_with_activation: You succesfully registered. Welcome!
+    user_registered_without_activation:
     reset_password_requested: An email should arrive shortly with a link to reset your password.
+    password_changed:
+
+~error:
+    wrong_captcha:
+    user_not_found:
 
 # login / register
 '%_register_%' : 'register'
@@ -18,7 +25,6 @@
 '%_show_%' : 'show'
 '%_i_agree_%' : 'I agree to the'
 '%_terms_and_conditions_%' : 'Terms and Conditions'
-'%_flash_message_user_registered_%' : 'You succesfully registered. Welcome!'
 '%_reset_password_text_%' : 'By clicking "Reset password" we will send a password reset link'
 '%_reset_password_%' : 'reset password'
 '%_reset_password_email_not_found_%' : 'Specified email not found.'

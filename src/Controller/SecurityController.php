@@ -4,14 +4,11 @@ namespace App\Controller;
 
 use App\Form\ForgotPasswordType;
 use App\Form\ResetPasswordType;
-use App\Helpers\MailService;
 use App\Entity\User;
 use App\Form\RegisterType;
 use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Helpers\CaptchaValidator;
-use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -20,23 +17,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;
 
-class SecurityController extends AbstractController
+class SecurityController extends BaseController
 {
     const DOUBLE_OPT_IN = true;
-
-    private $logger;
-    private $mailer;
-    private $translator;
-
-    public function __construct(LoggerInterface $logger, MailService $mailer, TranslatorInterface $translator)
-    {
-        $this->logger = $logger;
-        $this->mailer = $mailer;
-        $this->translator = $translator;
-    }
 
     /**
      * @Route("/login", name="app_login", methods="GET|POST")
@@ -94,8 +79,8 @@ class SecurityController extends AbstractController
 
             try {
                 if (!$captchaValidator->validateCaptcha($request->get('g-recaptcha-response'))) {
-                    $form->addError(new FormError($this->translator->trans('captcha.wrong')));
-                    throw new ValidatorException('captcha.wrong');
+                    $form->addError(new FormError($this->translator->trans('~error.wrong_captcha')));
+                    throw new ValidatorException('Wrong captcha');
                 }
 
                 $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
@@ -180,7 +165,7 @@ class SecurityController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        $this->addFlash('success', '~flash_message.user_activated');
+        $this->addFlash('success', $this->translator->trans('~flash_message.user_activated'));
 
         return $guardHandler->authenticateUserAndHandleSuccess(
             $user,
@@ -210,8 +195,8 @@ class SecurityController extends AbstractController
 
             try {
                 if (!$captchaValidator->validateCaptcha($request->get('g-recaptcha-response'))) {
-                    $form->addError(new FormError($this->translator->trans('captcha.wrong')));
-                    throw new ValidatorException('captcha.wrong');
+                    $form->addError(new FormError($this->translator->trans('~error.wrong_captcha')));
+                    throw new ValidatorException('Wrong captcha');
                 }
 
                 /** @var User $user */
@@ -220,7 +205,7 @@ class SecurityController extends AbstractController
                 ]);
 
                 if (!$user) {
-                    $form->addError(new FormError($this->translator->trans('user.not-found')));
+                    $form->addError(new FormError($this->translator->trans('~error.user_not_found')));
                     return $this->render('security/forgot.html.twig', [
                         'form' => $form->createView()
                     ]);
@@ -233,7 +218,7 @@ class SecurityController extends AbstractController
                 $em->flush();
 
                 $this->mailer->sendResetPasswordEmailMessage($user);
-                $this->addFlash('success', $this->translator->trans('~flash_message.reset_password_requested_%'));
+                $this->addFlash('success', $this->translator->trans('~flash_message.reset_password_requested'));
 
                 return $this->redirect($this->generateUrl('app_homepage'));
             } catch (ValidatorException $exception) {
@@ -297,7 +282,7 @@ class SecurityController extends AbstractController
                 ]
             );
 
-            $this->addFlash('success', $this->translator->trans('%_password_changed_%'));
+            $this->addFlash('success', $this->translator->trans('~flash_message.password_changed'));
 
             return $this->redirectToRoute('app_login');
         }

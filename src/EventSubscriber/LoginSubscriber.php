@@ -23,6 +23,12 @@ class LoginSubscriber implements EventSubscriberInterface
         $this->manager = $manager;
     }
 
+    /**
+     * 1. Записываем дату и время входа last_login_at
+     * 2. Записываем факт входа в лог
+     *
+     * @param InteractiveLoginEvent $event
+     */
     public function onInteractiveLogin (InteractiveLoginEvent $event)
     {
         /** @var User $user */
@@ -32,8 +38,9 @@ class LoginSubscriber implements EventSubscriberInterface
         $this->manager->persist($user);
         $this->manager->flush();
 
-        $this->logger->info('User interactively logged in', [
-            'user_id' => $user->getId(),
+        $this->logger->info('User logged in using login/password', [
+            'user_id'     => $user->getUsername(),
+            'remember_me' => (bool) $event->getRequest()->request->get('_remember_me')
         ]);
     }
 

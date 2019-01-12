@@ -19,6 +19,6 @@ monolog:
             channels: ["!event", "!doctrine", "!console"]
         app:
             type: stream
-            level: debug
+            level: debug # i.e. all levels
             path: "%kernel.logs_dir%/%kernel.environment%.app.log"
             channels: [app]

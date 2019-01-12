@@ -90,7 +90,7 @@ class SecurityController extends BaseController
                 $em->flush();
 
                 $log_context = [
-                    'user_id' => $user->getId(),
+                    'user_id' => $user->getUsername(),
                     'DOUBLE_OPT_IN' => self::DOUBLE_OPT_IN
                 ];
 

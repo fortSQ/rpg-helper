@@ -8,7 +8,7 @@
         <div class="card-wrapper">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ '~auth.login'|trans|capitalize }}</h4>
+                    <h4 class="card-title">{{ '~auth.login'|trans }}</h4>
                     <form method="post" class="my-login-validation">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         {% if error %}
@@ -16,7 +16,7 @@
                         {% endif %}
 
                         <div class="form-group">
-                            <label for="email">{{ '~auth.email'|trans|capitalize }}</label>
+                            <label for="email">{{ '~auth.email'|trans }}</label>
                             <input id="email" type="email" class="form-control" name="email" value="{{ last_username }}" required autofocus>
                             <div class="invalid-feedback">
                                 Email is invalid
@@ -24,9 +24,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password">{{ '~auth.password'|trans|capitalize }}</label>
+                            <label for="password">{{ '~auth.password'|trans }}</label>
                             <a href="{{ path('app_forgot_password') }}" class="float-right" style="font-size: 0.8rem">
-                                {{ '~auth.forgot_password'|trans|capitalize }}
+                                {{ '~auth.forgot_password'|trans }}
                             </a>
                             <input id="password" type="password" class="form-control" name="password" required data-eye>
                             <div class="invalid-feedback">
@@ -37,17 +37,18 @@
                         <div class="form-group">
                             <div class="custom-checkbox custom-control">
                                 <input type="checkbox" name="_remember_me" id="remember" class="custom-control-input">
-                                <label for="remember" class="custom-control-label">{{ '~auth.remember_me'|trans|capitalize }}</label>
+                                <label for="remember" class="custom-control-label">{{ '~auth.remember_me'|trans }}</label>
                             </div>
                         </div>
 
                         <div class="form-group m-0">
                             <button type="submit" class="btn btn-primary btn-block" formnovalidate>
-                                {{ '~auth.login'|trans|capitalize }}
+                                {{ '~auth.login'|trans }}
                             </button>
                         </div>
                         <div class="mt-4 text-center">
-                            {{ '~auth.dont_have_account'|trans|capitalize }} <a href="{{ path('app_register') }}">{{ '~auth.create_one'|trans|capitalize }}</a>
+                            {{ '~auth.dont_have_account'|trans }}
+                            <a href="{{ path('app_register') }}">{{ '~auth.create_one'|trans }}</a>
                         </div>
                     </form>
                 </div>

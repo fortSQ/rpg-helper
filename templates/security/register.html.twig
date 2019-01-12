@@ -9,27 +9,23 @@
         <div class="card-wrapper" style="width: 343px">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ '%_register_%'|trans|capitalize }}</h4>
+                    <h4 class="card-title">{{ '~auth.register'|trans }}</h4>
 
                     {{ form_start(form) }}
 
                     {{ form_errors(form) }}
 
-                    {{ form_label(form.name, '%_name_%'|trans|capitalize) }}
+                    {{ form_label(form.name, '~auth.name'|trans) }}
                     {{ form_widget(form.name) }}
-                    {{ form_help(form.name) }}
 
-                    {{ form_label(form.email, '%_email_%'|trans|capitalize) }}
+                    {{ form_label(form.email, '~auth.email'|trans) }}
                     {{ form_widget(form.email) }}
-                    {{ form_help(form.email) }}
 
-                    {{ form_label(form.plainPassword.first, '%_password_%'|trans|capitalize) }}
+                    {{ form_label(form.plainPassword.first, '~auth.password'|trans) }}
                     {{ form_widget(form.plainPassword.first) }}
-                    {{ form_help(form.plainPassword.first) }}
 
-                    {{ form_label(form.plainPassword.second, '%_repeat_password_%'|trans|capitalize) }}
+                    {{ form_label(form.plainPassword.second, '~auth.repeat_password'|trans) }}
                     {{ form_widget(form.plainPassword.second) }}
-                    {{ form_help(form.plainPassword.second) }}
 
                     {{ form_widget(form.termsAccepted ) }}
 
@@ -37,11 +33,12 @@
 
                     <div class="form-group m-0">
                         <button type="submit" class="btn btn-primary btn-block" formnovalidate>
-                            {{ '%_register_%'|trans|capitalize }}
+                            {{ '~auth.register'|trans }}
                         </button>
                     </div>
                     <div class="mt-4 text-center">
-                        {{ '%_already_have_account_%'|trans }} <a href="{{ path('app_login') }}">{{ '%_login_%'|trans|capitalize }}</a>
+                        {{ '~auth.already_have_account'|trans }}
+                        <a href="{{ path('app_login') }}">{{ '~auth.login'|trans }}</a>
                     </div>
 
                     {{ form_end(form) }}

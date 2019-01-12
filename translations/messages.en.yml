@@ -18,24 +18,15 @@
     remember_me: Remember me
     dont_have_account: Don't have an account?
     create_one: Create one
+    register: Register
+    name: Name
+    repeat_password: Repeat password
+    already_have_account: Already have an account?
+    i_agree: I agree to the
+    terms_and_conditions: Terms and Conditions
 
 
 
-
-
-
-# login / register
-'%_register_%' : 'register'
-
-'%_name_%' : 'name'
-
-'%_repeat_password_%' : 'repeat password'
-'%_already_have_account_%' : 'Already have an account?'
-
-
-'%_show_%' : 'show'
-'%_i_agree_%' : 'I agree to the'
-'%_terms_and_conditions_%' : 'Terms and Conditions'
 '%_reset_password_text_%' : 'By clicking "Reset password" we will send a password reset link'
 '%_reset_password_%' : 'reset password'
 '%_reset_password_email_not_found_%' : 'Specified email not found.'

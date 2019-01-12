@@ -62,16 +62,21 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
-     * @Assert\NotBlank
-     * @Assert\Regex("/^\w+$/")
-     * @Assert\Length(min = 2, max = 30)
+     * @Assert\NotBlank(message = "~name.not_blank")
+     * @Assert\Regex(pattern = "/^\w+$/", message = "~name.regex")
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 30,
+     *     minMessage = "~name.min_length",
+     *     maxMessage = "~name.max_length"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
-     * @Assert\NotBlank
-     * @Assert\Email
+     * @Assert\NotBlank(message = "~email.not_blank")
+     * @Assert\Email(message = "~email.valid")
      */
     private $email;
 
@@ -81,8 +86,13 @@ class User implements UserInterface
     private $roles = [self::ROLE_USER];
 
     /**
-     * @Assert\NotBlank
-     * @Assert\Length(min = 6, max=4096)
+     * @Assert\NotBlank(message = "~password.not_blank")
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 4096,
+     *     minMessage = "~password.min_length",
+     *     maxMessage = "~password.max_length"
+     * )
      */
     private $plainPassword;
 

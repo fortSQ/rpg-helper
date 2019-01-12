@@ -1,1 +1,18 @@
-'register.terms.is_true' : 'You must accept terms and conditions.'
+~name:
+    not_blank: Name should not be blank.
+    regex: Name should contain only letters, digits and underscore character.
+    min_length: Too short name. It should have {{ limit }} characters or more.
+    max_length:
+
+~email:
+    not_blank:
+    valid:
+
+~password:
+    match: The passwords must match.
+    not_blank:
+    min_length:
+    max_length:
+
+~terms:
+    is_true: You must accept our terms and conditions.

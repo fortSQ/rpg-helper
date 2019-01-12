@@ -11,9 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegisterType extends AbstractType
 {
@@ -23,17 +21,15 @@ class RegisterType extends AbstractType
             ->add('name', TextType::class)
             ->add('email', EmailType::class)
             ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'first_options'  => [],
-                'second_options' => [],
-                'constraints' => [
-                    new NotBlank,
-                    new Length(['min' => 6, 'max' => 4096])
-                ]
+                'type'            => PasswordType::class,
+                'invalid_message' => "~password.match",
+                'required' => true,
+                'first_options'   => [],
+                'second_options'  => []
             ])
             ->add('termsAccepted', CheckboxType::class, [
                 'mapped' => false,
-                'constraints' => new IsTrue(["message" => "register.terms.is_true"]),
+                'constraints' => new IsTrue(["message" => "~terms.is_true"]),
             ])
         ;
     }

@@ -21,10 +21,10 @@
                         {{ form_widget(form.email) }}
 
                         {{ form_label(form.plainPassword.first, '~auth.password'|trans) }}
-                        {{ form_widget(form.plainPassword.first) }}
+                        {{ form_widget(form.plainPassword.first, {attr : {'data-eye': true}}) }}
 
                         {{ form_label(form.plainPassword.second, '~auth.repeat_password'|trans) }}
-                        {{ form_widget(form.plainPassword.second) }}
+                        {{ form_widget(form.plainPassword.second, {attr : {'data-eye': true}}) }}
 
                         {{ form_widget(form.termsAccepted ) }}
 

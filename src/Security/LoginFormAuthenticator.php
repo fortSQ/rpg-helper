@@ -3,6 +3,9 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Helpers\MailService;
+use App\Helpers\TokenGenerator;
+use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,26 +28,35 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
-    private $userRepository;
+    private $logger;
     private $router;
+    private $mailer;
+    private $manager;
+    private $userRepository;
+    private $translator;
+    private $tokenGenerator;
     private $csrfTokenManager;
     private $passwordEncoder;
-    private $logger;
-    private $translator;
 
     public function __construct(
         LoggerInterface $logger,
         RouterInterface $router,
+        MailService $mailer,
+        ObjectManager $manager,
         UserRepository $userRepository,
         TranslatorInterface $translator,
+        TokenGenerator $tokenGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
         UserPasswordEncoderInterface $passwordEncoder
     )
     {
         $this->logger = $logger;
         $this->router = $router;
+        $this->mailer = $mailer;
+        $this->manager = $manager;
         $this->userRepository = $userRepository;
         $this->translator = $translator;
+        $this->tokenGenerator = $tokenGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
     }
@@ -89,16 +101,31 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     // This is your opportunity to check to see if the user's password is correct, or any other last, security checks
     public function checkCredentials($credentials, UserInterface $user)
     {
+        $result = $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+
         /** @var User $user */
+        if ($user->isNotActivated()) {
+            $user->setActivationToken($this->tokenGenerator->generateToken());
+            $this->manager->persist($user);
+            $this->manager->flush();
+            $this->mailer->sendActivationEmailMessage($user);
+        }
+
         if (!$user->isActive()) {
-            $message = isset(User::AUTHENTICATION_ERROR_MESSAGES[$user->getInactiveReason()])
-                ? User::AUTHENTICATION_ERROR_MESSAGES[$user->getInactiveReason()]
-                : User::AUTHENTICATION_ERROR_MESSAGES['unknown_reason'];
+            $messages = [
+                User::INACTIVE_REASON_BANNED        => '~auth.user.banned',
+                User::INACTIVE_REASON_NOT_ACTIVATED => '~auth.user.not_activated',
+                'unknown_reason'                    => '~auth.user.unknown_reason'
+            ];
+
+            $message = isset($messages[$user->getInactiveReason()])
+                ? $messages[$user->getInactiveReason()]
+                : $messages['unknown_reason'];
 
             throw new CustomUserMessageAuthenticationException($this->translator->trans($message));
         }
 
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        return $result;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)

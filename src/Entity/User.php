@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
-    use ResetPasswordTrait;
+    use UserTokenTrait;
     use TimestampableEntityTrait;
 
     const ROLE_USER       = 'ROLE_USER';
@@ -40,17 +40,10 @@ class User implements UserInterface
 
     const INACTIVE_REASON_BANNED        = 'banned';
     const INACTIVE_REASON_NOT_ACTIVATED = 'not_activated';
-    const INACTIVE_REASON_UNKNOWN       = 'unknown_reason'; // not used in DB
 
     const ALLOWED_INACTIVE_REASONS = [
         self::INACTIVE_REASON_BANNED,
         self::INACTIVE_REASON_NOT_ACTIVATED,
-    ];
-
-    const AUTHENTICATION_ERROR_MESSAGES = [
-        User::INACTIVE_REASON_BANNED        => 'User is banned.',
-        User::INACTIVE_REASON_NOT_ACTIVATED => 'User is not activated.',
-        User::INACTIVE_REASON_UNKNOWN       => 'User is not active for unknown reason.'
     ];
 
     /**
@@ -84,6 +77,8 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [self::ROLE_USER];
+
+    //TODO add complexPasswordValidator
 
     /**
      * @Assert\NotBlank(message = "~password.not_blank")

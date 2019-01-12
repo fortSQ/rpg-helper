@@ -8,6 +8,7 @@ use App\Form\RegisterType;
 use App\Form\ResetPasswordType;
 use App\Form\ForgotPasswordType;
 use App\Security\LoginFormAuthenticator;
+use App\Helpers\TokenGenerator;
 use App\Helpers\CaptchaValidator;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -60,12 +61,14 @@ class SecurityController extends BaseController
      * @Route("/register", name="app_register", methods="GET|POST")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param TokenGenerator $tokenGenerator
      * @param CaptchaValidator $captchaValidator
      * @return Response
      */
     public function register(
         Request $request,
         UserPasswordEncoderInterface $passwordEncoder,
+        TokenGenerator $tokenGenerator,
         CaptchaValidator $captchaValidator
     )
     {
@@ -83,7 +86,10 @@ class SecurityController extends BaseController
                     throw new ValidatorException('Wrong captcha');
                 }
 
+                $token = $tokenGenerator->generateToken();
+
                 $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+                $user->setActivationToken($token);
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
@@ -94,41 +100,26 @@ class SecurityController extends BaseController
                     'DOUBLE_OPT_IN' => self::DOUBLE_OPT_IN
                 ];
 
+                $this->logger->info('User created', $log_context);
+
                 if (self::DOUBLE_OPT_IN) {
-                    $this->logger->info('User created WITH activation', $log_context);
-                    $this->requestActivation($user);
-
-
+                    $this->mailer->sendActivationEmailMessage($user);
                     $this->addFlash('success', $this->translator->trans('~flash_message.user_registered_with_activation'));
                     return $this->redirect($this->generateUrl('app_login'));
                 }
 
-                $this->logger->info('User created WITHOUT activation', $log_context);
                 $this->addFlash('success', $this->translator->trans('~flash_message.user_registered_without_activation'));
 
                 return $this->redirect($this->generateUrl('app_user_activate', ['token' => $token]));
 
-            } catch (ValidatorException $exception) {
-
+            } catch (ValidatorException $e) {
+                echo $e->getMessage();
             }
         }
 
         return $this->render('security/register.html.twig', [
             'form' => $form->createView()
         ]);
-    }
-
-    public function requestActivation(User $user)
-    {
-        $token = $user->generateActivationToken();
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
-
-        $this->mailer->sendActivationEmailMessage($user);
-
-        return $token;
     }
 
     /**

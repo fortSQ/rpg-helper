@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-trait ResetPasswordTrait
+trait UserTokenTrait
 {
     /**
      * @ORM\Column(name="reset_token", type="string", length=64, nullable=true)
@@ -31,11 +31,6 @@ trait ResetPasswordTrait
      */
     private $activatedAt;
 
-    private function generateToken(): string
-    {
-        return bin2hex(\random_bytes(32));
-    }
-
     private function generateExpiresAt(?\DateInterval $interval): int
     {
         if (null == $interval) {
@@ -45,17 +40,17 @@ trait ResetPasswordTrait
         return (new \DateTime())->add($interval)->getTimestamp();
     }
 
-    public function generateResetToken(\DateInterval $interval = null): string
+    public function setResetToken(string $token, \DateInterval $interval = null): string
     {
-        $this->resetToken          = $this->generateToken();
+        $this->resetToken          = $token;
         $this->resetTokenExpiresAt = $this->generateExpiresAt($interval);
 
         return $this->resetToken;
     }
 
-    public function generateActivationToken(\DateInterval $interval = null): string
+    public function setActivationToken(string $token, \DateInterval $interval = null): string
     {
-        $this->activationToken          = $this->generateToken();
+        $this->activationToken          = $token;
         $this->activationTokenExpiresAt = $this->generateExpiresAt($interval);
 
         return $this->activationToken;

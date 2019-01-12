@@ -100,6 +100,6 @@ class MailService
             'activationUrl' => $url
         ];
 
-        $this->sendMessage('emails/register_done.html.twig', $context, $this->noReplyEmail, $user->getEmail());
+        $this->sendMessage('emails/register_activation.html.twig', $context, $this->noReplyEmail, $user->getEmail());
     }
 }

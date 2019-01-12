@@ -14,18 +14,21 @@ class ResetPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('plainPassword', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'first_options'  => [],
-                'second_options' => [],
-            ))
+            ->add('plainPassword', RepeatedType::class, [
+                'type'            => PasswordType::class,
+                'invalid_message' => "~password.match",
+                'required' => true,
+                'first_options'   => [],
+                'second_options'  => []
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class'        => User::class,
+            'validation_groups' => ['reset_password']
         ]);
     }
 }

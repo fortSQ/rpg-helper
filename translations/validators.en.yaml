@@ -2,17 +2,17 @@
     not_blank: Name should not be blank.
     regex: Name should contain only letters, digits and underscore character.
     min_length: Too short name. It should have {{ limit }} characters or more.
-    max_length:
+    max_length: Too long name. It should have {{ limit }} character or less.
 
 ~email:
-    not_blank:
-    valid:
+    not_blank: Email should not be blank.
+    valid: Enter a valid email address.
 
 ~password:
     match: The passwords must match.
-    not_blank:
-    min_length:
-    max_length:
+    not_blank: Password should not be blank.
+    min_length: Too short passwords. It should have {{ limit }} characters or more.
+    max_length: Too long passwords. It should have {{ limit }} character or less.
 
 ~terms:
     is_true: You must accept our terms and conditions.

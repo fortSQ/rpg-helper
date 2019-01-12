@@ -95,12 +95,10 @@ class SecurityController extends BaseController
                 $em->persist($user);
                 $em->flush();
 
-                $log_context = [
+                $this->logger->info('User created', [
                     'user_id' => $user->getUsername(),
                     'DOUBLE_OPT_IN' => self::DOUBLE_OPT_IN
-                ];
-
-                $this->logger->info('User created', $log_context);
+                ]);
 
                 if (self::DOUBLE_OPT_IN) {
                     $this->mailer->sendActivationEmailMessage($user);
@@ -170,10 +168,16 @@ class SecurityController extends BaseController
      * @Route("/forgot-password", name="app_forgot_password", methods="GET|POST")
      * @param Request $request
      * @param UserRepository $userRepository
+     * @param TokenGenerator $tokenGenerator
      * @param CaptchaValidator $captchaValidator
      * @return Response
      */
-    public function forgotPassword(Request $request, UserRepository $userRepository, CaptchaValidator $captchaValidator)
+    public function forgotPassword(
+        Request $request,
+        UserRepository $userRepository,
+        TokenGenerator $tokenGenerator,
+        CaptchaValidator $captchaValidator
+    )
     {
         if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('app_homepage'));
@@ -195,6 +199,8 @@ class SecurityController extends BaseController
                     'email' => $form->get('email')->getData()
                 ]);
 
+                // TODO if $user->isBanned()
+
                 if (!$user) {
                     $form->addError(new FormError($this->translator->trans('~error.user_not_found')));
                     return $this->render('security/forgot.html.twig', [
@@ -202,7 +208,9 @@ class SecurityController extends BaseController
                     ]);
                 }
 
-                $user->generateResetToken();
+                $token = $tokenGenerator->generateToken();
+
+                $user->setResetToken($token);
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
@@ -211,9 +219,9 @@ class SecurityController extends BaseController
                 $this->mailer->sendResetPasswordEmailMessage($user);
                 $this->addFlash('success', $this->translator->trans('~flash_message.reset_password_requested'));
 
-                return $this->redirect($this->generateUrl('app_homepage'));
-            } catch (ValidatorException $exception) {
-
+                return $this->redirect($this->generateUrl('app_forgot_password'));
+            } catch (ValidatorException $e) {
+                echo $e->getMessage();
             }
         }
 

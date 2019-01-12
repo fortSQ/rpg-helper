@@ -1,32 +1,38 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% form_theme form 'form/errors.html.twig' %}
+
+{% block title %}Reset password – {{ '~site_name'|trans }}{% endblock %}
 
 {% block body %}
-
-    <div class="row justify-content-md-center align-items-center h-100">
-        <div class="card-wrapper">
-            <div class="card fat">
+    <div class="row justify-content-center">
+        <div class="card-wrapper" style="width: 343px">
+            <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Reset Password</h4>
+                    <h4 class="card-title">{{ '~auth.reset_password_title'|trans }}</h4>
 
-                    {{ form_start(form, {attr : {'class': 'my-login-validation'}}) }}
-
+                    {{ form_start(form) }}
                         {{ form_errors(form) }}
 
-                        {{ form_label(form.plainPassword.first) }}
-                        {{ form_widget(form.plainPassword.first, {attr : {'required': true, 'autofocus': true, 'data-eye': true}}) }}
+                        <div class="form-group">
+                            {{ form_label(form.plainPassword.first, '~auth.password'|trans) }}
+                            {{ form_widget(form.plainPassword.first, {attr : {'required': true, 'autofocus': true, 'data-eye': true}}) }}
+                        </div>
 
-                        {{ form_label(form.plainPassword.second) }}
-                        {{ form_widget(form.plainPassword.second, {attr : {'required': true, 'autofocus': true, 'data-eye': true}}) }}
+                        <div class="form-group">
+                            {{ form_label(form.plainPassword.second, '~auth.repeat_password'|trans) }}
+                            {{ form_widget(form.plainPassword.second, {attr : {'required': true, 'autofocus': true, 'data-eye': true}}) }}
+                        </div>
 
-                        <div class="form-group form-text text-muted">
-                            Make sure your password is strong and easy to remember
+                        <div class="form-group mt-2">
+                            <div class="form-text text-muted" style="font-size: 0.8rem">
+                                {{ '~auth.reset_password_help_text'|trans }}
+                            </div>
                         </div>
 
                         <div class="form-group m-0">
                             <button type="submit" class="btn btn-primary btn-block" formnovalidate>
-                                Reset Password
+                                {{ '~auth.reset_password_button_text'|trans }}
                             </button>
                         </div>
 
@@ -35,5 +41,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

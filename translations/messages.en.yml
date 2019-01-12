@@ -1,15 +1,15 @@
 ~site_name: RPGhlpr.com
 
 ~flash_message:
-    user_registered_with_activation: You succesfully registered. Welcome!
-    user_registered_without_activation:
-    user_activated:
+    user_registered_with_activation: You succesfully registered. Now you have to activate your account.
+    user_registered_without_activation: You succesfully registered. Welcome!
+    user_activated: You succesfully activates your account!
     reset_password_requested: An email should arrive shortly with a link to reset your password.
-    password_changed:
+    password_changed: You password succesfully changed.
 
 ~error:
-    wrong_captcha:
-    user_not_found:
+    wrong_captcha: Wrong captcha
+    user_not_found: User not found
 
 ~auth:
     user:
@@ -30,9 +30,8 @@
     already_have_account: Already have an account?
     i_agree: I agree to the
     terms_and_conditions: Terms and Conditions
-
-
-
-'%_reset_password_text_%' : 'By clicking "Reset password" we will send a password reset link'
-'%_reset_password_%' : 'reset password'
-'%_reset_password_email_not_found_%' : 'Specified email not found.'
+    forgot_password_help_text: After clicking button below, you will receive an email link to reset password.
+    forgot_password_button_text: Reset password
+    reset_password_title: Reset password
+    reset_password_button_text: Reset password
+    reset_password_help_text: Make sure your password is strong and easy to remember.

@@ -24,3 +24,16 @@
 '%_reset_password_text_%' : 'После нажатия на кнопку ниже мы отправим вам ссылку для сброса пароля'
 '%_reset_password_%' : 'Сбросить пароль'
 '%_reset_password_email_not_found_%' : 'Такого аккаунта нет.'
+
+
+
+'Armor': 'Доспехи'
+'Weapons': 'Оружие'
+'Adventuring gear': 'Снаряжение'
+'Tools': 'Инструменты'
+'Mount and vehicles': 'Скакуны и транспорт'
+'Trade goods': 'Товары'
+'Lifestyle Expenses': 'Затраты на существование'
+'Food, drink, and lodging': 'Еда, напитки и постой'
+'Services': 'Услуги'
+

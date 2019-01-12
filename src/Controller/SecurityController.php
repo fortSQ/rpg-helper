@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Form\ForgotPasswordType;
-use App\Form\ResetPasswordType;
 use App\Entity\User;
-use App\Form\RegisterType;
 use App\Repository\UserRepository;
+use App\Form\RegisterType;
+use App\Form\ResetPasswordType;
+use App\Form\ForgotPasswordType;
 use App\Security\LoginFormAuthenticator;
 use App\Helpers\CaptchaValidator;
 use Symfony\Component\Form\FormError;
@@ -36,7 +36,7 @@ class SecurityController extends BaseController
             return $this->redirect($this->generateUrl('app_homepage'));
         }
 
-        // get the login error if there is one
+        // get the login error if there is one (UsernameNotFoundException)
         $error = $authenticationUtils->getLastAuthenticationError();
 
         // last username entered by the user

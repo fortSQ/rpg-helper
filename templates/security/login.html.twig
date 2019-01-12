@@ -8,15 +8,15 @@
         <div class="card-wrapper">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ '%_login_%'|trans|capitalize }}</h4>
+                    <h4 class="card-title">{{ '~auth.login'|trans|capitalize }}</h4>
                     <form method="post" class="my-login-validation">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         {% if error %}
-                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            <div class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
 
                         <div class="form-group">
-                            <label for="email">{{ '%_email_%'|trans|capitalize }}</label>
+                            <label for="email">{{ '~auth.email'|trans|capitalize }}</label>
                             <input id="email" type="email" class="form-control" name="email" value="{{ last_username }}" required autofocus>
                             <div class="invalid-feedback">
                                 Email is invalid
@@ -24,9 +24,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password">{{ '%_password_%'|trans|capitalize }}</label>
+                            <label for="password">{{ '~auth.password'|trans|capitalize }}</label>
                             <a href="{{ path('app_forgot_password') }}" class="float-right" style="font-size: 0.8rem">
-                                {{ '%_forgot_password_%'|trans|capitalize }}
+                                {{ '~auth.forgot_password'|trans|capitalize }}
                             </a>
                             <input id="password" type="password" class="form-control" name="password" required data-eye>
                             <div class="invalid-feedback">
@@ -37,17 +37,17 @@
                         <div class="form-group">
                             <div class="custom-checkbox custom-control">
                                 <input type="checkbox" name="_remember_me" id="remember" class="custom-control-input">
-                                <label for="remember" class="custom-control-label">{{ '%_remember_me_%'|trans|capitalize }}</label>
+                                <label for="remember" class="custom-control-label">{{ '~auth.remember_me'|trans|capitalize }}</label>
                             </div>
                         </div>
 
                         <div class="form-group m-0">
                             <button type="submit" class="btn btn-primary btn-block" formnovalidate>
-                                {{ '%_login_%'|trans|capitalize }}
+                                {{ '~auth.login'|trans|capitalize }}
                             </button>
                         </div>
                         <div class="mt-4 text-center">
-                            {{ '%_dont_have_account_%'|trans|capitalize }} <a href="{{ path('app_register') }}">{{ '%_create_one_%'|trans|capitalize }}</a>
+                            {{ '~auth.dont_have_account'|trans|capitalize }} <a href="{{ path('app_register') }}">{{ '~auth.create_one'|trans|capitalize }}</a>
                         </div>
                     </form>
                 </div>

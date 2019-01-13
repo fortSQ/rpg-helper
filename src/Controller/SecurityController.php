@@ -204,8 +204,6 @@ class SecurityController extends BaseController
                     'email' => $form->get('email')->getData()
                 ]);
 
-                // TODO if $user->isBanned()
-
                 if (!$user) {
                     $form->addError(new FormError($this->translator->trans('~error.user_not_found')));
                     return $this->render('security/forgot.html.twig', [

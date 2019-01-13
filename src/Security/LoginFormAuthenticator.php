@@ -11,7 +11,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -108,7 +108,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             $user->setActivationToken($this->tokenGenerator->generateToken());
             $this->manager->persist($user);
             $this->manager->flush();
-            $this->mailer->sendActivationEmailMessage($user);
+            $this->mailer->sendUserRegisteredWithActivationEmailMessage($user);
         }
 
         if (!$user->isActive()) {

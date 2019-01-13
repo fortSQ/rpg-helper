@@ -9,13 +9,13 @@
 ~error:
     wrong_captcha: Wrong captcha
     user_not_found: User not found
+    password_is_the_same: New password must not match previous password
 
 ~auth:
     user:
         banned: User is banned.
         not_activated: You didn't activate your account after registration. Email containing activation link have just been sent to you.
         unknown_reason: User is not active for unknown reason.
-
     login: Login
     email: Email
     password: Password

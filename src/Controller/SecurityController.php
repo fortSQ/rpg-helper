@@ -160,6 +160,7 @@ class SecurityController extends BaseController
 
         $this->addFlash('info', $this->translator->trans('~flash_message.user_activated'));
 
+        // automatic login
         return $guardHandler->authenticateUserAndHandleSuccess(
             $user,
             $request,
@@ -244,6 +245,8 @@ class SecurityController extends BaseController
      * @param Request $request
      * @param UserRepository $userRepository
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param LoginFormAuthenticator $formAuthenticator
      * @param string $token
      * @return Response
      */
@@ -251,6 +254,8 @@ class SecurityController extends BaseController
         Request $request,
         UserRepository $userRepository,
         UserPasswordEncoderInterface $passwordEncoder,
+        GuardAuthenticatorHandler $guardHandler,
+        LoginFormAuthenticator $formAuthenticator,
         string $token
     )
     {
@@ -273,6 +278,14 @@ class SecurityController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // new and old passords must not match
+            if ($passwordEncoder->isPasswordValid($user, $user->getPlainPassword())) {
+                $form->addError(new FormError($this->translator->trans('~error.password_is_the_same')));
+                return $this->render('security/reset.html.twig', [
+                    'form' => $form->createView()
+                ]);
+            }
+
             $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
             $user->clearResetToken();
 
@@ -288,7 +301,13 @@ class SecurityController extends BaseController
 
             $this->addFlash('success', $this->translator->trans('~flash_message.password_changed'));
 
-            return $this->redirectToRoute('app_login');
+            // automatic login
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $user,
+                $request,
+                $formAuthenticator,
+                'main'
+            );
         }
 
         return $this->render('security/reset.html.twig', [

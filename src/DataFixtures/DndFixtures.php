@@ -270,18 +270,18 @@ class DndFixtures extends BaseFixture implements DependentFixtureInterface
         /* CHARACTER CLASS */
 
         $classes = [
-            ['Barbarian', '%barbarian_description%', 'd12', 'Strength', 'Strength, Constitution', '%barbarian_armor_weapon_prof%'],
-            ['Bard', '%bard_description%', 'd8', 'Charisma', 'Dexterity, Charisma', '%bard_armor_weapon_prof%'],
-            ['Cleric', '%cleric_description%', 'd8', 'Wisdom', 'Wisdom, Charisma', '%cleric_armor_weapon_prof%'],
-            ['Druid', '%druid_description%', 'd8', 'Wisdom', 'Intelligence, Wisdom', '%druid_armor_weapon_prof%'],
-            ['Fighter', '%fighter_description%', 'd10', 'Strength or Dexterity', 'Strength, Constitution', '%fighter_armor_weapon_prof%'],
-            ['Monk', '%monk_description%', 'd8', 'Dexterity, Wisdom', 'Strength, Dexterity', '%monk_armor_weapon_prof%'],
-            ['Paladin', '%paladin_description%', 'd10', 'Strength, Charisma', 'Wisdom, Charisma', '%paladin_armor_weapon_prof%'],
-            ['Ranger', '%ranger_description%', 'd10', 'Dexterity, Wisdom', 'Strength, Dexterity', '%ranger_armor_weapon_prof%'],
-            ['Rogue', '%rogue_description%', 'd8', 'Dexterity', 'Dexterity, Intelligence', '%rogue_armor_weapon_prof%'],
-            ['Sorcerer', '%sorcerer_description%', 'd6', 'Charisma', 'Constitution, Charisma', '%sorcerer_armor_weapon_prof%'],
-            ['Warlock', '%warlock_description%', 'd8', 'Charisma', 'Wisdom, Charisma', '%warlock_armor_weapon_prof%'],
-            ['Wizard', '%wizard_description%', 'd6', 'Intelligence', 'Intelligence, Wisdom', '%wizard_armor_weapon_prof%']
+            ['Barbarian', '~dnd.barbarian_description%', 'd12', 'Strength', 'Strength, Constitution', '~dnd.barbarian_armor_weapon_prof%'],
+            ['Bard', '~dnd.bard_description%', 'd8', 'Charisma', 'Dexterity, Charisma', '~dnd.bard_armor_weapon_prof%'],
+            ['Cleric', '~dnd.cleric_description%', 'd8', 'Wisdom', 'Wisdom, Charisma', '~dnd.cleric_armor_weapon_prof%'],
+            ['Druid', '~dnd.druid_description%', 'd8', 'Wisdom', 'Intelligence, Wisdom', '~dnd.druid_armor_weapon_prof%'],
+            ['Fighter', '~dnd.fighter_description%', 'd10', 'Strength or Dexterity', 'Strength, Constitution', '~dnd.fighter_armor_weapon_prof%'],
+            ['Monk', '~dnd.monk_description%', 'd8', 'Dexterity, Wisdom', 'Strength, Dexterity', '~dnd.monk_armor_weapon_prof%'],
+            ['Paladin', '~dnd.paladin_description%', 'd10', 'Strength, Charisma', 'Wisdom, Charisma', '~dnd.paladin_armor_weapon_prof%'],
+            ['Ranger', '~dnd.ranger_description%', 'd10', 'Dexterity, Wisdom', 'Strength, Dexterity', '~dnd.ranger_armor_weapon_prof%'],
+            ['Rogue', '~dnd.rogue_description%', 'd8', 'Dexterity', 'Dexterity, Intelligence', '~dnd.rogue_armor_weapon_prof%'],
+            ['Sorcerer', '~dnd.sorcerer_description%', 'd6', 'Charisma', 'Constitution, Charisma', '~dnd.sorcerer_armor_weapon_prof%'],
+            ['Warlock', '~dnd.warlock_description%', 'd8', 'Charisma', 'Wisdom, Charisma', '~dnd.warlock_armor_weapon_prof%'],
+            ['Wizard', '~dnd.wizard_description%', 'd6', 'Intelligence', 'Intelligence, Wisdom', '~dnd.wizard_armor_weapon_prof%']
         ];
 
         foreach ($classes as [$nm, $description, $dice, $primary, $saveProf, $armorWeaponProf]) {

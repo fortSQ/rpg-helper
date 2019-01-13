@@ -62,12 +62,10 @@ class DndCharacter
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30)
-     * @Assert\NotBlank
-     * @Assert\Regex("/^\w+$/")
-     * @Assert\Length(min = 2, max = 30)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="dndCharacters")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $name;
+    private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\DndClass", inversedBy="characters")
@@ -82,6 +80,14 @@ class DndCharacter
      * @Assert\NotBlank
      */
     private $race;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank
+     * @Assert\Regex("/^\w+$/")
+     * @Assert\Length(min = 2, max = 30)
+     */
+    private $name;
 
     /**
      * @ORM\Column(type="integer", options={"default" = 1})
@@ -153,15 +159,14 @@ class DndCharacter
     private $armor_class;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $status = self::STATUS_ACTIVE;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="dndCharacters")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
 
     /**
      * @ORM\Column(type="json", nullable=true)
@@ -301,6 +306,18 @@ class DndCharacter
     public function setArmorClass(?int $armor_class): self
     {
         $this->armor_class = $armor_class;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

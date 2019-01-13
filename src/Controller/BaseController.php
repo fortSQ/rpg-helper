@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Helpers\MailService;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**

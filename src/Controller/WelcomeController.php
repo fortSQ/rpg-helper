@@ -14,8 +14,6 @@ use App\Helpers\WeightDecorator;
 class WelcomeController extends AbstractController
 {
     //TODO
-    // add to character status (active, deleted)
-    // and description
 
     // race
         // racial increases

@@ -5,7 +5,7 @@ namespace App\Twig;
 use App\Helpers\MoneyDecorator;
 use App\Helpers\WeightDecorator;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;

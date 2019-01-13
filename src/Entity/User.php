@@ -55,21 +55,21 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
-     * @Assert\NotBlank(message="~name.not_blank")
-     * @Assert\Regex(pattern="/^\w+$/", message="~name.regex")
+     * @Assert\NotBlank(message="~user.name.not_blank")
+     * @Assert\Regex(pattern="/^\w+$/", message="~user.name.regex")
      * @Assert\Length(
-     *     min=2,
+     *     min=3,
      *     max=30,
-     *     minMessage="~name.min_length",
-     *     maxMessage="~name.max_length"
+     *     minMessage="~user.name.min_length",
+     *     maxMessage="~user.name.max_length"
      * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
-     * @Assert\NotBlank(message="~email.not_blank", groups={"forgot_password"})
-     * @Assert\Email(message="~email.valid", groups={"forgot_password"})
+     * @Assert\NotBlank(message="~user.email.not_blank", groups={"forgot_password"})
+     * @Assert\Email(message="~user.email.valid", groups={"forgot_password"})
      */
     private $email;
 
@@ -81,12 +81,12 @@ class User implements UserInterface
     //TODO add complexPasswordValidator
 
     /**
-     * @Assert\NotBlank(message="~password.not_blank", groups={"reset_password"})
+     * @Assert\NotBlank(message="~user.password.not_blank", groups={"reset_password"})
      * @Assert\Length(
-     *     min=2,
+     *     min=8,
      *     max=4096,
-     *     minMessage="~password.min_length",
-     *     maxMessage="~password.max_length",
+     *     minMessage="~user.password.min_length",
+     *     maxMessage="~user.password.max_length",
      *     groups={"reset_password"}
      * )
      */

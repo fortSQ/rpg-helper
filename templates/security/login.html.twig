@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h4 class="card-title">{{ '~auth.login'|trans }}</h4>
 
-                    <form method="post" class="my-login-validation">
+                    <form method="POST">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         {% if error %}
                             <div class="text-danger mb-2">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

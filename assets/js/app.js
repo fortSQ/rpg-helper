@@ -77,7 +77,7 @@ $(document).ready(() => {
     -------------------------------------------------- */
 
     $("input[type='password'][data-eye]").each(function(i) {
-        var $this = $(this),
+        let $this = $(this),
             id = 'eye-password-' + i,
             el = $('#' + id);
 
@@ -107,12 +107,6 @@ $(document).ready(() => {
             id: 'passeye-' + i
         }));
 
-        var invalid_feedback = $this.parent().parent().find('.invalid-feedback');
-
-        if(invalid_feedback.length) {
-            $this.after(invalid_feedback.clone());
-        }
-
         $this.on("keyup paste", function() {
             $("#passeye-"+i).val($(this).val());
         });
@@ -128,15 +122,6 @@ $(document).ready(() => {
                 $(this).addClass("btn-outline-primary");
             }
         });
-    });
-
-    $(".my-login-validation").submit(function() {
-        var form = $(this);
-        if (form[0].checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        form.addClass('was-validated');
     });
 
 });

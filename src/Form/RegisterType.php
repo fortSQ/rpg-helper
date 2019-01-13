@@ -22,14 +22,14 @@ class RegisterType extends AbstractType
             ->add('email', EmailType::class)
             ->add('plainPassword', RepeatedType::class, [
                 'type'            => PasswordType::class,
-                'invalid_message' => "~password.match",
+                'invalid_message' => "~user.password.match",
                 'required' => true,
                 'first_options'   => [],
                 'second_options'  => []
             ])
             ->add('termsAccepted', CheckboxType::class, [
                 'mapped' => false,
-                'constraints' => new IsTrue(["message" => "~terms.is_true"]),
+                'constraints' => new IsTrue(["message" => "~user.terms.is_true"]),
             ])
         ;
     }

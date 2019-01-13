@@ -63,31 +63,15 @@ class MailService
         ];
 
         if ($result) {
-            $this->logger->info('SMTP email sent', $logContext);
+            $this->logger->info('Email sent', $logContext);
         } else {
-            $this->logger->error('SMTP email error', $logContext);
+            $this->logger->error('Email error', $logContext);
         }
 
         return $result;
     }
 
-    public function sendResetPasswordEmailMessage(User $user)
-    {
-        $url = $this->router->generate(
-            'app_reset_password',
-            ['token' => $user->getResetToken()],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
-
-        $context = [
-            'user' => $user,
-            'resetPasswordUrl' => $url,
-        ];
-
-        $this->sendMessage('emails/reset_password.html.twig', $context, $this->noReplyEmail, $user->getEmail());
-    }
-
-    public function sendActivationEmailMessage(User $user)
+    public function sendUserRegisteredWithActivationEmailMessage(User $user)
     {
         $url = $this->router->generate(
             'app_user_activate',
@@ -100,6 +84,42 @@ class MailService
             'activationUrl' => $url
         ];
 
-        $this->sendMessage('emails/register_activation.html.twig', $context, $this->noReplyEmail, $user->getEmail());
+        $this->sendMessage(
+            'emails/user_registered_with_activation.html.twig',
+            $context,
+            $this->noReplyEmail,
+            $user->getEmail()
+        );
+    }
+
+    public function sendUserActivatedEmailMessage(User $user)
+    {
+        $this->sendMessage('emails/user_activated.html.twig', ['user' => $user], $this->noReplyEmail, $user->getEmail());
+    }
+
+    public function sendPasswordResetLinkEmailMessage(User $user)
+    {
+        $url = $this->router->generate(
+            'app_reset_password',
+            ['token' => $user->getResetToken()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $context = [
+            'user' => $user,
+            'resetPasswordUrl' => $url,
+        ];
+
+        $this->sendMessage(
+            'emails/password_reset_link.html.twig',
+            $context,
+            $this->noReplyEmail,
+            $user->getEmail()
+        );
+    }
+
+    public function sendResetPasswordEmailMessage1(User $user)
+    {
+        $this->sendMessage('emails/password_reseted.html.twig', ['user' => $user], $this->noReplyEmail, $user->getEmail());
     }
 }

@@ -1,9 +1,8 @@
 ~site_name: RPGhlpr.com
 
 ~flash_message:
-    user_registered_with_activation: You succesfully registered. Now you have to activate your account.
-    user_registered_without_activation: You succesfully registered. Welcome!
-    user_activated: You succesfully activates your account!
+    user_registered_with_activation: You succesfully registered. Now you have to activate your account. Email containing activation link have just been sent to you.
+    user_activated: You succesfully registered and activated your account! Welcome!
     reset_password_requested: An email should arrive shortly with a link to reset your password.
     password_changed: You password succesfully changed.
 

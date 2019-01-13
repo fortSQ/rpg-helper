@@ -101,12 +101,10 @@ class SecurityController extends BaseController
                 ]);
 
                 if (self::DOUBLE_OPT_IN) {
-                    $this->mailer->sendActivationEmailMessage($user);
-                    $this->addFlash('success', $this->translator->trans('~flash_message.user_registered_with_activation'));
+                    $this->mailer->sendUserRegisteredWithActivationEmailMessage($user);
+                    $this->addFlash('info', $this->translator->trans('~flash_message.user_registered_with_activation'));
                     return $this->redirect($this->generateUrl('app_login'));
                 }
-
-                $this->addFlash('success', $this->translator->trans('~flash_message.user_registered_without_activation'));
 
                 return $this->redirect($this->generateUrl('app_user_activate', ['token' => $token]));
 
@@ -154,7 +152,13 @@ class SecurityController extends BaseController
         $em->persist($user);
         $em->flush();
 
-        $this->addFlash('success', $this->translator->trans('~flash_message.user_activated'));
+        $this->mailer->sendUserActivatedEmailMessage($user);
+
+        $this->logger->info('User activated', [
+            'user_id' => $user->getUsername()
+        ]);
+
+        $this->addFlash('info', $this->translator->trans('~flash_message.user_activated'));
 
         return $guardHandler->authenticateUserAndHandleSuccess(
             $user,
@@ -216,8 +220,13 @@ class SecurityController extends BaseController
                 $em->persist($user);
                 $em->flush();
 
-                $this->mailer->sendResetPasswordEmailMessage($user);
-                $this->addFlash('success', $this->translator->trans('~flash_message.reset_password_requested'));
+                $this->mailer->sendPasswordResetLinkEmailMessage($user);
+
+                $this->logger->info('Reset password link requested', [
+                    'user_id' => $user->getUsername()
+                ]);
+
+                $this->addFlash('info', $this->translator->trans('~flash_message.reset_password_requested'));
 
                 return $this->redirect($this->generateUrl('app_forgot_password'));
             } catch (ValidatorException $e) {
@@ -271,15 +280,11 @@ class SecurityController extends BaseController
             $em->persist($user);
             $em->flush();
 
-            /* Send email */
-            $this->mailer->sendResetPasswordEmailMessage(
-                'Your password successfully changed',
-                $user->getEmail(),
-                'emails/password_changed.html.twig',
-                [
-                    'name'  => $user->getName()
-                ]
-            );
+            $this->mailer->sendResetPasswordEmailMessage1($user);
+
+            $this->logger->info('Password reseted', [
+                'user_id' => $user->getUsername()
+            ]);
 
             $this->addFlash('success', $this->translator->trans('~flash_message.password_changed'));
 

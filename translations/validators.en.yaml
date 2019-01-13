@@ -10,6 +10,7 @@
     password:
         match: The passwords must match.
         not_blank: Password should not be blank.
+        complex: Password should contain numbers, lowercase and uppercase characters.
         min_length: Too short passwords. It should have {{ limit }} characters or more.
         max_length: Too long passwords. It should have {{ limit }} character or less.
     terms:

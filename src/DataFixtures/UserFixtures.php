@@ -31,7 +31,7 @@ class UserFixtures extends BaseFixture
             $user->clearInactiveReason();
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
-                'secret'
+                'secret1S'
             ));
 
             return $user;
@@ -47,7 +47,7 @@ class UserFixtures extends BaseFixture
             $user->clearInactiveReason();
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
-                'secret'
+                'secret1S'
             ));
 
             return $user;

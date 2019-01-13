@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AppAssert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -78,10 +79,9 @@ class User implements UserInterface
      */
     private $roles = [self::ROLE_USER];
 
-    //TODO add complexPasswordValidator
-
     /**
      * @Assert\NotBlank(message="~user.password.not_blank", groups={"reset_password"})
+     * @AppAssert\ComplexPassword(message="~user.password.complex", groups={"reset_password"})
      * @Assert\Length(
      *     min=8,
      *     max=4096,

@@ -284,6 +284,8 @@ class SecurityController extends BaseController
                 ]);
             }
 
+            // TODO активировать пользователя
+
             $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
             $user->clearResetToken();
 

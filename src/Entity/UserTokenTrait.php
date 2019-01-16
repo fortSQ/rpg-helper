@@ -31,6 +31,8 @@ trait UserTokenTrait
      */
     private $activatedAt;
 
+    // TODO переделать на '+1 hour'
+
     private function generateExpiresAt(?\DateInterval $interval): int
     {
         if (null == $interval) {
@@ -68,16 +70,14 @@ trait UserTokenTrait
 
     public function isResetTokenValid(string $token): bool
     {
-        return
-            $this->resetToken === $token
+        return $this->resetToken === $token
             && $this->resetTokenExpiresAt !== null
             && $this->resetTokenExpiresAt > time();
     }
 
     public function isActivationTokenValid(string $token): bool
     {
-        return
-            $this->activationToken === $token
+        return $this->activationToken === $token
             && $this->activationTokenExpiresAt !== null
             && $this->activationTokenExpiresAt > time();
     }

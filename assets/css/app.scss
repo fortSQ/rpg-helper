@@ -33,11 +33,18 @@
 
 /* Bootstrap popover */
 
+// TODO переписать в стиле сасс
+
 .popover {
   max-width: 300px;
+  border: 0;
+  background-color: transparent;
 }
 .popover-body {
   padding: 0.2rem;
+}
+.popover .arrow {
+  visibility:hidden;
 }
 .image-popover {
   cursor: pointer;

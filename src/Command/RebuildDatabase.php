@@ -18,7 +18,9 @@ class RebuildDatabase extends Command
     }
 
     /**
-     * Выполняем последовательно следующие команды:
+     * Запускать: php bin/console app:rebuild-database
+     *
+     * Выполняет последовательно следующие команды:
      * php bin/console doctrine:database:drop --force
      * php bin/console doctrine:database:create
      * php bin/console make:migration

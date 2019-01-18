@@ -14,7 +14,7 @@ class RebuildDatabase extends Command
 
     protected function configure()
     {
-        $this->setDescription('Rebuilds database');
+        $this->setDescription('Rebuilds database. Only in development.');
     }
 
     /**
@@ -29,9 +29,9 @@ class RebuildDatabase extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Команда опасна для продакшена, выполняет только на DEV
+        // Команда опасна для продакшена, выполняем только на DEV
         if ('dev' !== getenv('APP_ENV')) {
-            $output->writeln(['Command works only on DEV environment!']);
+            $output->writeln(['Command works only on DEV environment! Terminated.']);
             return;
         }
 

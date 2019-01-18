@@ -1,5 +1,4 @@
 /* CUSTOM BOOTSTRAP VARIABLES */
-
 // customize Bootstrap variables here
 
 /* CSS LIBRARIES */
@@ -18,70 +17,60 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway|Ubuntu');
 
 /* Full screen modal */
-
 .modal-full {
-  min-width: 100%;
-  margin: 0;
+    min-width: 100%;
+    margin: 0;
 }
-
 .modal-full .modal-content {
-  min-height: 100vh;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
+    min-height: 100vh;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 
-/* Bootstrap popover */
-
-// TODO переписать в стиле сасс
-
+/* Bootstrap popover
+-------------------------------------------------- */
 .popover {
-  max-width: 300px;
-  border: 0;
-  background-color: transparent;
+    max-width: 300px;
+    border: 0;
+    background-color: transparent;
+    .arrow {
+        visibility: hidden;
+    }
 }
 .popover-body {
-  padding: 0.2rem;
-}
-.popover .arrow {
-  visibility:hidden;
+    padding: 0.2rem;
 }
 .image-popover {
-  cursor: pointer;
-  color: #0c73cd;
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  text-decoration-color: #0c73cd;
+    cursor: pointer;
+    color: #0c73cd;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: #0c73cd;
 }
 
-/* Sticky footer styles
+/* Sticky footer
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
-  background-color: #f5f5f5;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #f5f5f5;
 }
-
-
-
-
-
 
 /* Login / Register
 -------------------------------------------------- */
-
-.card-wrapper {
-  width: 300px;
+.card-wrapper.auth {
+    width: 343px;
 }

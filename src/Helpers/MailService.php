@@ -118,7 +118,7 @@ class MailService
         );
     }
 
-    public function sendResetPasswordEmailMessage1(User $user)
+    public function sendPasswordResetedEmailMessage(User $user)
     {
         $this->sendMessage('emails/password_reseted.html.twig', ['user' => $user], $this->noReplyEmail, $user->getEmail());
     }

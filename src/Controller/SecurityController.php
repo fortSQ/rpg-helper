@@ -154,7 +154,7 @@ class SecurityController extends BaseController
 
         $this->mailer->sendUserActivatedEmailMessage($user);
 
-        $this->logger->info('User activated', [
+        $this->logger->info('User activated by activation link', [
             'user_id' => $user->getUsername()
         ]);
 
@@ -284,16 +284,26 @@ class SecurityController extends BaseController
                 ]);
             }
 
-            // TODO активировать пользователя
-
             $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
             $user->clearResetToken();
+
+            // Активируем пользователя, если он еще не активирован
+            if ($user->isNotActivated()) {
+                $user->setStatus(User::STATUS_ACTIVE)
+                    ->setActivatedAt(new \DateTime())
+                    ->clearActivationToken()
+                    ->clearInactiveReason();
+
+                $this->logger->info('User activated by reset password link', [
+                    'user_id' => $user->getUsername()
+                ]);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
-            $this->mailer->sendResetPasswordEmailMessage1($user);
+            $this->mailer->sendPasswordResetedEmailMessage($user);
 
             $this->logger->info('Password reseted', [
                 'user_id' => $user->getUsername()

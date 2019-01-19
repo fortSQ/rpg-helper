@@ -31,31 +31,20 @@ trait UserTokenTrait
      */
     private $activatedAt;
 
-    // TODO переделать на '+1 hour'
-
-    private function generateExpiresAt(?\DateInterval $interval): int
-    {
-        if (null == $interval) {
-            $interval = new \DateInterval('PT1H'); # +1 hour
-        }
-
-        return (new \DateTime())->add($interval)->getTimestamp();
-    }
-
-    public function setResetToken(string $token, \DateInterval $interval = null): string
+    public function setResetToken(string $token): self
     {
         $this->resetToken          = $token;
-        $this->resetTokenExpiresAt = $this->generateExpiresAt($interval);
+        $this->resetTokenExpiresAt = (new \DateTime())->modify('+1 hour')->getTimestamp();
 
-        return $this->resetToken;
+        return $this;
     }
 
-    public function setActivationToken(string $token, \DateInterval $interval = null): string
+    public function setActivationToken(string $token): self
     {
         $this->activationToken          = $token;
-        $this->activationTokenExpiresAt = $this->generateExpiresAt($interval);
+        $this->activationTokenExpiresAt = (new \DateTime())->modify('+24 hour')->getTimestamp();
 
-        return $this->activationToken;
+        return $this;
     }
 
     public function getResetToken(): ?string

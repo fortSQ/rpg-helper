@@ -164,14 +164,14 @@ class DndCharacter
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $status = self::STATUS_ACTIVE;
-
-    /**
      * @ORM\Column(type="json", nullable=true)
      */
     private $languages = [];
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status = self::STATUS_ACTIVE;
 
     public function getId(): ?int
     {

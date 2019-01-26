@@ -19,6 +19,30 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @param null|string $term
+     * @return User[]
+     */
+    public function findAllWithSearch(?string $term)
+    {
+        // TODO add table user_profile, remove there: last_login_at, all reset/activation tokens
+        $qb = $this->createQueryBuilder('u')
+                    //->leftJoin('u.profile', 'up')
+                    //->addSelect('up')
+        ;
+
+        if ($term) {
+            $qb->andWhere('
+                    u.name LIKE :term OR
+                    u.email LIKE :term
+                ')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

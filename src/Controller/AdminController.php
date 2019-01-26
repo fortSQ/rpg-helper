@@ -15,11 +15,17 @@ class AdminController extends AbstractController
 {
     /**
      * @Route("/users", name="user_list", methods="GET")
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @return Response
      */
-    public function users(UserRepository $userRepository): Response
+    public function users(UserRepository $userRepository, Request $request): Response
     {
+        $search = $request->query->get('search');
+        $users  = $userRepository->findAllWithSearch($search);
+
         return $this->render('admin/user_list.html.twig', [
-            'users' => $userRepository->findAll()
+            'users'      => $users,
         ]);
     }
 
